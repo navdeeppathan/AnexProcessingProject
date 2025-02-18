@@ -4,6 +4,7 @@
   height: 100vh;
   align-items: stretch;
   background-color: #4f358c;
+  position: relative;
 }
 
 /* Left Section */

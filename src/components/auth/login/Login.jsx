@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { ImgContainer } from "../../../assets/ImgContainer";
 
 const Login = () => {
   const [activeTab, setActiveTab] = useState("company");
