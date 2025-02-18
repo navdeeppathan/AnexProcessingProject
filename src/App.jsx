@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isCompany, setIsCompany] = useState(true);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <div className="container">
+      <div className="left-panel">
+        <h1>ANNEX</h1>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Lorem ipsum dolor sit amet consectetur. Sed at odio pellentesque
+          vulputate eget tellus massa dignissim justo.
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <div className="right-panel">
+        <div className="toggle-buttons">
+          <button
+            className={isCompany ? "active" : ""}
+            onClick={() => setIsCompany(true)}
+          >
+            Login as Company
+          </button>
+          <button
+            className={!isCompany ? "active" : ""}
+            onClick={() => setIsCompany(false)}
+          >
+            Login as Admin
+          </button>
+        </div>
+        <div className="login-box">
+          <h2>Login</h2>
+          <input type="email" placeholder="Email" />
+          <input type="password" placeholder="Password" />
+          <a href="#">Request new password</a>
+          <button className="login-btn">Login</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
