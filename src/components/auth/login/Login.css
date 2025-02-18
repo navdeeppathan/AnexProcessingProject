@@ -3,7 +3,7 @@
   display: flex;
   height: 100vh;
   align-items: stretch;
-  background-color: #4f358c;
+  background-color: #4f358c !important;
   position: relative;
 }
 
@@ -37,6 +37,10 @@
   margin-top: 20px;
 }
 
+.vite-image {
+  height: 40rem !important; /* or auto */
+  width: 70rem !important;
+}
 /* Right Section */
 .right-section {
   width: 60%;

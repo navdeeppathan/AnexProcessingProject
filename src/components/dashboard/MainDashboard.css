@@ -96,19 +96,19 @@ nav ul li:hover {
 }
 
 .blue {
-  background-color: #6cb2eb;
+  background: linear-gradient(to right, #6a85b6, #bac8e0);
 }
 
 .purple {
-  background-color: #6b46c1;
+  background-color:  #757a8c;
 }
 
 .orange {
-  background-color: #f6ad55;
+  background-color: #FFDAB5;
 }
 
 .light-blue {
-  background-color: #63b3ed;
+  background-color: #c8e0f2;
 }
 
 .data-table {
@@ -119,22 +119,27 @@ nav ul li:hover {
   border-collapse: collapse;
 }
 
-table th,
-table td {
+table th {
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-.pending .status {
+.pending  {
   color: #e53e3e;
   background-color: #fde8e8;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
-.complete .status {
+.complete  {
   color: #38a169;
+  background-color: #e6fffa;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.total  {
+  color: #4a90e2;
   background-color: #e6fffa;
   padding: 5px 10px;
   border-radius: 5px;

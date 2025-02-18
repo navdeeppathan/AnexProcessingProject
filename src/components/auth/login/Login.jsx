@@ -17,7 +17,10 @@ const Login = () => {
             elementum eget interdum vitae nisi nunc consequat. Ornare sit arcu
             turpis posuere. Dui malesuada.
           </p>
+            
         </div>
+        <img src="vite.png" alt="Vite Logo" className="vite-image" />
+
       </div>
 
       {/* Right Side */}

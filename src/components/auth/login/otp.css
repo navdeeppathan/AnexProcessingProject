@@ -1,0 +1,47 @@
+.otp-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.email-icon {
+  margin-left: 46.5rem ;
+  width: 50px !important;
+  margin-bottom: 20px !important;
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.otp-inputs input {
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.otp-inputs input:focus {
+  border-color: #6d4db0;
+}
+
+.resend-code {
+  color: #6d4db0;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.confirm-btn {
+  background: #6d4db0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
