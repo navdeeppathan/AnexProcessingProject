@@ -1,42 +1,57 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
-import Dashboard from "../../dashboard/Dashboard";
-const Login = () => {
-  const [isCompany, setIsCompany] = useState(true);
-  const navigation = useNavigate();
-  const handleClick = () => {
-    setIsCompany(false);
 
-    navigation("/dashboard");
-  };
+const Login = () => {
+  const [activeTab, setActiveTab] = useState("company");
+
   return (
     <div className="container">
-      <div className="left-panel">
+      {/* Left Side */}
+      <div className="left-section">
         <h1>ANNEX</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur. Sed at odio pellentesque
-          vulputate eget tellus massa dignissim justo.
-        </p>
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet consectetur. Sed at odio pellentesque
+            vulputate eget tellus massa dignissim justo. Nisi aliquet velit
+            elementum eget interdum vitae nisi nunc consequat. Ornare sit arcu
+            turpis posuere. Dui malesuada.
+          </p>
+        </div>
       </div>
-      <div className="right-panel">
+
+      {/* Right Side */}
+      <div className="right-section">
+        {/* Toggle Buttons */}
         <div className="toggle-buttons">
           <button
-            className={isCompany ? "active" : ""}
-            onClick={() => setIsCompany(true)}
+            className={activeTab === "company" ? "active" : ""}
+            onClick={() => setActiveTab("company")}
           >
             Login as Company
           </button>
-          <button className={!isCompany ? "active" : ""} onClick={handleClick}>
+          <button
+            className={activeTab === "admin" ? "active" : ""}
+            onClick={() => setActiveTab("admin")}
+          >
             Login as Admin
           </button>
         </div>
-        <div className="login-box">
+
+        {/* Login Form */}
+        <div className="login-form">
           <h2>Login</h2>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <a href="#">Request new password</a>
-          <button className="login-btn">Login</button>
+          <form>
+            <div className="input-group">
+              <label>Email</label>
+              <input type="email" />
+            </div>
+            <div className="input-group">
+              <label>Password</label>
+              <input type="password" />
+            </div>
+            <div className="forgot-password">Request new password</div>
+            <button className="login-button">Login</button>
+          </form>
         </div>
       </div>
     </div>
