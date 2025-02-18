@@ -9,7 +9,8 @@ const Login = () => {
     <div className="container">
       {/* Left Side */}
       <div className="left-section">
-        <h1>ANNEX</h1>
+        {/* <h1>ANNEX</h1> */}
+        <img src="logo.png" alt="Logo Icon" className="logo" />
         <div>
           <p>
             Lorem ipsum dolor sit amet consectetur. Sed at odio pellentesque

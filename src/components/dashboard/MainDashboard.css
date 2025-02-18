@@ -1,28 +1,19 @@
 /* Dashboard.css */
 
 .dashboard-container {
-  display: flex;
+  /* display: flex; */
   height: 100vh;
   width: 100%;
 }
 
-.main-header {
-  background-color: hsl(258, 57%, 42%);
-  padding: 20px;
-}
 .sidebar {
   width: 20%;
+  height: 100vh;
   background-color: #6b46c1;
   color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
 }
 
 nav ul {
@@ -54,7 +45,8 @@ nav ul li:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: black;
+  color: black !important;
+  background-color: white !important;
   padding: 15px;
   border-radius: 5px;
 }
@@ -69,16 +61,25 @@ nav ul li:hover {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  border: 2px solid gray;
 }
-
-.create-btn {
-  background-color: #4a90e2;
+.profile button {
+  background: #5094e1;
   color: white;
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* .create-btn {
+  background-color: #5094e1;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+} */
 
 .stats-cards {
   display: grid;
@@ -96,19 +97,19 @@ nav ul li:hover {
 }
 
 .blue {
-  background: linear-gradient(to right, #6a85b6, #bac8e0);
+  background: linear-gradient(110.08deg, #5c74c5 -2.93%, #c2e8f7 97.06%);
 }
 
 .purple {
-  background-color:  #757a8c;
+  background: #d7dffc;
 }
 
 .orange {
-  background-color: #FFDAB5;
+  background: #ffd7b3;
 }
 
 .light-blue {
-  background-color: #c8e0f2;
+  background: #c2e8f7;
 }
 
 .data-table {
@@ -125,20 +126,20 @@ table th {
   border-bottom: 1px solid #ddd;
 }
 
-.pending  {
+.pending {
   color: #e53e3e;
   background-color: #fde8e8;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
-.complete  {
+.complete {
   color: #38a169;
   background-color: #e6fffa;
   padding: 5px 10px;
   border-radius: 5px;
 }
-.total  {
+.total {
   color: #4a90e2;
   background-color: #e6fffa;
   padding: 5px 10px;

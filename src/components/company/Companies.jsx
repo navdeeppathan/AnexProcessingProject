@@ -20,7 +20,8 @@ const Companies = () => {
   return (
     <div>
       <div className="main-header">
-        <h1>Annex</h1>
+        {/* <h1>Annex</h1> */}
+        <img src="logo.png" alt="Logo Icon" className="logo" />
       </div>
       <div className="dashboard-container">
         <aside className="sidebar">
