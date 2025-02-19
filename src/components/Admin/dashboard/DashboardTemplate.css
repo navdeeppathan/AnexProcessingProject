@@ -1,0 +1,74 @@
+/* Prevents horizontal scrolling */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Dashboard container */
+.dashboard-container {
+  height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Main content */
+.main-content {
+  max-width: 100%;
+  padding: 20px;
+  background-color: #f4f4f9;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black !important;
+  background-color: white !important;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+/* Stats Cards - Responsive Fix */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Auto-responsive */
+  gap: 15px;
+  margin: 20px 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Card Styles */
+.card {
+  min-width: 0; /* Prevents overflow */
+  padding: 20px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Background Colors */
+.blue {
+  background: linear-gradient(110.08deg, #5c74c5 -2.93%, #c2e8f7 97.06%);
+}
+
+.purple {
+  background: #d7dffc;
+}
+
+.orange {
+  background: #ffd7b3;
+}
+
+.light-blue {
+  background: linear-gradient(110.08deg, #5c74c5 -2.93%, #c2e8f7 97.06%);
+}

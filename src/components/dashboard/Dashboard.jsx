@@ -65,7 +65,7 @@ const Dashboard = () => {
             onClick={() => navigate(item.path)}
           >
             <ListItemButton>
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
               <ListItemText>{item.name}</ListItemText>
             </ListItemButton>
           </ListItem>
