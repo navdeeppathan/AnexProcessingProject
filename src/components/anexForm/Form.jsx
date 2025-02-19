@@ -153,12 +153,12 @@ const Form = () => {
               </Grid>
             </Grid>
           </Box>
-          
+
           {/* Section: Consignee */}
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-              5.(a) First Carrier:
+                5.(a) First Carrier:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -228,11 +228,11 @@ const Form = () => {
               </Grid>
             </Box>
           </div>
-          
+
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-              5.(b) Second Carrier:
+                5.(b) Second Carrier:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -380,7 +380,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-              6.Waste generator (Original producer/new producer/collector):
+                6.Waste generator (Original producer/new producer/collector):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -451,7 +451,6 @@ const Form = () => {
             </Box>
           </div>
 
-
           {/* Section: Consignee */}
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
@@ -514,7 +513,8 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-              8. Recovery operation (or if appropriate disposal operation in the case of waste referred to in Article 3(4)):
+                8. Recovery operation (or if appropriate disposal operation in
+                the case of waste referred to in Article 3(4)):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -532,7 +532,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                  9. Usual description of the waste:
+                9. Usual description of the waste:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -616,7 +616,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                 11. Countries/states concerned:
+                11. Countries/states concerned:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -643,7 +643,6 @@ const Form = () => {
                     defaultValue="Lorem Ipsum"
                   />
                 </Grid>
-                
               </Grid>
             </Box>
           </div>
@@ -651,7 +650,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                   12. Declaration of the person who arranges the shipment:
+                12. Declaration of the person who arranges the shipment:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -670,7 +669,6 @@ const Form = () => {
                     defaultValue="Lorem Ipsum"
                   />
                 </Grid>
-                
               </Grid>
             </Box>
           </div>
@@ -678,7 +676,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                 13. Signature upon receipt of the waste by the consignee:
+                13. Signature upon receipt of the waste by the consignee:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -705,13 +703,9 @@ const Form = () => {
                     defaultValue="Lorem Ipsum"
                   />
                 </Grid>
-                
               </Grid>
             </Box>
           </div>
-
-         
-          
         </Box>
       </form>
     </div>

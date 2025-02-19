@@ -8,7 +8,7 @@ body {
 }
 
 /* Dashboard container */
-.dashboard-container {
+.container {
   height: 100vh;
   width: 100%;
   overflow-x: hidden;
@@ -17,7 +17,7 @@ body {
 /* Main content */
 .main-content {
   max-width: 100%;
-  padding: 20px;
+  /* padding: 20px; */
   background-color: #f4f4f9;
   overflow-x: hidden;
 }

@@ -23,6 +23,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Form from "../anexForm/Form.jsx";
 import { ImgContainer } from "../../assets/ImgContainer.jsx";
 import AnnexVII from "../anexForm/AnnexVII.jsx";
+import DashboardHeader from "../utils/DashboardHeader.jsx";
 const menu = [
   { name: "Dashboard", path: "/dashboard", icon: <DashboardIcon /> },
   {
@@ -75,8 +76,11 @@ const Dashboard = () => {
   );
   return (
     <div>
-      <div className="main-header">
+      {/* <div className="main-header">
         <img src={ImgContainer.logo} alt="Logo Icon" className="logo" />
+      </div> */}
+      <div>
+        <DashboardHeader />
       </div>
       <div className="main-section">
         <div className="drawer-container">{drawer}</div>

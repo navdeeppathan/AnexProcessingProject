@@ -75,8 +75,8 @@ const AdminDashboard = () => {
         <div className="drawer-container">{drawer}</div>
         <div className="righ-side-dashboard">
           <Routes>
-            <Route path="/companies" element={<Companies />}></Route>
             <Route path="/" element={<DashboardTemplate />}></Route>
+            <Route path="/companies" element={<Companies />}></Route>
           </Routes>
         </div>
       </div>
