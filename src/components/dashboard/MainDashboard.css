@@ -97,20 +97,19 @@ nav ul li:hover {
 }
 
 .blue {
-  background: linear-gradient(110.08deg, #5C74C5 -2.93%, #C2E8F7 97.06%);
+  background: linear-gradient(110.08deg, #5c74c5 -2.93%, #c2e8f7 97.06%);
 }
 
 .purple {
-  background:  #D7DFFC;
+  background: #d7dffc;
 }
 
 .orange {
-  background: #FFD7B3;
-
+  background: #ffd7b3;
 }
 
 .light-blue {
-  background: #C2E8F7;
+  background: #c2e8f7;
   background: linear-gradient(110.08deg, #5c74c5 -2.93%, #c2e8f7 97.06%);
 }
 

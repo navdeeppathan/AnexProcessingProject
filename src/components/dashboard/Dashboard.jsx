@@ -21,6 +21,8 @@ import Profile from "../profile/Profile.jsx";
 import EditProfile from "../profile/EditProfile.jsx";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Form from "../anexForm/Form.jsx";
+import { ImgContainer } from "../../assets/ImgContainer.jsx";
+import AnnexVII from "../anexForm/AnnexVII.jsx";
 const menu = [
   { name: "Dashboard", path: "/dashboard", icon: <DashboardIcon /> },
   {
@@ -33,6 +35,12 @@ const menu = [
     name: "Edit Profile",
     path: "/dashboard/edit-profile",
     icon: <MenuBookIcon />,
+  },
+  {
+    path: "/dashboard/annexV",
+  },
+  {
+    path: "/dashboard/annex-form2",
   },
 ];
 
@@ -68,7 +76,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className="main-header">
-        <img src="logo.png" alt="Logo Icon" className="logo" />
+        <img src={ImgContainer.logo} alt="Logo Icon" className="logo" />
       </div>
       <div className="main-section">
         <div className="drawer-container">{drawer}</div>
@@ -78,6 +86,8 @@ const Dashboard = () => {
             <Route path="/annex-form" element={<Form />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/edit-profile" element={<EditProfile />}></Route>
+            <Route path="/anexV" element={<AnnexVII />}></Route>
+            <Route path="/annex-form2" element={<AnnexForm />}></Route>
           </Routes>
         </div>
       </div>
