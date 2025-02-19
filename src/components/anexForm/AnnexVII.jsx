@@ -253,8 +253,6 @@ const AnnexVII = () => {
                 </div>
               </div>
 
-             
-
               <div className="col-span-2 border rounded-lg p-4">
                 <h2 className="font-semibold mb-3 text-center">TO BE COMPLETED BY THE RECOVERY FACILITY</h2>
                 <h2 className="font-semibold mb-3">14. Shipment received at recovery facility. Quantity received: ____________________Tonnes (Mg) m³</h2>
@@ -270,6 +268,7 @@ const AnnexVII = () => {
                       </div>
                 </div>
               </div>
+              
             </div>
             <div className="mt-6 text-xs text-gray-600">
               <ul>
