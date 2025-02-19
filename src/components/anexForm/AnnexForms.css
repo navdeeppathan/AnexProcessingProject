@@ -17,7 +17,15 @@ body {
     display: flex;
     height: 100vh;
   }
-  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black !important;
+    background-color:white !important;
+    padding: 15px;
+    border-radius: 5px;
+  }
   /* Sidebar */
   .sidebar {
     width: 250px;

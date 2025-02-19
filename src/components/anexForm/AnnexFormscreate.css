@@ -1,0 +1,36 @@
+
+.main-content {
+  width: 80rem !important;
+  padding: 20px;
+  background-color: #f4f4f9;
+}
+  .consignment-form {
+    max-width: 800px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  h2{
+    font-weight: bold;
+  }
+
+  .form-group label {
+    margin-bottom: 8px;
+  
+  }
+
+  .form-group input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }

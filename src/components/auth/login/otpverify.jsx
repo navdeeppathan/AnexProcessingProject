@@ -42,7 +42,7 @@ const OTPVerification = () => {
           {/* <div className="main-header">
               <h1>Annex</h1>
           </div> */}
-          <img src="image.png" alt="Email Icon" className="email-icon" />
+          
           <img src="right.png" alt="Email Icon" className="email-icon" />
           <h2>Verified</h2>
           <p>You have successfully verified your email.</p>

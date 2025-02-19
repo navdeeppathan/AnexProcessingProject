@@ -54,7 +54,8 @@ nav ul li:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: black;
+  color: black !important;
+  background-color:white !important;
   padding: 15px;
   border-radius: 5px;
 }
@@ -96,19 +97,20 @@ nav ul li:hover {
 }
 
 .blue {
-  background: linear-gradient(to right, #6a85b6, #bac8e0);
+  background: linear-gradient(110.08deg, #5C74C5 -2.93%, #C2E8F7 97.06%);
 }
 
 .purple {
-  background-color:  #757a8c;
+  background:  #D7DFFC;
 }
 
 .orange {
-  background-color: #FFDAB5;
+  background: #FFD7B3;
+
 }
 
 .light-blue {
-  background-color: #c8e0f2;
+  background: #C2E8F7;
 }
 
 .data-table {
