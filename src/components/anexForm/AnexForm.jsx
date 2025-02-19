@@ -4,44 +4,46 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import { useNavigate } from "react-router-dom";
+import Form from "./Form";
 
 const annexForms = [
-    {
-      id: 1,
-      title: "ANNEX VII",
-      details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
-      description:
-        "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
-    },
-    {
-      id: 2,
-      title: "ANNEX VIII",
-      details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
-      description:
-        "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
-    },
-    {
-      id: 3,
-      title: "ANNEX VII",
-      details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
-      description:
-        "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
-    },
-    {
-      id: 4,
-      title: "ANNEX VIII",
-      details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
-      description:
-        "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
-    },
-  ];
+  {
+    id: 1,
+    title: "ANNEX VII",
+    details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
+    description:
+      "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
+  },
+  {
+    id: 2,
+    title: "ANNEX VIII",
+    details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
+    description:
+      "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
+  },
+  {
+    id: 3,
+    title: "ANNEX VII",
+    details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
+    description:
+      "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
+  },
+  {
+    id: 4,
+    title: "ANNEX VIII",
+    details: "CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105",
+    description:
+      "Information accompanying Shipments of wastes referred to in article 3(2) and (4) revised version as per Official journal of the European Union 22 12 2020.",
+  },
+];
 
-const MainDashboard = () => {
+const AnnexForm = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="main-header">
-      <img src="logo.png" alt="Logo Icon" className="logo" />
-
+        <h1>Annex</h1>
       </div>
       <div className="dashboard-container">
         <aside className="sidebar">
@@ -84,4 +86,4 @@ const MainDashboard = () => {
   );
 };
 
-export default MainDashboard;
+export default AnnexForm;
