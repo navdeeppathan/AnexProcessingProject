@@ -77,12 +77,12 @@ const Companies = () => {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Annex</th>
-                <th>Total Requests</th>
-                <th>Pending Requests</th>
-                <th>Complete Requests</th>
+                <th>Photo</th>
+                <th>Company Name</th>
+                <th>Phone no</th>
+                <th>Email</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th>Opration</th>
                 <th>View Profile</th>
               </tr>
             </thead>
