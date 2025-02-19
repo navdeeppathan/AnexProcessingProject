@@ -97,7 +97,6 @@ nav ul li:hover {
 }
 
 .blue {
-<<<<<<< HEAD
   background: linear-gradient(110.08deg, #5C74C5 -2.93%, #C2E8F7 97.06%);
 }
 
@@ -112,7 +111,6 @@ nav ul li:hover {
 
 .light-blue {
   background: #C2E8F7;
-=======
   background: linear-gradient(110.08deg, #5c74c5 -2.93%, #c2e8f7 97.06%);
 }
 
@@ -126,7 +124,6 @@ nav ul li:hover {
 
 .light-blue {
   background: #c2e8f7;
->>>>>>> a2310d1e78e03fc31c3db4997b0b5c3b03be727a
 }
 
 .data-table {
