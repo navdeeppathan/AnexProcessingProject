@@ -1,11 +1,11 @@
-/* .container {
+.container {
   max-width: 900px;
   margin: auto;
   padding: 20px;
   font-family: Arial, sans-serif;
   border: 1px solid #ddd;
   background: #fff;
-} */
+}
 
 .dashboard-container {
   height: 100vh;

@@ -25,7 +25,7 @@ import DashboardTemplate from "./DashboardTemplate.jsx";
 const menu = [
   { name: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
   {
-    name: "Annex Forms",
+    name: "Companies",
     path: "/admin/companies",
     icon: <DescriptionIcon />,
   },
@@ -77,10 +77,6 @@ const AdminDashboard = () => {
           <Routes>
             <Route path="/companies" element={<Companies />}></Route>
             <Route path="/" element={<DashboardTemplate />}></Route>
-            {/* <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/edit-profile" element={<EditProfile />}></Route>
-            <Route path="/anexV" element={<AnnexVII />}></Route>
-            <Route path="/annex-form2" element={<AnnexForm />}></Route> */}
           </Routes>
         </div>
       </div>
