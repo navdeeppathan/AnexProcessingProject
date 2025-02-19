@@ -38,7 +38,7 @@ const menu = [
     icon: <MenuBookIcon />,
   },
   {
-    path: "/dashboard/annexV",
+    path: "/dashboard/anexV",
   },
   {
     path: "/dashboard/annex-form2",
@@ -54,14 +54,14 @@ const Dashboard = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        height: "100%",
+        height: "100vh",
       }}
     >
       {/* {isLargeScreen && <Toolbar />} */}
       <List>
         {menu.map((item, index) => (
           <ListItem
-            key={item.name}
+            key={item.path}
             disablePadding
             onClick={() => navigate(item.path)}
           >
