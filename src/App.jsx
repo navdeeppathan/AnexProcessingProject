@@ -8,12 +8,15 @@ import AnexVII from "./components/anexForm/AnnexVII";
 import AnexCreate from "./components/anexForm/AnexFormcreate";
 import Otp from "./components/auth/login/otp";
 import OtpVerify from "./components/auth/login/otpverify";
+import AdminDashboard from "./components/Admin/dashboard/AdminDashboard";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/admin/*" element={<AdminDashboard />} />
+
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/company" element={<Company />} />
         {/* <Route path="/anex" element={<Anex />} />

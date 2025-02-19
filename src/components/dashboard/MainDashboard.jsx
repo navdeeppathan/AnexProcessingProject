@@ -1,18 +1,63 @@
 import React from "react";
 import "./MainDashboard.css";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import DescriptionIcon from "@mui/icons-material/Description";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 const companies = [
-  { id: 1, anex: "CMAU2312086", total: "07", pending: "02",complete: "02", status: "Active",  },
-  { id: 2, anex: "CMAU2312086", total: "07", pending: "02",complete: "02", status: "Active", },
-  { id: 3, anex: "CMAU2312086", total: "07", pending: "02", complete: "02",status: "Active",},
-  { id: 4, anex: "CMAU2312086", total: "07", pending: "02", complete: "02",status: "Active",},
-  { id: 5, anex: "CMAU2312086", total: "07", pending: "02", complete: "02",status: "Block"},
-  { id: 6, anex: "CMAU2312086", total: "07", pending: "02", complete: "02",status: "Block", },
-  { id: 7, anex: "CMAU2312086", total: "07", pending: "02", complete: "02",status: "Block",},
+  {
+    id: 1,
+    anex: "CMAU2312086",
+    total: "07",
+    pending: "02",
+    complete: "02",
+    status: "Active",
+  },
+  {
+    id: 2,
+    anex: "CMAU2312086",
+    total: "07",
+    pending: "02",
+    complete: "02",
+    status: "Active",
+  },
+  {
+    id: 3,
+    anex: "CMAU2312086",
+    total: "07",
+    pending: "02",
+    complete: "02",
+    status: "Active",
+  },
+  {
+    id: 4,
+    anex: "CMAU2312086",
+    total: "07",
+    pending: "02",
+    complete: "02",
+    status: "Active",
+  },
+  {
+    id: 5,
+    anex: "CMAU2312086",
+    total: "07",
+    pending: "02",
+    complete: "02",
+    status: "Block",
+  },
+  {
+    id: 6,
+    anex: "CMAU2312086",
+    total: "07",
+    pending: "02",
+    complete: "02",
+    status: "Block",
+  },
+  {
+    id: 7,
+    anex: "CMAU2312086",
+    total: "07",
+    pending: "02",
+    complete: "02",
+    status: "Block",
+  },
 ];
 
 const MainDashboard = () => {
@@ -52,14 +97,24 @@ const MainDashboard = () => {
               </tr>
             </thead>
             <tbody>
-            {companies.map((company) => (
+              {companies.map((company) => (
                 <tr key={company.id}>
                   <td>{company.anex}</td>
-                  <td><span className="total">{company.total}</span></td>
-                  <td><span className="pending">{company.pending}</span></td>
-                  <td><span className="complete">{company.complete}</span></td>
                   <td>
-                    <span className={`status ${company.status === "Active" ? "active" : "block"}`}>
+                    <span className="total">{company.total}</span>
+                  </td>
+                  <td>
+                    <span className="pending">{company.pending}</span>
+                  </td>
+                  <td>
+                    <span className="complete">{company.complete}</span>
+                  </td>
+                  <td>
+                    <span
+                      className={`status ${
+                        company.status === "Active" ? "active" : "block"
+                      }`}
+                    >
                       {company.status}
                     </span>
                   </td>
