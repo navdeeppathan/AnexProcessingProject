@@ -18,29 +18,7 @@ const companies = [
 const MainDashboard = () => {
   return (
     <div>
-      <div className="main-header">
-        {/* <h1>Annex</h1> */}
-        <img src="logo.png" alt="Logo Icon" className="logo" />
-      </div>
       <div className="dashboard-container">
-        <aside className="sidebar">
-          <nav>
-            <ul>
-              <li className="active">
-                <DashboardIcon /> Dashboard
-              </li>
-              <li>
-                <DescriptionIcon /> Annex Forms
-              </li>
-              <li>
-                <PeopleAltIcon /> My Profile
-              </li>
-              <li>
-                <MenuBookIcon /> Edit Profile
-              </li>
-            </ul>
-          </nav>
-        </aside>
         <main className="main-content">
           <header className="header">
             <h2>Dashboard</h2>
