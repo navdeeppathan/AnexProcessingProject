@@ -2,8 +2,9 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import DashboardHeader from "../utils/DashboardHeader";
+
 import SimpleHeader from "../utils/SimpleHeader";
+import { Box, Card } from "@mui/material";
 
 const PDFMaker = () => {
   const formRef = useRef();
@@ -23,24 +24,37 @@ const PDFMaker = () => {
   };
 
   return (
-    <div>
+    <Card>
       <div>
         <SimpleHeader />
       </div>
       <div className="p-8">
         <div ref={formRef} className=" p-6 shadow-lg bg-white">
-          <h2 className="text-xl font-bold text-center mb-4">ANNEX VII</h2>
-          <p className="text-center text-sm mb-2">
-            Information accompanying shipments of waste
-          </p>
-
+          <div className="flex flex-col items-center">
+            <h2 className="text-xl font-bold text-center mb-4">ANNEX VII</h2>
+            <p className="text-center text-sm mb-2">
+              INFORMATION ACCOMPANYING SHIPMENTS OF WASTES REFERRED TO IN
+              ARTICLE 3(2) AND (4)(revised version as per Official Journal of
+              the European Union 22.12.2020 L431/13) REGULATION (EU) 2020/2174
+            </p>
+            <h5>CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105</h5>
+          </div>
+          <div>
+            <h3>Consignment Information</h3>
+          </div>
           {/* Consignment Information */}
-          <div className="border-b pb-4 mb-4">
-            <h3 className="font-semibold">1. Consignor</h3>
+          {/* <div className="border-b pb-4 mb-4">
+            <h3 className="font-semibold">1. Consignment Information</h3>
             <p>Name: WasteTech LTD</p>
             <p>Address: 123 Kensington Road, London, UK</p>
             <p>Email: info@wastetech.co.uk</p>
-          </div>
+          </div> */}
+          <Box className="border-b pb-4 mb-4">
+            <h3 className="font-semibold">1. Consignment Information</h3>
+            <p>Name: WasteTech LTD</p>
+            <p>Address: 123 Kensington Road, London, UK</p>
+            <p>Email: info@wastetech.co.uk</p>
+          </Box>
 
           <div className="border-b pb-4 mb-4">
             <h3 className="font-semibold">2. Consignee</h3>
@@ -85,7 +99,7 @@ const PDFMaker = () => {
           </button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
