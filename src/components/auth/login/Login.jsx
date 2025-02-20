@@ -10,7 +10,7 @@ const Login = () => {
       {/* Left Side */}
       <div className="left-section">
         {/* <h1>ANNEX</h1> */}
-        <img src="logo.png" alt="Logo Icon" className="logo" />
+        <img src={ImgContainer.logo} alt="Logo Icon" className="logo" />
         <div>
           <p>
             Lorem ipsum dolor sit amet consectetur. Sed at odio pellentesque
@@ -18,10 +18,8 @@ const Login = () => {
             elementum eget interdum vitae nisi nunc consequat. Ornare sit arcu
             turpis posuere. Dui malesuada.
           </p>
-            
         </div>
         <img src="vite.png" alt="Vite Logo" className="vite-image" />
-
       </div>
 
       {/* Right Side */}
