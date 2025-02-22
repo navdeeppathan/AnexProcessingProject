@@ -6,11 +6,14 @@ const Login = () => {
   const [activeTab, setActiveTab] = useState("company");
 
   return (
-    <div className="container">
+    <div className="main-div">
       {/* Left Side */}
-      <div className="left-section">
+      <div className="main-div-left-section">
         {/* <h1>ANNEX</h1> */}
-        <img src={ImgContainer.logo} alt="Logo Icon" className="logo" />
+        {/* <img src={ImgContainer.logo} alt="Logo Icon" className="logo" /> */}
+
+        <h1 className="annex-text">ANNEX</h1>
+
         <div>
           <p>
             Lorem ipsum dolor sit amet consectetur. Sed at odio pellentesque
@@ -23,7 +26,7 @@ const Login = () => {
       </div>
 
       {/* Right Side */}
-      <div className="right-section">
+      <div className="main-div-right-section">
         {/* Toggle Buttons */}
         <div className="toggle-buttons">
           <button
@@ -41,8 +44,8 @@ const Login = () => {
         </div>
 
         {/* Login Form */}
-        <div className="login-form">
-          <h2>Login</h2>
+        <div className="items-center justify-center py-20 px-36 space-y-4 ">
+          <h2 className="text-2xl font-bold">Login</h2>
           <form>
             <div className="input-group">
               <label>Email</label>
@@ -52,7 +55,9 @@ const Login = () => {
               <label>Password</label>
               <input type="password" />
             </div>
-            <div className="forgot-password">Request new password</div>
+            <div className="text-right text-xs font-sans font-medium">
+              Request new password
+            </div>
             <button className="login-button">Login</button>
           </form>
         </div>

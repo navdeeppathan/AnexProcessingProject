@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Companies from "../../company/Companies";
-// Import the CSS file
 
 import "./DashboardTemplate.css";
 import { Button } from "@mui/material";
@@ -9,38 +8,44 @@ const DashboardTemplate = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <div className="dashboard-container">
-        <main className="main-content">
-          <div className="p-5">
-            <header className="header">
-              <h2>Dashboard</h2>
-              <div className="profile"></div>
-              <div>
-                <Button variant="contained" onClick={() => setOpen(true)}>
-                  Create Company
-                </Button>
-                <CreateCompany open={open} onClose={() => setOpen(false)} />
-              </div>
-            </header>
-            <div className="stats-cards">
-              <div className="card blue">
-                Pending Signatures <h2>75</h2>
-              </div>
-              <div className="card purple">
-                Total Number of Annex Forms <h2>67</h2>
-              </div>
-              <div className="card orange">
-                Pending Requests <h2>36</h2>
-              </div>
-              <div className="card light-blue">
-                Total Requests <h2>129</h2>
+      <div>
+        <div className="p-10">
+          <main>
+            <div className="flex flex-col">
+              <header className="flex items-center justify-between bg-white  rounded-b-md">
+                <h2 className="font-bold text-3xl">Dashboard</h2>
+
+                <div>
+                  <Button
+                    variant="contained"
+                    sx={{ bgcolor: "#6D5AC5", padding: "10px" }}
+                    onClick={() => setOpen(true)}
+                  >
+                    Create Company
+                  </Button>
+                  <CreateCompany open={open} onClose={() => setOpen(false)} />
+                </div>
+              </header>
+              <div className="stats-cards">
+                <div className="card blue">
+                  Pending Signatures <h2>75</h2>
+                </div>
+                <div className="card purple">
+                  Total Number of Annex Forms <h2>67</h2>
+                </div>
+                <div className="card orange">
+                  Pending Requests <h2>36</h2>
+                </div>
+                <div className="card light-blue">
+                  Total Requests <h2>129</h2>
+                </div>
               </div>
             </div>
-          </div>
+          </main>
           <div className="">
             <Companies />
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );

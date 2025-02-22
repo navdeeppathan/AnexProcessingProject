@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Companies.css";
+import { Button } from "@mui/material";
+import CreateCompany from "../auth/createCompany/CreateCompany";
 
 // Import the CSS file
 
@@ -62,9 +64,26 @@ const companies = [
   },
 ];
 
-const Companies = () => {
+const MainCompanies = () => {
+  const [open, setOpen] = useState(false);
   return (
-    <div>
+    <div className="p-10 space-y-4">
+      <div>
+        <header className="flex items-center justify-between bg-white  rounded-b-md">
+          <h2 className="font-bold text-3xl">Companies</h2>
+
+          <div>
+            <Button
+              variant="contained"
+              sx={{ bgcolor: "#6D5AC5", padding: "10px" }}
+              onClick={() => setOpen(true)}
+            >
+              Create Company
+            </Button>
+            <CreateCompany open={open} onClose={() => setOpen(false)} />
+          </div>
+        </header>
+      </div>
       <div>
         <main>
           <header className="header">
@@ -122,4 +141,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default MainCompanies;

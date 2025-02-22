@@ -63,11 +63,10 @@ const companies = [
 const MainDashboard = () => {
   return (
     <div>
-      <div className="dashboard-container">
-        <main className="main-content">
-          <header className="header">
-            <h2>Dashboard</h2>
-            <div className="profile"></div>
+      <div>
+        <main className="flex-1 p-5 bg-[#f4f4f9]">
+          <header className="flex items-center justify-between">
+            <h2 className="text-3xl font-bold">Dashboard</h2>
             <button className="create-btn">Create ANNEX Form</button>
           </header>
           <div className="stats-cards">

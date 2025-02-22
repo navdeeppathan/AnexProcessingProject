@@ -1,7 +1,7 @@
 import React from "react";
 
 const EditProfile = () => {
-  return <div>EditProfile</div>;
+  return <div className="h-screen w-full p-10">EditProfile</div>;
 };
 
 export default EditProfile;

@@ -1,11 +1,7 @@
 import React from "react";
 import "./AnnexForms.css";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import DescriptionIcon from "@mui/icons-material/Description";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
+
 import { useNavigate } from "react-router-dom";
-import Form from "./Form";
 
 const annexForms = [
   {
@@ -42,8 +38,8 @@ const AnnexForm = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="dashboard-container">
-        <main className="main-content">
+      <div className="h-screen px-10">
+        <main className="content">
           <header className="header">
             <h2>Dashboard</h2>
             <div className="profile"></div>

@@ -1,38 +1,8 @@
 /* Dashboard container */
-.dashboard-container {
+.main-dashboard-container {
   display: flex;
   height: 100vh;
   width: 100%;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 20%;
-  height: 100vh;
-  background-color: #6b46c1;
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-}
-
-nav ul li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-nav ul li.active,
-nav ul li:hover {
-  background-color: #553c9a;
 }
 
 /* Main content */
