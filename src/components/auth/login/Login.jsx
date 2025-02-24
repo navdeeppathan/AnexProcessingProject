@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { ImgContainer } from "../../../assets/ImgContainer";
 
 const Login = () => {
   const [activeTab, setActiveTab] = useState("company");
@@ -44,7 +43,7 @@ const Login = () => {
         </div>
 
         {/* Login Form */}
-        <div className="items-center justify-center py-20 px-36 space-y-4 ">
+        <div className="items-center justify-center py-20 md:px-36 space-y-4 ">
           <h2 className="text-2xl font-bold">Login</h2>
           <form>
             <div className="input-group">
