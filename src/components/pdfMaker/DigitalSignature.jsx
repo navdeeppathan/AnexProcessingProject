@@ -12,8 +12,8 @@ const DigitalSignature = () => {
     return userData ? JSON.parse(userData) : null;
   };
   const user = getUserFromLocalStorage();
-  const userId = user?.user_id; // Extract user_id
-  console.log(userId);
+  const userId = user?.user_id;
+
   const sigPad = useRef(null);
   const [uploadedSignature, setUploadedSignature] = useState(null);
   const [signatureData, setSignatureData] = useState(null);
