@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 
+import { Route, Routes } from "react-router-dom";
 import DashboardTemplate from "./DashboardTemplate";
 import Profile from "../../profile/Profile";
 import EditProfile from "../../profile/EditProfile";
@@ -8,18 +9,8 @@ import DashboardHeader from "../../utils/DashboardHeader";
 
 import MainCompanies from "../../company/MainCompanies";
 import AdminSidebar from "../../utils/AdminSidebar";
-import { Route, Routes, useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      navigate("/");
-    } else if (user.role_id != "1") {
-      navigate("/");
-    }
-  }, []);
   return (
     <div>
       <div className="w-full">

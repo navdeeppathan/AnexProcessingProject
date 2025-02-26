@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+
 import SimpleHeader from "../utils/SimpleHeader";
 import { Box, Button } from "@mui/material";
 import Swal from "sweetalert2";
