@@ -59,40 +59,50 @@ const DigitalSignature = () => {
       Swal.fire("Error", "User ID not found", "error");
       return;
     }
-
+  
     const signatures = signatureData || uploadedSignature;
     if (!signatures) {
       Swal.fire("Error", "No signature to upload", "error");
       return;
     }
-
+  
+    // Convert Base64 to File
+    const file = base64ToFile(signatures, "signature.png");
+  
+    // Prepare FormData
+    const formData = new FormData();
+    formData.append("signature", file);
+    formData.append("user_id", userId);
+  
     try {
-      const response = await fetch(
-        "https://annex.sofinish.co.uk/api/signatures",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_id: userId, signatures }),
-        }
-      );
-
+      const response = await fetch("https://annex.sofinish.co.uk/api/signatures", {
+        method: "POST",
+        body: formData, // Send FormData
+      });
+  
       const result = await response.json();
       if (response.ok) {
         Swal.fire("Success", "Signature uploaded successfully", "success");
       } else {
-        Swal.fire(
-          "Error",
-          result.message || "Failed to upload signature",
-          "error"
-        );
+        Swal.fire("Error", result.message || "Failed to upload signature", "error");
       }
     } catch (error) {
       Swal.fire("Error", "Network error", "error");
     }
   };
-
+  
+  const base64ToFile = (base64String, fileName) => {
+    const arr = base64String.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName, { type: mime });
+  };
+  
   return (
     <div className="bg-gray-100">
       <SimpleHeader />
