@@ -1,8 +1,7 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import MainDashboard from "./MainDashboard";
 import DashboardHeader from "../utils/DashboardHeader";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes,useNavigate } from "react-router-dom";
 import Form from "../anexForm/Form";
 import Profile from "../profile/Profile";
 import EditProfile from "../profile/EditProfile";
@@ -11,6 +10,14 @@ import AnnexForm from "../anexForm/AnexForm";
 import Sidebar from "../utils/Sidebar";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  useEffect(() => { 
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user && user.role_id != "2") {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div>
       <div className="w-full">
