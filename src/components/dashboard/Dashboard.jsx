@@ -14,9 +14,14 @@ const Dashboard = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
-      navigate("/");
+      localStorage.removeItem("user"); 
+      navigate("/", { replace: true });
+    
     } else if (user.role_id != "2") {
-      navigate("/");
+
+      localStorage.removeItem("user");
+      navigate("/", { replace: true });
+
     }
   }, []);
 

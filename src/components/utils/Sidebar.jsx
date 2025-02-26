@@ -19,7 +19,7 @@ const Sidebar = () => {
       ),
     },
     {
-      path: "/dashboard/annex-form",
+      path: "/dashboard//annex-form2",
       name: "Annex Forms",
       icon: (
         <svg

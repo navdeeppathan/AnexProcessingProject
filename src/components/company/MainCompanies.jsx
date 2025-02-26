@@ -14,7 +14,7 @@ const MainCompanies = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/companies");
+      const response = await fetch("https://annex.sofinish.co.uk/api/companies");
       const data = await response.json();
       if (response.ok) {
         setCompanies(data);

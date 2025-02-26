@@ -1,6 +1,6 @@
 import React from "react";
 import "./MainDashboard.css";
-
+import { useNavigate } from "react-router-dom";
 const companies = [
   {
     id: 1,
@@ -61,13 +61,14 @@ const companies = [
 ];
 
 const MainDashboard = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div>
         <main className="flex-1 p-5 bg-[#f4f4f9]">
           <header className="flex items-center justify-between">
             <h2 className="text-3xl font-bold">Dashboard</h2>
-            <button className="create-btn">Create ANNEX Form</button>
+            <button className="create-btn" onClick={() => navigate("/dashboard/annex-form")}>Create ANNEX Form</button>
           </header>
           <div className="stats-cards">
             <div className="card blue">
