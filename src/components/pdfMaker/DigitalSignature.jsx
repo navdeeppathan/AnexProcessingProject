@@ -3,9 +3,17 @@ import SignatureCanvas from "react-signature-canvas";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import SimpleHeader from "../utils/SimpleHeader";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import Swal from "sweetalert2";
 
 const DigitalSignature = () => {
+  const getUserFromLocalStorage = () => {
+    const userData = localStorage.getItem("user");
+    return userData ? JSON.parse(userData) : null;
+  };
+  const user = getUserFromLocalStorage();
+  const userId = user?.user_id; // Extract user_id
+  console.log(userId);
   const sigPad = useRef(null);
   const [uploadedSignature, setUploadedSignature] = useState(null);
   const [signatureData, setSignatureData] = useState(null);
@@ -29,7 +37,7 @@ const DigitalSignature = () => {
   };
 
   // Capture Digital Signature and Save to localStorage
-  const handleSaveSignature = () => {
+  const handleSaveSignature = async () => {
     if (sigPad.current) {
       const signature = sigPad.current.toDataURL();
       setSignatureData(signature);
@@ -46,93 +54,92 @@ const DigitalSignature = () => {
     localStorage.removeItem("savedSignature");
   };
 
-  // Generate PDF with Signature
-  const handleDownloadPDF = async () => {
-    const pdf = new jsPDF();
-    const content = document.getElementById("pdf-content");
+  // API Call to Save Signature
+  const handleUploadSignature = async () => {
+    if (!userId) {
+      Swal.fire("Error", "User ID not found", "error");
+      return;
+    }
 
-    if (content) {
-      content.style.background = "white";
+    const signatures = signatureData || uploadedSignature;
+    if (!signatures) {
+      Swal.fire("Error", "No signature to upload", "error");
+      return;
+    }
 
-      const canvas = await html2canvas(content, {
-        backgroundColor: "#ffffff",
-        useCORS: true,
-        scale: 3,
-      });
+    try {
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/signatures",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: userId, signatures }),
+        }
+      );
 
-      const imgData = canvas.toDataURL("image/png");
-      pdf.addImage(imgData, "PNG", 10, 10, 180, 100);
-      pdf.save("Digital_Signature.pdf");
+      const result = await response.json();
+      if (response.ok) {
+        Swal.fire("Success", "Signature uploaded successfully", "success");
+      } else {
+        Swal.fire(
+          "Error",
+          result.message || "Failed to upload signature",
+          "error"
+        );
+      }
+    } catch (error) {
+      Swal.fire("Error", "Network error", "error");
     }
   };
 
   return (
-    <div>
+    <div className="bg-gray-100">
       <SimpleHeader />
-
-      {/* Digital Signature Section */}
-      <div className="flex flex-col items-center justify-center mt-20">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          bgcolor: "#FFFFFF",
+          m: 2,
+          p: 4,
+        }}
+      >
         <div>
           <div className="relative rounded-lg p-4">
-            {/* Corner Borders */}
-            <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-gray-400"></div>
-            <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-gray-400"></div>
-            <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-gray-400"></div>
-            <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-gray-400"></div>
-
-            {/* Signature Pad */}
             <SignatureCanvas
               ref={sigPad}
               penColor="black"
-              canvasProps={{
-                className: "w-full h-40 sm:h-56 md:h-64 lg:h-72 ",
-              }}
+              canvasProps={{ className: "w-full h-40 sm:h-56 md:h-64 lg:h-72" }}
             />
           </div>
 
           <div className="flex items-center justify-between mt-10">
-            {/* Upload Signature Button */}
-            <div>
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                id="signatureInput"
-                className="hidden"
-                onChange={handleFileUpload}
-              />
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              id="signatureInput"
+              className="hidden"
+              onChange={handleFileUpload}
+            />
 
-              <Button
-                variant="outlined"
-                onClick={() =>
-                  document.getElementById("signatureInput").click()
-                }
-                className="bg-blue-500 text-white px-4 py-2 rounded mb-2"
-              >
-                Browse Signature
-              </Button>
+            <Button
+              variant="outlined"
+              onClick={() => document.getElementById("signatureInput").click()}
+            >
+              Browse Signature
+            </Button>
 
-              {/* Display Uploaded Signature */}
-              {uploadedSignature && !signatureData && (
-                <img
-                  src={uploadedSignature}
-                  alt="Uploaded Signature"
-                  className="border w-full h-20 object-contain bg-white"
-                />
-              )}
-            </div>
+            <Button variant="contained" onClick={handleClearSignature}>
+              Try Again
+            </Button>
 
-            <div className="flex gap-2">
-              <Button variant="contained" onClick={handleSaveSignature}>
-                Save
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handleClearSignature}
-                // className="bg-red-500 hover:bg-red-600 text-white"
-              >
-                Clear
-              </Button>
-            </div>
+            <Button variant="contained" onClick={handleSaveSignature}>
+              Save
+            </Button>
           </div>
 
           {/* Signature Preview */}
@@ -163,14 +170,18 @@ const DigitalSignature = () => {
             </div>
           </div>
 
-          {/* Download PDF Button */}
+          {/* Upload to API Button */}
           <div>
-            <Button variant="contained" fullWidth onClick={handleDownloadPDF}>
-              Download PDF
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleUploadSignature}
+            >
+              Upload Signature
             </Button>
           </div>
         </div>
-      </div>
+      </Box>
     </div>
   );
 };
