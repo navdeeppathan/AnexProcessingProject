@@ -44,7 +44,7 @@ const CreateCompanyModal = () => {
     if (logo) formDataToSend.append("logo", logo);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/companies", {
+      const response = await fetch("https://annex.sofinish.co.uk/api/companies", {
         method: "POST",
         body: formDataToSend,
       });
