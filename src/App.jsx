@@ -9,19 +9,17 @@ import PDFMakerOrgnl from "./components/pdfMaker/PDFMakerOrgnl";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
+
   useEffect(() => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (!user) {
-        localStorage.removeItem("user"); 
-        navigate("/", { replace: true });
-      
-      } else if (user.role_id != "1") {
+    const user = JSON.parse(localStorage.getItem("user"));
 
-        localStorage.removeItem("user");
-        navigate("/", { replace: true });
+    if (!user || user.role_id != "1") {
+      localStorage.removeItem("user");
+      navigate("/", { replace: true });
+    }
+  }, []);
 
-      }
-    }, []);
+  return children;
 };
 
 const App = () => {

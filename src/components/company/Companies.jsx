@@ -13,6 +13,7 @@ const Companies = () => {
         const data = await response.json();
 
         if (response.ok) {
+          console.log(data);
           setCompanies(data);
         } else {
           setError(data.message || "Failed to fetch companies");

@@ -14,6 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
+      
       localStorage.removeItem("user"); 
       navigate("/", { replace: true });
     

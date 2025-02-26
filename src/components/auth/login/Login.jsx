@@ -32,10 +32,9 @@ const Login = () => {
             timer: 2000,
             showConfirmButton: false,
           }).then(() => {
-            console.log(data.data.role_id);
             localStorage.setItem("user", JSON.stringify(data.data));
             localStorage.setItem("role_id", JSON.stringify(data.data.role_id));
-            window.location.href = "/admin/dashboard";
+            window.location.href = "/admin/dashboard/";
           });
         } else if (data.data.role_id === 2 && activeTab === "company") {
           Swal.fire({
