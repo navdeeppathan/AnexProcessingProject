@@ -71,7 +71,7 @@ const Sidebar = () => {
               <li key={idx}>
                 <Link
                   to={item.path}
-                  className={`flex items-center gap-x-2 text-white px-10 py-5 rounded-lg duration-150 ${
+                  className={`flex items-center gap-x-2 text-white px-10 py-5  duration-150 ${
                     location.pathname === item.path && "bg-[#7D6CC8]"
                   } `}
                 >

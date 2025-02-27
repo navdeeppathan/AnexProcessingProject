@@ -63,7 +63,7 @@ const Companies = () => {
                   />
                 </td>
                 <td>{company.name}</td>
-                <td>{company.phone}</td>
+                <td>{company.phone_number}</td>
                 <td>{company.email}</td>
                 <td>
                   <span
