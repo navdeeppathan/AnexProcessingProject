@@ -19,7 +19,7 @@ const Sidebar = () => {
       ),
     },
     {
-      path: "/dashboard//annex-form2",
+      path: "/dashboard/annex-form2",
       name: "Annex Forms",
       icon: (
         <svg
@@ -71,9 +71,9 @@ const Sidebar = () => {
               <li key={idx}>
                 <Link
                   to={item.path}
-                  className={`flex items-center gap-x-2 text-white px-10 py-5 rounded-lg duration-150 ${
+                  className={`flex items-center gap-x-2 text-white px-10 py-5  duration-150 ${
                     location.pathname === item.path && "bg-[#7D6CC8]"
-                  }`}
+                  } `}
                 >
                   <div className="text-gray-500">{item.icon}</div>
                   {item.name}

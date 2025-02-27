@@ -7,7 +7,7 @@ import CreateCompany from "../../auth/createCompany/CreateCompany";
 const DashboardTemplate = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div>
+    <div className="h-screen">
       <div>
         <div className="p-10">
           <main>

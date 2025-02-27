@@ -9,9 +9,11 @@ const Companies = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await fetch("https://annex.sofinish.co.uk/api/companies");
+        const response = await fetch(
+          "https://annex.sofinish.co.uk/api/companies"
+        );
         const data = await response.json();
-
+        console.log("data:-", data);
         if (response.ok) {
           console.log(data);
           setCompanies(data.companies || []); // Ensure we're accessing the correct array
@@ -51,7 +53,7 @@ const Companies = () => {
             </tr>
           </thead>
           <tbody>
-            {companies.map((company) => (
+            {companies?.companies.map((company) => (
               <tr key={company.id}>
                 <td>
                   <img
@@ -63,6 +65,9 @@ const Companies = () => {
                 <td>{company.company_name}</td>
                 <td>{company.phone_number ? company.phone_number: "N/A"}</td>
                 <td>{company.email ?company.email : "N/A"}</td>
+                <td>{company.name}</td>
+                <td>{company.phone_number}</td>
+                <td>{company.email}</td>
                 <td>
                         <span className={`status ${company.status == "1" ? "active" : "block"}`} >
                            {"Active" || "Inactive"}

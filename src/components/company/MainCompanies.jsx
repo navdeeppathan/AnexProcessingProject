@@ -17,7 +17,9 @@ const MainCompanies = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("https://annex.sofinish.co.uk/api/companies");
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/companies"
+      );
       const data = await response.json();
       if (response.ok) {
         setCompanies(data.companies || []);
@@ -61,7 +63,7 @@ const MainCompanies = () => {
   };
 
   return (
-    <div className="p-10 space-y-4">
+    <div className="h-screen p-10 space-y-4">
       <div>
         <header className="flex items-center justify-between bg-white rounded-b-md">
           <h2 className="font-bold text-3xl">Companies</h2>
@@ -102,7 +104,7 @@ const MainCompanies = () => {
                 </tr>
               </thead>
               <tbody>
-                {companies.map((company) => (
+                {companies?.companies?.map((company) => (
                   <tr key={company.id}>
                     <td>
                       <img
