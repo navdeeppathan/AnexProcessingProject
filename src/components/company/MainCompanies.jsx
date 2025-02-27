@@ -104,7 +104,7 @@ const MainCompanies = () => {
                 </tr>
               </thead>
               <tbody>
-                {companies?.companies?.map((company) => (
+                {companies?.map((company) => (
                   <tr key={company.id}>
                     <td>
                       <img

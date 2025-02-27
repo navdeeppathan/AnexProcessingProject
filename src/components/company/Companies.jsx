@@ -53,7 +53,7 @@ const Companies = () => {
             </tr>
           </thead>
           <tbody>
-            {companies?.companies.map((company) => (
+            {companies.map((company) => (
               <tr key={company.id}>
                 <td>
                   <img
@@ -64,9 +64,6 @@ const Companies = () => {
                 </td>
                 <td>{company.company_name}</td>
                 <td>{company.phone_number ? company.phone_number: "N/A"}</td>
-                <td>{company.email ?company.email : "N/A"}</td>
-                <td>{company.name}</td>
-                <td>{company.phone_number}</td>
                 <td>{company.email}</td>
                 <td>
                         <span className={`status ${company.status == "1" ? "active" : "block"}`} >
