@@ -9,9 +9,11 @@ const Companies = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await fetch("https://annex.sofinish.co.uk/api/companies");
+        const response = await fetch(
+          "https://annex.sofinish.co.uk/api/companies"
+        );
         const data = await response.json();
-
+        console.log("data:-", data);
         if (response.ok) {
           console.log(data);
           setCompanies(data);
@@ -51,7 +53,7 @@ const Companies = () => {
             </tr>
           </thead>
           <tbody>
-            {companies.map((company) => (
+            {companies?.companies.map((company) => (
               <tr key={company.id}>
                 <td>
                   <img

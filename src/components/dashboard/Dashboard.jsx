@@ -14,15 +14,11 @@ const Dashboard = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
-      
-      localStorage.removeItem("user"); 
-      navigate("/", { replace: true });
-    
-    } else if (user.role_id != "2") {
-
       localStorage.removeItem("user");
       navigate("/", { replace: true });
-
+    } else if (user.role_id != "2") {
+      localStorage.removeItem("user");
+      navigate("/", { replace: true });
     }
   }, []);
 
@@ -31,8 +27,8 @@ const Dashboard = () => {
       <div className="w-full">
         <DashboardHeader />
       </div>
-      <div className="flex">
-        <div className="w-[20%] ">
+      <div className=" flex">
+        <div className="w-[20%]">
           <Sidebar />
         </div>
         <div className="w-[80%] ">

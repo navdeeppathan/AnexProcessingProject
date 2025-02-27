@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Login from "./components/auth/login/Login";
 import AdminDashboard from "./components/Admin/dashboard/AdminDashboard";
-import Form from "./components/anexForm/Form";
+
 import Dashboard from "./components/dashboard/Dashboard";
 import DigitalSignature from "./components/pdfMaker/DigitalSignature";
 import PDFMakerOrgnl from "./components/pdfMaker/PDFMakerOrgnl";
@@ -40,9 +45,9 @@ const App = () => {
         <Route
           path="/dashboard/*"
           element={
-            <AuthWrapper>
-              <Dashboard />
-            </AuthWrapper>
+            // <AuthWrapper>
+            <Dashboard />
+            // </AuthWrapper>
           }
         />
         <Route
