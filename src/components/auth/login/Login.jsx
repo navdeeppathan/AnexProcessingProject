@@ -13,6 +13,7 @@ const Login = () => {
     setError("");
 
     try {
+      
       const response = await fetch("https://annex.sofinish.co.uk/api/login", {
         method: "POST",
         headers: {
@@ -20,6 +21,7 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
+      
 
       const data = await response.json();
 
