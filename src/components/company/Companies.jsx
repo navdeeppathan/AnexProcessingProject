@@ -14,7 +14,7 @@ const Companies = () => {
 
         if (response.ok) {
           console.log(data);
-          setCompanies(data);
+          setCompanies(data.companies || []); // Ensure we're accessing the correct array
         } else {
           setError(data.message || "Failed to fetch companies");
         }
@@ -55,22 +55,18 @@ const Companies = () => {
               <tr key={company.id}>
                 <td>
                   <img
-                    src={company.image || "https://i.pravatar.cc/40"}
+                    src={company.photo || "https://i.pravatar.cc/40"}
                     alt="Company"
                     className="company-img"
                   />
                 </td>
-                <td>{company.name}</td>
-                <td>{company.phone}</td>
-                <td>{company.email}</td>
+                <td>{company.company_name}</td>
+                <td>{company.phone_number ? company.phone_number: "N/A"}</td>
+                <td>{company.email ?company.email : "N/A"}</td>
                 <td>
-                  <span
-                    className={`status ${
-                      company.status === "Active" ? "active" : "block"
-                    }`}
-                  >
-                    {company.status}
-                  </span>
+                        <span className={`status ${company.status == "1" ? "active" : "block"}`} >
+                           {"Active" || "Inactive"}
+                      </span>
                 </td>
                 <td>
                   <span className="edit">✏️</span>

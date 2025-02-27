@@ -8,6 +8,7 @@ import {
   IconButton,
   MenuItem,
   InputAdornment,
+  CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneInput from "react-phone-input-2";
@@ -15,18 +16,22 @@ import "react-phone-input-2/lib/material.css";
 
 const CreateCompany = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
-    companyName: "",
+    company_name: "",
     email: "",
-    registrationNumber: "",
+    registration_number: "",
     city: "",
     country: "",
     address: "",
-    companyHead: "",
-    phoneNumber: "",
-    annexPrice: "",
+    company_head: "",
+    phone_number: "",
+    annex_price: "",
     password: "",
     logo: null,
   });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const cities = ["New York", "London", "Paris", "Berlin"];
   const countries = ["USA", "UK", "France", "Germany"];
@@ -37,13 +42,13 @@ const CreateCompany = ({ open, onClose }) => {
   };
 
   const handlePhoneChange = (value) => {
-    setFormData((prev) => ({ ...prev, phoneNumber: value }));
+    setFormData((prev) => ({ ...prev, phone_number: value }));
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData((prev) => ({ ...prev, logo: file.name }));
+      setFormData((prev) => ({ ...prev, logo: file }));
     }
   };
 
@@ -51,10 +56,52 @@ const CreateCompany = ({ open, onClose }) => {
     document.getElementById("logo-upload").click();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    onClose();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
+    try {
+      const response = await fetch("https://annex.sofinish.co.uk/api/companies", {
+        method: "POST",
+        body: formDataToSend, // FormData handles file upload automatically
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess("Company created successfully!");
+        setTimeout(() => {
+          onClose();
+        }, 2000);
+
+        setFormData({
+          company_name: "",
+          email: "",
+          registration_number: "",
+          city: "",
+          country: "",
+          address: "",
+          company_head: "",
+          phone_number: "",
+          annex_price: "",
+          password: "",
+          logo: null,
+        });
+      } else {
+        setError(data.message || "Failed to create company.");
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -82,6 +129,10 @@ const CreateCompany = ({ open, onClose }) => {
           </IconButton>
         </Box>
 
+        {/* Error & Success Messages */}
+        {error && <Typography color="error">{error}</Typography>}
+        {success && <Typography color="success">{success}</Typography>}
+
         {/* Form */}
         <form onSubmit={handleSubmit}>
           <Box mt={2}>
@@ -93,7 +144,7 @@ const CreateCompany = ({ open, onClose }) => {
             />
             <TextField
               label="Picture / Logo"
-              value={formData.logo || ""}
+              value={formData.logo ? formData.logo.name : ""}
               fullWidth
               InputProps={{
                 readOnly: true,
@@ -113,114 +164,34 @@ const CreateCompany = ({ open, onClose }) => {
           </Box>
 
           <Box mt={2} display="grid" gap={2} gridTemplateColumns="1fr 1fr">
-            <TextField
-              label="Company Name"
-              name="companyName"
-              value={formData.companyName}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-            <TextField
-              label="Email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-            <TextField
-              label="Registration Number"
-              name="registrationNumber"
-              value={formData.registrationNumber}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              select
-              label="City"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              fullWidth
-            >
+            <TextField label="Company Name" name="company_name" value={formData.company_name} onChange={handleChange} fullWidth required />
+            <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} fullWidth required />
+            <TextField label="Registration Number" name="registration_number" value={formData.registration_number} onChange={handleChange} fullWidth />
+            <TextField select label="City" name="city" value={formData.city} onChange={handleChange} fullWidth>
               {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
-              select
-              label="Country"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              fullWidth
-            >
+            <TextField select label="Country" name="country" value={formData.country} onChange={handleChange} fullWidth>
               {countries.map((country) => (
                 <MenuItem key={country} value={country}>
                   {country}
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
-              label="Address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              label="Company Head"
-              name="companyHead"
-              value={formData.companyHead}
-              onChange={handleChange}
-              fullWidth
-            />
-            <PhoneInput
-              country={"gb"}
-              value={formData.phoneNumber}
-              onChange={handlePhoneChange}
-              inputStyle={{ width: "100%" }}
-            />
-            <TextField
-              label="Annex Price"
-              name="annexPrice"
-              value={formData.annexPrice}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              label="Password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              fullWidth
-            />
+            <TextField label="Address" name="address" value={formData.address} onChange={handleChange} fullWidth />
+            <TextField label="Company Head" name="company_head" value={formData.company_head} onChange={handleChange} fullWidth />
+            <PhoneInput country={"gb"} value={formData.phone_number} onChange={handlePhoneChange} inputStyle={{ width: "100%" }} />
+            <TextField label="Annex Price" name="annex_price" value={formData.annex_price} onChange={handleChange} fullWidth />
+            <TextField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} fullWidth />
           </Box>
 
-          <Box
-            mt={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                backgroundColor: "#6A40E3",
-                "&:hover": { backgroundColor: "#5A30D3" },
-                paddingTop: "7px",
-                paddingBottom: "7px",
-              }}
-            >
-              Create Now
+          {/* Submit Button */}
+          <Box mt={3} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Button type="submit" variant="contained" disabled={loading} sx={{ backgroundColor: "#6A40E3", "&:hover": { backgroundColor: "#5A30D3" } }}>
+              {loading ? <CircularProgress size={24} color="inherit" /> : "Create Now"}
             </Button>
           </Box>
         </form>

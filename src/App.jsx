@@ -13,10 +13,10 @@ const AuthWrapper = ({ children }) => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (!user || user.role_id != "1") {
-      localStorage.removeItem("user");
-      navigate("/", { replace: true });
-    }
+    // if (!user || user.role_id != "1") {
+    //   localStorage.removeItem("user");
+    //   navigate("/", { replace: true });
+    // }
   }, []);
 
   return children;

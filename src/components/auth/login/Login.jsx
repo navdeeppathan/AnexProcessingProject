@@ -37,6 +37,7 @@ const Login = () => {
             window.location.href = "/admin/dashboard/";
           });
         } else if (data.data.role_id === 2 && activeTab === "company") {
+          console.log(data);
           Swal.fire({
             title: "Success!",
             text: "Company Login Successful",

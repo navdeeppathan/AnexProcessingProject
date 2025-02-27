@@ -46,13 +46,16 @@ const CreateCompanyModal = () => {
     try {
       const response = await fetch("https://annex.sofinish.co.uk/api/companies", {
         method: "POST",
-        body: formDataToSend,
+        body: formDataToSend, // FormData automatically sets correct headers
       });
 
       const data = await response.json();
+
       if (response.ok) {
         setSuccess("Company created successfully!");
         setShowModal(false);
+
+        // Reset form
         setFormData({
           company_name: "",
           email: "",
@@ -67,7 +70,7 @@ const CreateCompanyModal = () => {
         });
         setLogo(null);
       } else {
-        setError(data.message || "Failed to create company");
+        setError(data.message || "Failed to create company.");
       }
     } catch (error) {
       setError("Network error. Please try again.");
