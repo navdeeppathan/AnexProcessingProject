@@ -35,7 +35,6 @@ const Dashboard = () => {
         <div className="w-[80%] ">
           <Routes>
             <Route path="/" element={<MainDashboard />} />
-            <Route path="/otp/:email" element={<OTP />} />
             <Route path="/annex-form" element={<Form />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/edit-profile" element={<EditProfile />} />

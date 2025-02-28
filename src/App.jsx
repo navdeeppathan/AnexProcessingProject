@@ -8,6 +8,7 @@ import {
 import Login from "./components/auth/login/Login";
 import AdminDashboard from "./components/Admin/dashboard/AdminDashboard";
 
+import OTP from "../src/components/auth/login/otp";
 import Dashboard from "./components/dashboard/Dashboard";
 import DigitalSignature from "./components/pdfMaker/DigitalSignature";
 import PDFMakerOrgnl from "./components/pdfMaker/PDFMakerOrgnl";
@@ -63,6 +64,14 @@ const App = () => {
           element={
             <AuthWrapper>
               <PDFMakerOrgnl />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/otp/:emaildata"
+          element={
+            <AuthWrapper>
+              <OTP />
             </AuthWrapper>
           }
         />

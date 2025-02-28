@@ -1,9 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./otpverify.css"; // Style file
+import Swal from "sweetalert2";
+import DashboardHeader from "../../utils/DashboardHeader";
+import SimpleHeader from "../../utils/SimpleHeader";
+import { ImgContainer } from "../../../assets/ImgContainer";
 
 const OTPVerification = () => {
+  const { emaildata } = useParams();
+  console.log(emaildata);
+
+  useEffect(() => {
+    if (emaildata) {
+      sendOTP();
+    }
+  }, [emaildata]); // Added emaildata as a dependency
+
   const [otp, setOtp] = useState(["", "", "", ""]);
-  const [email, setEmail] = useState(""); 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const inputRefs = [useRef(), useRef(), useRef(), useRef()];
@@ -32,7 +45,7 @@ const OTPVerification = () => {
 
   // Send OTP API
   const sendOTP = async () => {
-    if (!email) {
+    if (!emaildata) {
       setMessage("Please enter an email address.");
       return;
     }
@@ -41,15 +54,18 @@ const OTPVerification = () => {
     setMessage("");
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/send-otp/email@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        `https://annex.sofinish.co.uk/api/send-otp/${emaildata}`, // Corrected URL
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
+      console.log("email data:-", data);
       if (response.ok) {
         setMessage("OTP sent successfully!");
       } else {
@@ -76,19 +92,29 @@ const OTPVerification = () => {
     setMessage("");
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp: otpCode }),
-      });
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: emaildata, otp: otpCode }),
+        }
+      );
 
       const data = await response.json();
-      if (response.ok) {
-        setMessage("OTP verified successfully!");
-      } else {
-        setMessage(data.message || "Invalid OTP. Please try again.");
+      // console.log("verify-data", data);
+      if (data.message) {
+        Swal.fire({
+          title: "Success!",
+          text: data.message,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        }).then(() => {
+          window.location.href = "/pdf-maker";
+        });
       }
     } catch (error) {
       setMessage("Network error. Please try again.");
@@ -98,46 +124,55 @@ const OTPVerification = () => {
   };
 
   return (
-    <div className="otp-container">
-      <img src="image.png" alt="Email Icon" className="email-icon" />
-      <h2>Verify your email</h2>
-
-      {/* Email Input */}
-      <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button onClick={sendOTP} className="send-otp-btn" disabled={loading}>
-        {loading ? "Sending..." : "Send OTP"}
-      </button>
-
-      <p>{message}</p>
-
-      <form onSubmit={handleSubmit}>
-        <div className="otp-inputs">
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              type="text"
-              maxLength="1"
-              value={digit}
-              onChange={(e) => handleChange(index, e)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              ref={inputRefs[index]}
-            />
-          ))}
+    <div>
+      <div>
+        <SimpleHeader />
+      </div>
+      <div className="flex flex-col items-center mt-36 space-y-8">
+        <div className="flex flex-col items-center space-y-2">
+          <img
+            src={ImgContainer.emailIcon}
+            alt="Email Icon"
+            // className="email-icon"
+            className="w-24 h-24"
+          />
+          <h2 className="text-xl font-bold">Verify your email</h2>
+          <div className="flex space-x-2">
+            <p>Please enter the 4 digit code sent to</p>
+            <p>{emaildata}</p>
+          </div>
         </div>
 
-        <p className="resend-code" onClick={sendOTP}>
-          Resend Code
-        </p>
+        {/* <p>{message}</p> */}
 
-        <button type="submit" className="confirm-btn" disabled={loading}>
-          {loading ? "Verifying..." : "Confirm"}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="otp-inputs">
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                type="text"
+                maxLength="1"
+                value={digit}
+                onChange={(e) => handleChange(index, e)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                ref={inputRefs[index]}
+              />
+            ))}
+          </div>
+          {/* <button onClick={sendOTP} className="send-otp-btn" disabled={loading}>
+            {loading ? "Sending..." : "Send OTP"}
+          </button> */}
+          <div className="flex flex-col items-center">
+            <p className="text-[#6d4db0] cursor-pointer" onClick={sendOTP}>
+              Resend Code
+            </p>
+
+            <button type="submit" className="confirm-btn" disabled={loading}>
+              {loading ? "Verifying..." : "Confirm"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
