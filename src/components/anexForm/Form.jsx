@@ -174,6 +174,7 @@ const Form = () => {
       );
 
       const data = await response.json();
+      console.log("dataform submit:", data);
       if (response.ok) {
         setSuccess("Company created successfully!");
 
@@ -274,6 +275,7 @@ const Form = () => {
         setError(data.message || "Failed to create company");
       }
     } catch (error) {
+      console.log("eroor:-", error);
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -1170,6 +1172,7 @@ const Form = () => {
                 <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
+                    type="number"
                     name="waste_amount"
                     value={formData.waste_amount}
                     onChange={handleChange}
