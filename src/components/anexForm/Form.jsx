@@ -6,7 +6,9 @@ import {
   Typography,
   Button,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import EmailIcon from "@mui/icons-material/Email";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -39,38 +41,6 @@ const Form = () => {
     number_of_shipments: 0,
     //
     aShipdate: "",
-    //
-    firstAdd: "",
-    first_port_name: "",
-    first_port_arrival_date: "",
-    first_port_departure_date: "",
-    first_contPerson: "",
-    first_contNum: "",
-    first_fax: "",
-    first_email: "",
-    first_meanTrans: "",
-    //
-
-    //
-    secondAdd: "",
-    second_port_name: "",
-    second_port_arrival_date: "",
-    second_contPerson: "",
-    second_contNum: "",
-    second_fax: "",
-    second_email: "",
-    second_meanTrans: "",
-    //
-
-    //
-    thirdAdd: "",
-    third_port_name: "",
-    third_port_arrival_date: "",
-    third_contPerson: "",
-    third_contNum: "",
-    third_fax: "",
-    third_email: "",
-    third_meanTrans: "",
     //
 
     preferred_carrier_name: "",
@@ -124,7 +94,19 @@ const Form = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const [carriers, setCarriers] = useState([
+    {
+      name: "",
+      address: "",
+      contact_person: "",
+      phone: "",
+      fax: "",
+      email: "",
+      means_of_transport: "",
+      date_of_transport: "",
+      departure_date: "",
+    },
+  ]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -132,8 +114,40 @@ const Form = () => {
       [name]: value,
     }));
   };
+  const handleCarrierChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedCarriers = [...carriers];
+    updatedCarriers[index][name] = value;
+    setCarriers(updatedCarriers);
+  };
+
+  // Add a new empty carrier to the list
+  const addCarrier = () => {
+    setCarriers([
+      ...carriers,
+      {
+        name: "",
+        address: "",
+        contact_person: "",
+        phone: "",
+        fax: "",
+        email: "",
+        means_of_transport: "",
+        date_of_transport: "",
+        departure_date: "",
+      },
+    ]);
+  };
+
+  // Remove a carrier by index
+  const removeCarrier = (index) => {
+    if (carriers.length > 1) {
+      setCarriers(carriers.filter((_, i) => i !== index));
+    }
+  };
 
   const handleSubmit = async (e) => {
+    console.log(carriers);
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -143,6 +157,12 @@ const Form = () => {
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
+    formDataToSend.append("carriers", JSON.stringify(carriers));
+
+    // console.log("Form Data Entries:");
+    // for (let pair of formDataToSend.entries()) {
+    //   console.log(pair[0], pair[1]);
+    // }
 
     try {
       const response = await fetch(
@@ -178,38 +198,6 @@ const Form = () => {
           number_of_shipments: 0,
           //
           aShipdate: "",
-          //
-          firstAdd: "",
-          first_port_name: "",
-          first_port_arrival_date: "",
-          first_port_departure_date: "",
-          first_contPerson: "",
-          first_contNum: "",
-          first_fax: "",
-          first_email: "",
-          first_meanTrans: "",
-          //
-
-          //
-          secondAdd: "",
-          second_port_name: "",
-          second_port_arrival_date: "",
-          second_contPerson: "",
-          second_contNum: "",
-          second_fax: "",
-          second_email: "",
-          second_meanTrans: "",
-          //
-
-          //
-          thirdAdd: "",
-          third_port_name: "",
-          third_port_arrival_date: "",
-          third_contPerson: "",
-          third_contNum: "",
-          third_fax: "",
-          third_email: "",
-          third_meanTrans: "",
           //
 
           preferred_carrier_name: "",
@@ -252,6 +240,15 @@ const Form = () => {
           signature_transit: "",
           signature_imprt_arr: "",
           //
+          basel_annex_ix: "",
+          oecd_ii: "",
+          annex_iia4: "",
+          annex_iiia5: "",
+          ec_list_of_wastes: "",
+          national_code: "",
+          other_specify: "",
+          //
+
           license_number: "",
           approval_details: "",
           waste_amount: 0,
@@ -260,6 +257,19 @@ const Form = () => {
           waste_transport_status: "",
           shipment_received_at_facility: "",
         });
+        setCarriers([
+          {
+            name: "",
+            address: "",
+            contact_person: "",
+            phone: "",
+            fax: "",
+            email: "",
+            means_of_transport: "",
+            date_of_transport: "",
+            departure_date: "",
+          },
+        ]);
       } else {
         setError(data.message || "Failed to create company");
       }
@@ -512,326 +522,173 @@ const Form = () => {
           </Box>
 
           {/* Section: Consignee */}
-          <div>
-            <Box p={2} borderRadius={2} bgcolor="white">
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                5.(a) First Carrier:
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="first_port_name"
-                    value={formData.first_port_name}
-                    onChange={handleChange}
-                    label="Name"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="firstAdd"
-                    value={formData.firstAdd}
-                    onChange={handleChange}
-                    label="Address"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="first_contPerson"
-                    value={formData.first_contPerson}
-                    onChange={handleChange}
-                    label="Contact Person"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="first_contNum"
-                    value={formData.first_contNum}
-                    onChange={handleChange}
-                    label="Tel"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="first_fax"
-                    value={formData.first_fax}
-                    onChange={handleChange}
-                    label="Fax"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="first_email"
-                    value={formData.first_email}
-                    onChange={handleChange}
-                    label="Email"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="first_meanTrans"
-                    value={formData.first_meanTrans}
-                    onChange={handleChange}
-                    label="Means of transport "
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    name="first_port_arrival_date"
-                    value={formData.first_port_arrival_date}
-                    onChange={handleChange}
-                    label="Date of transport"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    name="first_port_departure_date"
-                    value={formData.first_port_departure_date}
-                    onChange={handleChange}
-                    label="Date of Departure"
-                    variant="outlined"
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-          </div>
 
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                5.(b) Second Carrier:
+                Carriers Information
               </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="second_port_name"
-                    value={formData.second_port_name}
-                    onChange={handleChange}
-                    label="Name"
-                    variant="outlined"
-                    defaultValue="Lorem Ipsum"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="secondAdd"
-                    value={formData.secondAdd}
-                    onChange={handleChange}
-                    label="Address"
-                    variant="outlined"
-                    defaultValue="Lorem ipsum dolor sit mate"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="second_contPerson"
-                    value={formData.second_contPerson}
-                    onChange={handleChange}
-                    label="Contact Person"
-                    variant="outlined"
-                    defaultValue="Lorem ipsum"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="second_contNum"
-                    value={formData.second_contNum}
-                    onChange={handleChange}
-                    label="Tel"
-                    variant="outlined"
-                    defaultValue="01234567890"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="second_fax"
-                    value={formData.second_fax}
-                    onChange={handleChange}
-                    label="Fax"
-                    variant="outlined"
-                    defaultValue="01234567890"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="second_email"
-                    value={formData.second_email}
-                    onChange={handleChange}
-                    label="Email"
-                    variant="outlined"
-                    defaultValue="info@loremipsum.co.uk"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="second_meanTrans"
-                    value={formData.second_meanTrans}
-                    onChange={handleChange}
-                    label="Means of transport "
-                    variant="outlined"
-                    defaultValue="01234567890"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    name="second_port_arrival_date"
-                    value={formData.second_port_arrival_date}
-                    onChange={handleChange}
-                    label="Date of transport"
-                    variant="outlined"
-                    defaultValue="info@loremipsum.co.uk"
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-          </div>
 
-          <div>
-            <Box p={2} borderRadius={2} bgcolor="white">
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                5.(c) Third Carrier:
-              </Typography>
-              <div className="space-y-5">
-                <div>
+              {carriers.map((carrier, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    border: "1px solid #E0E0E0",
+                    borderRadius: 2,
+                    p: 2,
+                    mb: 2,
+                    position: "relative",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="medium"
+                    gutterBottom
+                  >
+                    Carrier {index + 1}
+                  </Typography>
+
+                  {carriers.length > 1 && (
+                    <IconButton
+                      aria-label="delete"
+                      size="small"
+                      onClick={() => removeCarrier(index)}
+                      sx={{ position: "absolute", top: 8, right: 8 }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
-                        name="third_port_name"
-                        value={formData.third_port_name}
-                        onChange={handleChange}
+                        name="name"
                         label="Name"
+                        value={carrier.name}
+                        onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
-                        defaultValue="Lorem Ipsum"
+                        margin="normal"
                       />
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={8}>
                       <TextField
                         fullWidth
-                        name="thirdAdd"
-                        value={formData.thirdAdd}
-                        onChange={handleChange}
+                        name="address"
                         label="Address"
+                        value={carrier.address}
+                        onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
-                        defaultValue="Lorem ipsum dolor sit mate"
+                        margin="normal"
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
-                        name="third_contPerson"
-                        value={formData.third_contPerson}
-                        onChange={handleChange}
+                        name="contact_person"
                         label="Contact Person"
+                        value={carrier.contact_person}
+                        onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
-                        defaultValue="Lorem ipsum"
+                        margin="normal"
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
-                        name="third_contNum"
-                        value={formData.third_contNum}
-                        onChange={handleChange}
-                        label="Tel"
+                        name="phone"
+                        label="Phone"
+                        value={carrier.phone}
+                        onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
-                        defaultValue="01234567890"
+                        margin="normal"
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
-                        name="third_fax"
-                        value={formData.third_fax}
-                        onChange={handleChange}
+                        name="fax"
                         label="Fax"
+                        value={carrier.fax}
+                        onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
+                        margin="normal"
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
-                        name="third_email"
-                        value={formData.third_email}
-                        onChange={handleChange}
+                        name="email"
                         label="Email"
+                        type="email"
+                        value={carrier.email}
+                        onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
+                        margin="normal"
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
-                        name="third_meanTrans"
-                        value={formData.third_meanTrans}
-                        onChange={handleChange}
-                        label="Means of transport "
+                        name="means_of_transport"
+                        label="Means of Transport"
+                        value={carrier.means_of_transport}
+                        onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
+                        margin="normal"
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
-                        name="third_port_arrival_date"
-                        value={formData.third_port_arrival_date}
-                        onChange={handleChange}
-                        label="Date of transport"
-                        variant="outlined"
+                        name="date_of_transport"
+                        label="Date of Transport"
                         type="date"
+                        value={carrier.date_of_transport}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="departure_date"
+                        label="Departure Date"
+                        type="date"
+                        value={carrier.departure_date}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ shrink: true }}
                       />
                     </Grid>
                   </Grid>
-                </div>
-                <div>
-                  {/* <Box display="flex" justifyContent="center">
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        color: "#5C5C5C",
-                        border: "1px solid #A8A8A8",
-                        borderRadius: "8px",
-                        textTransform: "none",
-                      }}
-                      endIcon={<AddIcon sx={{ color: "#141B34" }} />}
-                    >
-                      Add Carrier
-                    </Button>
-                  </Box> */}
-                </div>
-              </div>
+                </Box>
+              ))}
+
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button
+                  variant="outlined"
+                  onClick={addCarrier}
+                  startIcon={<AddIcon />}
+                  sx={{
+                    color: "#5C5C5C",
+                    border: "1px solid #A8A8A8",
+                    borderRadius: "8px",
+                    textTransform: "none",
+                  }}
+                >
+                  Add Carrier
+                </Button>
+              </Box>
             </Box>
           </div>
-
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                5.(d) Preferred Carrier:
+                5. Preferred Carrier:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -867,7 +724,6 @@ const Form = () => {
                     onChange={handleChange}
                     label="Date of Departure"
                     variant="outlined"
-                    defaultValue="info@loremipsum.co.uk"
                   />
                 </Grid>
               </Grid>
@@ -1085,71 +941,85 @@ const Form = () => {
             </Box>
           </div>
 
-          {/* <div>
+          <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
                 10. Waste identification (fill in relevant codes):
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
+                    name="basel_annex_ix"
+                    value={formData.basel_annex_ix}
+                    onChange={handleChange}
                     label="(i)Basel Annex IX:"
                     variant="outlined"
-                    defaultValue="Lorem Ipsum"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
+                    name="oecd_ii"
+                    value={formData.oecd_ii}
+                    onChange={handleChange}
                     label="(ii)OECD (if different from (i)"
                     variant="outlined"
-                    defaultValue="Lorem ipsum dolor sit mate"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
+                    name="annex_iia4_tel"
+                    value={formData.annex_iia4}
+                    onChange={handleChange}
                     label="(iii)Annex IIA(4)"
                     variant="outlined"
-                    defaultValue="Lorem ipsum"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    label="Tel"
-                    variant="(iv)Annex IIIA(5)"
-                    defaultValue="01234567890"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    label="(v)    EC list of wastes: "
+                    name="annex_iiia5_tel"
+                    value={formData.annex_iiia5}
+                    onChange={handleChange}
+                    label="(iv)Annex IIIA(5)"
                     variant="outlined"
-                    defaultValue="01234567890"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
+                    name="ec_list_of_wastes"
+                    value={formData.ec_list_of_wastes}
+                    onChange={handleChange}
+                    label="(v)EC list of wastes: "
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    name="national_code"
+                    value={formData.national_code}
+                    onChange={handleChange}
                     label="(vi)National code: "
                     variant="outlined"
-                    defaultValue="info@loremipsum.co.uk"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
+                    name="other_specify"
+                    value={formData.other_specify}
+                    onChange={handleChange}
                     label="(vii)Other (specify):"
                     variant="outlined"
-                    defaultValue="info@loremipsum.co.uk"
                   />
                 </Grid>
               </Grid>
             </Box>
-          </div> */}
+          </div>
 
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">

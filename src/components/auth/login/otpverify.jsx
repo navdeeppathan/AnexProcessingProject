@@ -1,54 +1,35 @@
+import { Button } from "@mui/material";
 import React, { useState, useRef } from "react";
-import "./otp.css"; // Style file
+import SimpleHeader from "../../utils/SimpleHeader";
 
-const OTPVerification = () => {
-  const [otp, setOtp] = useState(["", "", "", ""]);
-  const inputRefs = [useRef(), useRef(), useRef(), useRef()];
-
-  // Handle OTP Input Change
-  const handleChange = (index, event) => {
-    let value = event.target.value;
-
-    if (!isNaN(value) && value.length <= 1) {
-      let newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
-
-      // Move to the next input field
-      if (value !== "" && index < 3) {
-        inputRefs[index + 1].current.focus();
-      }
-    }
-  };
-
-  // Handle Backspace Press
-  const handleKeyDown = (index, event) => {
-    if (event.key === "Backspace" && otp[index] === "") {
-      if (index > 0) {
-        inputRefs[index - 1].current.focus();
-      }
-    }
-  };
-
+const OTPVerification2 = () => {
   // Handle Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Entered OTP: ${otp.join("")}`);
   };
 
   return (
-    
-      <div className="otp-container">
-          {/* <div className="main-header">
-              <h1>Annex</h1>
-          </div> */}
-          
-          <img src="right.png" alt="Email Icon" className="email-icon" />
-          <h2>Verified</h2>
-          <p>You have successfully verified your email.</p>
-          <p className="resend-code">Review ANNEX</p>
+    <div className="min-h-screen">
+      <div>
+        <SimpleHeader />
       </div>
+
+      <div className="flex flex-col items-center text-center mt-32 space-y-8">
+        <div className="">
+          <img src="/right.png" alt="Email Icon" className="w-24 mb-4" />
+        </div>
+        <div className="flex flex-col space-y-6">
+          <h2 className="text-xl font-semibold">Verified</h2>
+          <p className="text-[#282D37]">
+            You have successfully verified your email.
+          </p>
+          <Button variant="contained" sx={{ bgcolor: "#6d4db0" }}>
+            Review ANNEX
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default OTPVerification;
+export default OTPVerification2;

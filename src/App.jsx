@@ -12,6 +12,8 @@ import OTP from "../src/components/auth/login/otp";
 import Dashboard from "./components/dashboard/Dashboard";
 import DigitalSignature from "./components/pdfMaker/DigitalSignature";
 import PDFMakerOrgnl from "./components/pdfMaker/PDFMakerOrgnl";
+import ThirdCarrierForm from "./components/auth/createCompany/Test";
+import OTPVerification2 from "./components/auth/login/otpverify";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -73,6 +75,14 @@ const App = () => {
             <AuthWrapper>
               <OTP />
             </AuthWrapper>
+          }
+        />
+        <Route
+          path="/test/"
+          element={
+            // <AuthWrapper>
+            <OTPVerification2 />
+            // </AuthWrapper>
           }
         />
       </Routes>
