@@ -3,8 +3,9 @@ import "./AnnexVII.css";
 
 const AnnexVII = () => {
   const [formData, setFormData] = useState(null);
-   const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   useEffect(() => {
     const fetchFormData = async () => {
       setLoading(true);
@@ -33,6 +34,21 @@ const AnnexVII = () => {
 
     fetchFormData();
   }, []);
+  const sendReminderEmail = async () => {
+    setMessage("");
+    try {
+      const response = await fetch("https://annex.sofinish.co.uk/api/send-bulk-emails/1", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) throw new Error(`Failed to send email: ${response.status}`);
+
+      setMessage("Reminder emails sent successfully!");
+    } catch (err) {
+      setMessage(`Error: ${err.message}`);
+    }
+  };
   if (loading) return <p>Loading companies...</p>;
   if (error) return <p className="error-message">{error}</p>;
   const CheckIcon = () => (
@@ -127,8 +143,8 @@ const AnnexVII = () => {
           <h1 className="text-xl font-bold">
             CMAU2312086 - BLMCB0258247 - CMA CGM - MEX202405
           </h1>
-          <button className="bg-indigo-600 text-white px-4 py-2 rounded create-btn">
-            Send Remainder to All
+          <button onClick={sendReminderEmail} className="bg-indigo-600 text-white px-4 py-2 rounded">
+            Send Reminder to All
           </button>
 
           {/* <button className="create-btn">Create ANNEX Form</button> */}
