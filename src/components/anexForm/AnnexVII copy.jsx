@@ -1,4 +1,5 @@
-import React ,{ useEffect ,useState}  from "react";
+import { useEffect,useState } from "react";
+import React  from "react";
 import "./AnnexVII.css";
 
 const AnnexVII = () => {
@@ -7,23 +8,21 @@ const AnnexVII = () => {
   const [error, setError] = useState("");
   useEffect(() => {
     const fetchFormData = async () => {
-      setLoading(true);
-      setError("");
       try {
-       
         const response = await fetch("https://annex.sofinish.co.uk/api/forms/1", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
-
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        setFormData(data);
+        
+        console.log(data);
+        setFormData(response.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -33,8 +32,6 @@ const AnnexVII = () => {
 
     fetchFormData();
   }, []);
-  if (loading) return <p>Loading companies...</p>;
-  if (error) return <p className="error-message">{error}</p>;
   const CheckIcon = () => (
     <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
       <span className="text-white text-xs">✓</span>
@@ -151,16 +148,13 @@ const AnnexVII = () => {
               <h2 className="font-semibold mb-3">1. Consignment Information</h2>
               <div className="space-y-2">
                 <div className="text-sm">
-                  <span className="font-medium">Company:</span> {formData.company_name}
+                  <span className="font-medium">Company:</span>{formData.company_name}
                 </div>
                 <div className="text-sm">
                   <span className="font-medium">Address:</span> {formData.address}
                 </div>
                 <div className="text-sm">
                   <span className="font-medium">Contact:</span>{formData.contact_number}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Email:</span> {formData.email}
                 </div>
               </div>
             </div>
@@ -179,7 +173,7 @@ const AnnexVII = () => {
                   <span className="font-medium">Contact:</span> {formData.consignee_contact}
                 </div>
                 <div className="text-sm">
-                  <span className="font-medium">Email:</span> {formData.email2}
+                  <span className="font-medium">Email:</span> {formData.consignee_contact}
                 </div>
               </div>
             </div>
@@ -188,80 +182,37 @@ const AnnexVII = () => {
             <div className="border rounded-lg p-4">
               <h2 className="font-semibold mb-3">3. Actual Quantity</h2>
               <div className="text-sm">
-                <span className="font-medium">Tonnes (Mg):</span>{formData.number_of_shipments}
+                <span className="font-medium">Tonnes (Mg):</span> 24.5
               </div>
             </div>
 
             <div className="border rounded-lg p-4">
               <h2 className="font-semibold mb-3">4. Actual Quantity</h2>
               <div className="text-sm">
-                <span className="font-medium">Tonnes (Mg):</span> {formData.number_of_shipments}
+                <span className="font-medium">Tonnes (Mg):</span> 24.5
               </div>
             </div>
 
             <div className="border rounded-lg p-4">
               <h2 className="font-semibold mb-3">5.(a) First Carrier</h2>
               <div className="text-sm">
-              < div className="space-y-2">
-                <div className="text-sm">
-                  <span className="font-medium">Company:</span> {formData.first_port_name}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Address:</span>  {formData.firstAdd}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Contact:</span> {formData.first_contPerson}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Email:</span> {formData.first_contNum}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Fax:</span> {formData.first_fax}
-                </div>
-              </div>
-              </div>
-            </div>
-           
-            <div className="border rounded-lg p-4">
-              <h2 className="font-semibold mb-3">5.(b) Second Carrier:</h2>
-              <div className="text-sm">
-               <div className="space-y-2">
-                <div className="text-sm">
-                  <span className="font-medium">Company:</span> {formData.second_port_name}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Address:</span>  {formData.secondAdd}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Contact:</span> {formData.second_contPerson}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Email:</span> {formData.second_email}
-                </div>
-              </div>
+                <span className="font-medium">Tonnes (Mg):</span> 24.5
               </div>
             </div>
 
             <div className="border rounded-lg p-4">
-              <h2 className="font-semibold mb-3">5.(c) Third Carrier:</h2>
+              <h2 className="font-semibold mb-3">5.(b) First Carrier</h2>
               <div className="text-sm">
-              <div className="space-y-2">
-                <div className="text-sm">
-                  <span className="font-medium">Company:</span> {formData.third_port_name}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Address:</span>  {formData.thirdAdd}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Contact:</span> {formData.third_contPerson}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Email:</span> {formData.third_email}
-                </div>
-              </div>
+                <span className="font-medium">Tonnes (Mg):</span> 24.5
               </div>
             </div>
 
+            <div className="border rounded-lg p-4">
+              <h2 className="font-semibold mb-3">5.(c) First Carrier</h2>
+              <div className="text-sm">
+                <span className="font-medium">Tonnes (Mg):</span> 24.5
+              </div>
+            </div>
 
             <div className="border rounded-lg p-4">
               <h2 className="font-semibold mb-3">
@@ -269,18 +220,11 @@ const AnnexVII = () => {
               </h2>
               <div className="space-y-2">
                 <div className="text-sm">
-                  <span className="font-medium">Company:</span> {formData.waste_processor_name}
+                  <span className="font-medium">Company:</span> Mercosun LTD
                 </div>
                 <div className="text-sm">
-                  <span className="font-medium">Address:</span> {formData.waste_processor_address}
+                  <span className="font-medium">Contact:</span> +4221234567899
                 </div>
-                <div className="text-sm">
-                  <span className="font-medium">Contact:</span>{formData.waste_processor_tel}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Email:</span>{formData.waste_processor_email}
-                </div>
-                
               </div>
             </div>
 
@@ -289,16 +233,12 @@ const AnnexVII = () => {
               <h2 className="font-semibold mb-3">7. Recovery Facility</h2>
               <div className="space-y-2">
                 <div className="text-sm">
-                  <span className="font-medium">Facility Name:</span> {formData.processing_facility_name}
+                  <span className="font-medium">Facility Name:</span> Mercosun
+                  LTD
                 </div>
                 <div className="text-sm">
-                  <span className="font-medium">Address:</span> {formData.processing_facility_address}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Contact:</span> {formData.processing_facility_tel}
-                </div>
-                <div className="text-sm">
-                  <span className="font-medium">Email:</span> {formData.processing_facility_email}
+                  <span className="font-medium">Address:</span> 789 Recovery
+                  Lane
                 </div>
               </div>
             </div>
@@ -311,7 +251,7 @@ const AnnexVII = () => {
               </h2>
               <div className="space-y-2">
                 <div className="flex gap-2">
-                  <p>{formData.recovery_operation_name}</p>
+                  <p>R-code / D-code: R4</p>
                 </div>
               </div>
             </div>
@@ -324,7 +264,7 @@ const AnnexVII = () => {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm font-medium mb-2">{formData.usual_des_of_the_waste}</p>
+                    <p className="text-sm font-medium mb-2">ZINC SKIMMINGS</p>
                   </div>
                 </div>
               </div>
@@ -363,15 +303,15 @@ const AnnexVII = () => {
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div className="border p-3">
                   <p className="text-sm font-medium">Export/dispatch:</p>
-                  <p className="text-blue-600 font-semibold underline">{formData.countriesOrstates_exp_dis}</p>
+                  <p className="text-blue-600 font-semibold underline">KSA</p>
                 </div>
                 <div className="border p-3">
                   <p className="text-sm font-medium">Transit:</p>
-                  <p className="text-gray-600">{formData.countriesOrstates_transit}</p>
+                  <p className="text-gray-600">(Not provided)</p>
                 </div>
                 <div className="border p-3">
                   <p className="text-sm font-medium">Import/arrival:</p>
-                  <p className="font-semibold">{formData.countriesOrstates_imprt_arr}</p>
+                  <p className="font-semibold">ITALY</p>
                 </div>
               </div>
             </div>
@@ -384,13 +324,13 @@ const AnnexVII = () => {
               </h2>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div className="p-3">
-                  <p className="text-sm font-medium">Name:{formData.declaration_name}</p>
+                  <p className="text-sm font-medium">Name: Roger Matheus</p>
                 </div>
                 <div className="p-3">
-                  <p className="text-sm font-medium">Date: {formData.declaration_date}</p>
+                  <p className="text-sm font-medium">Date: 12/06/2024</p>
                 </div>
                 <div className="p-3">
-                  <p className="text-sm font-medium">Signature: {formData.signature_exp_dis}</p>
+                  <p className="text-sm font-medium">Signature: (Signed)</p>
                 </div>
               </div>
             </div>
@@ -401,10 +341,10 @@ const AnnexVII = () => {
               </h2>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div className="p-3">
-                  <p className="text-sm font-medium">Name: {formData.signature_transit}</p>
+                  <p className="text-sm font-medium">Name: Roger Matheus</p>
                 </div>
                 <div className="p-3">
-                  <p className="text-sm font-medium">Date: {formData.signature_transit}</p>
+                  <p className="text-sm font-medium">Date: 12/06/2024</p>
                 </div>
                 <div className="p-3">
                   <p className="text-sm font-medium">Signature: (Signed)</p>
@@ -422,7 +362,7 @@ const AnnexVII = () => {
               </h2>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div className="p-3">
-                  <p className="text-sm font-medium">Name: {formData.shipment_received_at_facility}</p>
+                  <p className="text-sm font-medium">Name: </p>
                 </div>
                 <div className="p-3">
                   <p className="text-sm font-medium">Date: </p>
