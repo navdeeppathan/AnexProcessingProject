@@ -131,7 +131,7 @@ const OTPVerification = () => {
       <div className="flex flex-col items-center mt-36 space-y-8">
         <div className="flex flex-col items-center space-y-2">
           <img
-            src={ImgContainer.emailIcon}
+            src="/image.png"
             alt="Email Icon"
             // className="email-icon"
             className="w-24 h-24"
