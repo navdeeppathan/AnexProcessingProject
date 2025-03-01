@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import Login from "./components/auth/login/Login";
 import AdminDashboard from "./components/Admin/dashboard/AdminDashboard";
-
 import OTP from "../src/components/auth/login/otp";
 import Dashboard from "./components/dashboard/Dashboard";
 import DigitalSignature from "./components/pdfMaker/DigitalSignature";
