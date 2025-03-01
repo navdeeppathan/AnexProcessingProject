@@ -6,14 +6,12 @@ import { Card, Box, Button } from "@mui/material";
 import SimpleHeader from "../utils/SimpleHeader";
 import { useNavigate } from "react-router-dom";
 
-const PDFMakerOrgnl = () => {
+const AnnexVLeftForm = ({ status }) => {
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const formRef = useRef();
-
-  console.log("formdata", formData?.company_name);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -21,7 +19,7 @@ const PDFMakerOrgnl = () => {
       setError("");
       try {
         const response = await fetch(
-          "https://annex.sofinish.co.uk/api/forms/18",
+          "https://annex.sofinish.co.uk/api/forms/1",
           {
             method: "GET",
             headers: {
@@ -47,20 +45,6 @@ const PDFMakerOrgnl = () => {
     fetchFormData();
   }, []);
 
-  const handleDigitalSignature = () => {
-    navigate("/digital-signature");
-  };
-
-  // console.log(formRef.current);
-
-  const handleDownloadPDF = async () => {
-    const canvas = await html2canvas(formRef.current);
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-    pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
-    pdf.save("waste_shipment_form.pdf");
-  };
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -80,17 +64,13 @@ const PDFMakerOrgnl = () => {
     return suffixes[num] || `${num + 1}th`; // Fallback for large numbers
   };
   return (
-    <div>
-      <div>
-        <SimpleHeader />
-      </div>
+    <div className="min-h-screen">
       {formData?.map((item) => (
-        <Card className="p-8">
-          <div className="bg-white p-6 shadow-lg">
+        <Card className="p-2">
+          <div className="">
             <div ref={formRef}>
               <div className="flex flex-col items-center space-y-2">
                 <h2 className="text-xl font-bold text-center ">ANNEX VII</h2>
-
                 <div className=" p-2 items-center flex flex-col ">
                   <p className="text-sm ">
                     INFORMATION ACCOMPANYING SHIPMENTS OF WASTES REFERRED TO IN
@@ -107,13 +87,14 @@ const PDFMakerOrgnl = () => {
               </div>
 
               {/* Grid Layout for Responsive Sections */}
-              <div className="py-10 px-24 ">
+
+              <div className="">
                 <div className="py-1">
                   <h4 className="text-base md:text-xl   font-semibold">
                     Consignment Information
                   </h4>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
+                <div className={` grid grid-cols-1 md:grid-cols-2 `}>
                   <Box className="border  p-4 ">
                     <h3 className="font-semibold">
                       1. Consignment Information
@@ -365,15 +346,15 @@ const PDFMakerOrgnl = () => {
                     <div className="flex items-center justify-between mt-2 ">
                       <div className="flex">
                         <span className="text-black mr-1">Name:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-28"></div>
                       </div>
                       <div className="flex">
                         <span className="text-black mr-1">Date:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-28"></div>
                       </div>
                       <div className="flex">
                         <span className="text-black mr-1">Signature:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-28"></div>
                       </div>
                     </div>
                   </Box>
@@ -390,15 +371,15 @@ const PDFMakerOrgnl = () => {
                     <div className="flex items-center mt-2 justify-between">
                       <div className="flex">
                         <span className="text-black mr-1">Name:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-28"></div>
                       </div>
                       <div className="flex">
                         <span className="text-black mr-1">Date:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-28"></div>
                       </div>
                       <div className="flex">
                         <span className="text-black mr-1">Signature:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-28"></div>
                       </div>
                     </div>
                   </Box>
@@ -436,48 +417,6 @@ const PDFMakerOrgnl = () => {
                 </div>
               </div>
             </div>
-            {/* Signature Section */}
-            {/* Buttons */}
-            <div className="px-24 flex justify-between items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outlined"
-                  onClick={handleDigitalSignature}
-                  sx={{ borderColor: "#A8A8A8", color: "black" }}
-                >
-                  Browse Signature
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handleDigitalSignature}
-                  sx={{ bgcolor: "#5C75C5" }}
-                >
-                  Digital signature
-                </Button>
-              </div>
-              {/* Middle: Drag Signature Message & Preview */}
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-600">
-                  Drag your signature and place in your box
-                </span>
-                {/* {signature && (
-                <img
-                  src={signature}
-                  alt="Signature"
-                  className="h-12 cursor-pointer"
-                />
-              )} */}
-              </div>
-              <div>
-                <Button
-                  onClick={handleDownloadPDF}
-                  variant="contained"
-                  // disabled
-                >
-                  Submit
-                </Button>
-              </div>
-            </div>
           </div>
         </Card>
       ))}
@@ -485,4 +424,4 @@ const PDFMakerOrgnl = () => {
   );
 };
 
-export default PDFMakerOrgnl;
+export default AnnexVLeftForm;
