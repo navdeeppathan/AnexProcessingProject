@@ -1,114 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./AnnexForms.css";
-import SettingsIcon from "@mui/icons-material/Settings";
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { Card, Box, Button, CircularProgress } from "@mui/material";
+import { Card, Box, Button } from "@mui/material";
 
-const AnnexForm = () => {
-  const navigate = useNavigate();
-  const [forms, setForms] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedAnnexId, setSelectedAnnexId] = useState(null);
-  // Fetch forms from API
-  useEffect(() => {
-    const fetchForms = async () => {
-      try {
-        const response = await fetch("https://annex.sofinish.co.uk/api/forms");
-        if (!response.ok) {
-          throw new Error("Failed to fetch forms");
-        }
-        const data = await response.json();
+import { useNavigate } from "react-router-dom";
 
-        console.log("annexVasdnk:-", data);
-        setForms(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchForms();
-  }, []);
-
-  const handleSettingsClick = (annex_id) => {
-    setSelectedAnnexId(annex_id);
-    setTimeout(() => {
-      document.getElementById("download-btn")?.click();
-    }, 500); // Set the annex_id to trigger PdfDownload
-  };
-
-  return (
-    <div>
-      <div className="min-h-screen px-10">
-        <main className="content">
-          <header className="flex items-center justify-between">
-            <h2 className="text-3xl font-bold">Annex forms</h2>
-            <button
-              className="create-btn"
-              onClick={() => navigate("/dashboard/annex-form")}
-            >
-              Create ANNEX Form
-            </button>
-          </header>
-
-          {loading ? (
-            <p className="flex flex-col items-center justify-center h-screen">
-              <CircularProgress />
-              <p className="text-black font-medium text-xl">waiting...</p>
-            </p>
-          ) : error ? (
-            <p className="text-red-500">{error}</p>
-          ) : (
-            <div className="forms-container">
-              {forms.length === 0 ? (
-                <p>No forms submitted yet.</p>
-              ) : (
-                forms?.map((form) => (
-                  <div
-                    key={form.id}
-                    className="bg-white p-5 rounded-lg space-y-4 shadow-md relative"
-                  >
-                    <h3 className="text-xl font-bold">ANNEXVII</h3>
-                    <h4 className="text-base font-semibold">
-                      {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
-                      {form?.annex_id}
-                    </h4>
-                    <p className="text-xs font-sans">
-                      INFORMATION ACCOMPANYING SHIPMENTS OF WASTES REFERRED TO
-                      IN ARTICLE 3(2) AND (4)(revised version as per Official
-                      Journal of the European Union 22.12.2020 L431/13)
-                      REGULATION (EU) 2020/2174
-                    </p>
-
-                    {/* <span className="copy-icon">📋</span> */}
-                    <span
-                      className="absolute top-2.5 right-2.5 cursor-pointer"
-                      onClick={() => handleSettingsClick(form?.id)}
-                    >
-                      <SettingsIcon />
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-        </main>
-        <div className="fixed top-0 left-0 w-0 h-0 overflow-hidden opacity-0">
-          {selectedAnnexId && <PdfDownload id={selectedAnnexId} />}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default AnnexForm;
-
-const PdfDownload = ({ id }) => {
+const PdfDownload = () => {
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -123,7 +21,7 @@ const PdfDownload = ({ id }) => {
       setError("");
       try {
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/forms/${id}`,
+          "https://annex.sofinish.co.uk/api/forms/18",
           {
             method: "GET",
             headers: {
@@ -147,43 +45,16 @@ const PdfDownload = ({ id }) => {
     };
 
     fetchFormData();
-  }, [id]);
+  }, []);
 
   // console.log(formRef.current);
 
   const handleDownloadPDF = async () => {
-    const pdfContainer = formRef.current;
-    if (!pdfContainer) return;
-
-    pdfContainer.style.position = "fixed";
-    pdfContainer.style.opacity = "1";
-    pdfContainer.style.width = "auto";
-    pdfContainer.style.height = "auto";
-
-    await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for rendering
-
-    try {
-      const canvas = await html2canvas(pdfContainer, {
-        scale: window.devicePixelRatio || 2, // Increase resolution
-        useCORS: true, // Handle cross-origin images
-        logging: false,
-      });
-
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const imgWidth = 210; // A4 width in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save(`Annex-${id}.pdf`);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
-
-    pdfContainer.style.position = "fixed";
-    pdfContainer.style.opacity = "0";
-    pdfContainer.style.width = "0";
-    pdfContainer.style.height = "0";
+    const canvas = await html2canvas(formRef.current);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
+    pdf.save("waste_shipment_form.pdf");
   };
 
   if (loading) return <p>Loading...</p>;
@@ -566,7 +437,6 @@ const PdfDownload = ({ id }) => {
             <div className="px-24 flex  items-center gap-4">
               <div className="">
                 <Button
-                  id="download-btn"
                   onClick={handleDownloadPDF}
                   variant="contained"
 
@@ -582,3 +452,5 @@ const PdfDownload = ({ id }) => {
     </div>
   );
 };
+
+export default PdfDownload;
