@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -19,8 +19,17 @@ const Form = () => {
     return user_id;
   };
 
+  function generateRandomString() {
+    const prefix = "CMAU";
+    const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // 7-digit random number
+    return prefix + randomNumber;
+  }
+  // const annexid = generateRandomString();
+  // console.log("asjd:---", annexid);
+
   const [formData, setFormData] = useState({
     user_id: generateId(),
+    annex_id: generateRandomString(),
     company_name: "",
     address: "",
     contact_number: "",
@@ -152,7 +161,7 @@ const Form = () => {
     setLoading(true);
     setError("");
     setSuccess("");
-    console.log(formData);
+    // console.log(formData);
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
@@ -275,7 +284,7 @@ const Form = () => {
         setError(data.message || "Failed to create company");
       }
     } catch (error) {
-      console.log("eroor:-", error);
+      // console.log("eroor:-", error);
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
