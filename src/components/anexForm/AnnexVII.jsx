@@ -7,14 +7,16 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // Tick Icon
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
+import { useParams } from "react-router-dom";
 const AnnexVII = () => {
+  const { id } = useParams();
   const [message, setMessage] = useState("");
 
   const sendReminderEmail = async () => {
     setMessage("");
     try {
       const response = await fetch(
-        "https://annex.sofinish.co.uk/api/send-bulk-emails/1",
+        `https://annex.sofinish.co.uk/api/send-bulk-emails/${id}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

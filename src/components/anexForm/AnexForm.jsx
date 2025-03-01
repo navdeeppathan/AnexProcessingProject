@@ -8,6 +8,7 @@ import html2canvas from "html2canvas";
 import { Card, Box, Button, CircularProgress } from "@mui/material";
 
 const AnnexForm = () => {
+  const [loadingpdf, setLoadingpdf] = useState(false);
   const navigate = useNavigate();
   const [forms, setForms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ const AnnexForm = () => {
 
   const handleSettingsClick = (annex_id) => {
     setSelectedAnnexId(annex_id);
+    setLoadingpdf(true);
     setTimeout(() => {
       document.getElementById("download-btn")?.click();
     }, 500); // Set the annex_id to trigger PdfDownload
@@ -59,7 +61,7 @@ const AnnexForm = () => {
           {loading ? (
             <p className="flex flex-col items-center justify-center h-screen">
               <CircularProgress />
-              <p className="text-black font-medium text-xl">waiting...</p>
+              <p className="text-black font-medium text-xl">Loading...</p>
             </p>
           ) : error ? (
             <p className="text-red-500">{error}</p>
@@ -90,7 +92,11 @@ const AnnexForm = () => {
                       className="absolute top-2.5 right-2.5 cursor-pointer"
                       onClick={() => handleSettingsClick(form?.id)}
                     >
-                      <SettingsIcon />
+                      {loadingpdf && selectedAnnexId === form?.id ? (
+                        <CircularProgress color="black" size="30px" />
+                      ) : (
+                        <SettingsIcon />
+                      )}
                     </span>
                   </div>
                 ))
@@ -99,7 +105,13 @@ const AnnexForm = () => {
           )}
         </main>
         <div className="fixed top-0 left-0 w-0 h-0 overflow-hidden opacity-0">
-          {selectedAnnexId && <PdfDownload id={selectedAnnexId} />}
+          {selectedAnnexId && (
+            <PdfDownload
+              id={selectedAnnexId}
+              loadingpdf={loadingpdf}
+              setLoadingpdf={setLoadingpdf}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -108,14 +120,14 @@ const AnnexForm = () => {
 
 export default AnnexForm;
 
-const PdfDownload = ({ id }) => {
+const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const formRef = useRef();
 
-  console.log("formdata", formData?.company_name);
+  // console.log("formdata", id);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -137,7 +149,7 @@ const PdfDownload = ({ id }) => {
         }
 
         const data = await response.json();
-        // console.log("data:-", data);
+        console.log("data:-", data);
         setFormData(data);
       } catch (err) {
         setError(err.message);
@@ -147,7 +159,7 @@ const PdfDownload = ({ id }) => {
     };
 
     fetchFormData();
-  }, [id]);
+  }, []);
 
   // console.log(formRef.current);
 
@@ -176,6 +188,7 @@ const PdfDownload = ({ id }) => {
 
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
       pdf.save(`Annex-${id}.pdf`);
+      setLoadingpdf(false);
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
