@@ -85,14 +85,14 @@ const App = () => {
             // </AuthWrapper>
           }
         />
-        <Route
+        {/* <Route
           path="/pdf-download"
           element={
             // <AuthWrapper>
             <PdfDownload />
             // </AuthWrapper>
           }
-        />
+        /> */}
       </Routes>
     </Router>
   );
