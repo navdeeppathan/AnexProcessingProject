@@ -127,7 +127,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
   const navigate = useNavigate();
   const formRef = useRef();
 
-  console.log("formdata", formData?.company_name);
+  // console.log("formdata", id);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -149,7 +149,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
         }
 
         const data = await response.json();
-        // console.log("data:-", data);
+        console.log("data:-", data);
         setFormData(data);
       } catch (err) {
         setError(err.message);
@@ -159,7 +159,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     };
 
     fetchFormData();
-  }, [id]);
+  }, []);
 
   // console.log(formRef.current);
 
