@@ -36,85 +36,6 @@ const AnnexVII = () => {
       <span className="text-white text-xs">✓</span>
     </div>
   );
-  const steps = [
-    {
-      id: 1,
-      title: "Consignment Information",
-      status: "completed",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 2,
-      title: "Consignee",
-      status: "pending",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 3,
-      title: "(a) First Carrier",
-      status: "pending",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 4,
-      title: "(b) Second Carrier",
-      status: "completed",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 5,
-      title: "(c) Third Carrier",
-      status: "pending",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 6,
-      title: "Waste generator (Original producer/new producer/collector)",
-      status: "pending",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 7,
-      title: "Recovery facility",
-      status: "completed",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 8,
-      title: "Waste Identification (fill in relevant code(s))",
-      status: "pending",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 9,
-      title: "Declaration of the person who arranges the shipment",
-      status: "pending",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 10,
-      title: "Signature upon receipt of the waste by the consignee",
-      status: "completed",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-    {
-      id: 11,
-      title: "Shipment received at recovery facility",
-      status: "pending",
-      name: "Mercosun LTD",
-      phone: "+4221234567899",
-    },
-  ];
 
   //form data
 
@@ -188,18 +109,28 @@ const AnnexVII = () => {
       case "approved":
         return "bg-green-100"; // Green for approved
       case "rejected":
-        return "bg-red-300"; // Red for rejected
+        return "bg-red-300";
+      // Red for rejected
+      case "pending-email":
+        return "bg-[#7D6CC8]";
       default:
         return "bg-white"; // Gray for unknown statuses
     }
   };
 
   const getStatusIcon = (status) => {
-    return status === "completed" ? (
-      <CheckCircleIcon className="text-green-500 text-2xl" />
-    ) : (
-      <RemoveCircleIcon className="text-orange-500 text-2xl" />
-    );
+    switch (status) {
+      case "completed":
+        return <CheckCircleIcon className="text-green-500 text-2xl" />;
+      case "pending":
+        return <RemoveCircleIcon className="text-orange-500 text-2xl" />;
+      case "pending-email":
+        return <MailIcon className="text-[#7D6CC8] text-2xl" />;
+      case "success-email":
+        return <MailIcon className="text-green-500 text-2xl" />;
+      default:
+        return;
+    }
   };
 
   return (
@@ -301,7 +232,7 @@ const AnnexVII = () => {
                             </p>
                           </div>
                           <div className="flex justify-end mt-auto">
-                            {getStatusIcon()}
+                            {getStatusIcon("pending")}
                           </div>
                         </div>
                       </Box>
@@ -371,7 +302,7 @@ const AnnexVII = () => {
                               </p>
                             </div>
                             <div className="flex justify-end mt-auto">
-                              {getStatusIcon()}
+                              {getStatusIcon("pending")}
                             </div>
                           </div>
                         </Box>
@@ -513,7 +444,7 @@ const AnnexVII = () => {
                             </p>
                           </div>
                           <div className="flex justify-end mt-auto">
-                            {getStatusIcon("completed")}
+                            {getStatusIcon("pending")}
                           </div>
                         </div>
                       </Box>
@@ -566,7 +497,7 @@ const AnnexVII = () => {
                           </div>
 
                           <div className="flex justify-end mt-auto">
-                            {getStatusIcon("completed")}
+                            {getStatusIcon("pending")}
                           </div>
                         </div>
                       </Box>
@@ -597,7 +528,7 @@ const AnnexVII = () => {
                             </div>
                           </div>
                           <div className="flex justify-end mt-auto">
-                            {getStatusIcon()}
+                            {getStatusIcon("completed")}
                           </div>
                         </div>
                       </Box>
@@ -631,7 +562,7 @@ const AnnexVII = () => {
                             </div>
                           </div>
                           <div className="flex justify-end mt-auto">
-                            {getStatusIcon()}
+                            {getStatusIcon("pending")}
                           </div>
                         </div>
                       </Box>
@@ -709,8 +640,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("success-email")}
+                    {getStatusIcon("completed")}
                   </div>
                 </div>
                 {/* 2 */}
@@ -731,8 +662,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("pending-email")}
+                    {getStatusIcon("pending")}
                   </div>
                 </div>
                 {/* 3 */}
@@ -760,8 +691,8 @@ const AnnexVII = () => {
 
                     {/* Right Side Icons */}
                     <div className="flex space-x-2">
-                      <MailIcon className="text-green-500 text-2xl" />
-                      <CheckCircleIcon className="text-green-500 text-2xl" />
+                      {getStatusIcon("pending-email")}
+                      {getStatusIcon("pending")}
                     </div>
                   </div>
                 ))}
@@ -786,8 +717,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("pending-email")}
+                    {getStatusIcon("pending")}
                   </div>
                 </div>
                 {/* 5 */}
@@ -807,8 +738,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("success-email")}
+                    {getStatusIcon("completed")}
                   </div>
                 </div>
                 {/* 6 */}
@@ -831,8 +762,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("pending-email")}
+                    {getStatusIcon("pending")}
                   </div>
                 </div>
                 {/* 7 */}
@@ -854,8 +785,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("pending-email")}
+                    {getStatusIcon("pending")}
                   </div>
                 </div>
                 {/* 8 */}
@@ -875,8 +806,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("success-email")}
+                    {getStatusIcon("completed")}
                   </div>
                 </div>
 
@@ -897,8 +828,8 @@ const AnnexVII = () => {
 
                   {/* Right Side Icons */}
                   <div className="flex space-x-2">
-                    <MailIcon className="text-green-500 text-2xl" />
-                    <CheckCircleIcon className="text-green-500 text-2xl" />
+                    {getStatusIcon("pending-email")}
+                    {getStatusIcon("pending")}
                   </div>
                 </div>
               </div>
