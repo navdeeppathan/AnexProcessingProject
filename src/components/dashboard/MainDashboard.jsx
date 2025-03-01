@@ -1,74 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MainDashboard.css";
 import { useNavigate } from "react-router-dom";
-const companies = [
-  {
-    id: 1,
-    anex: "CMAU2312086",
-    total: "07",
-    pending: "02",
-    complete: "02",
-    status: "Active",
-  },
-  {
-    id: 2,
-    anex: "CMAU2312086",
-    total: "07",
-    pending: "02",
-    complete: "02",
-    status: "Active",
-  },
-  {
-    id: 3,
-    anex: "CMAU2312086",
-    total: "07",
-    pending: "02",
-    complete: "02",
-    status: "Active",
-  },
-  {
-    id: 4,
-    anex: "CMAU2312086",
-    total: "07",
-    pending: "02",
-    complete: "02",
-    status: "Active",
-  },
-  {
-    id: 5,
-    anex: "CMAU2312086",
-    total: "07",
-    pending: "02",
-    complete: "02",
-    status: "Block",
-  },
-  {
-    id: 6,
-    anex: "CMAU2312086",
-    total: "07",
-    pending: "02",
-    complete: "02",
-    status: "Block",
-  },
-  {
-    id: 7,
-    anex: "CMAU2312086",
-    total: "07",
-    pending: "02",
-    complete: "02",
-    status: "Block",
-  },
-];
+import { Button } from "@mui/material";
 
 const MainDashboard = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchFormData = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const response = await fetch(`https://annex.sofinish.co.uk/api/forms`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // console.log("data:-", data);
+        setFormData(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFormData();
+  }, []);
+  if (loading) {
+    <p className="flex flex-col items-center justify-center h-screen">
+      <CircularProgress />
+      <p className="text-black font-medium text-xl">waiting...</p>
+    </p>;
+  }
+  if (error) return <p>Error: {error}</p>;
   return (
     <div>
       <div>
         <main className="flex-1 p-5 bg-[#f4f4f9]">
           <header className="flex items-center justify-between">
             <h2 className="text-3xl font-bold">Dashboard</h2>
-            <button className="create-btn" onClick={() => navigate("/dashboard/annex-form")}>Create ANNEX Form</button>
+            <button
+              className="create-btn"
+              onClick={() => navigate("/dashboard/annex-form")}
+            >
+              Create ANNEX Form
+            </button>
           </header>
           <div className="stats-cards">
             <div className="card blue">
@@ -97,33 +84,39 @@ const MainDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {companies.map((company) => (
-                <tr key={company.id}>
-                  <td>{company.anex}</td>
+              {formData.map((company) => (
+                <tr key={company?.id}>
+                  <td>CMAU2312086</td>
                   <td>
-                    <span className="total">{company.total}</span>
+                    <span className="total">07</span>
                   </td>
                   <td>
-                    <span className="pending">{company.pending}</span>
+                    <span className="pending">02</span>
                   </td>
                   <td>
-                    <span className="complete">{company.complete}</span>
+                    <span className="complete">02</span>
                   </td>
                   <td>
-                    <span
-                      className={`status ${
-                        company.status === "Active" ? "active" : "block"
-                      }`}
-                    >
-                      {company.status}
-                    </span>
+                    <span className={`status ${"active"}`}>Active</span>
                   </td>
                   <td>
                     <span className="edit">✏️</span>
                     <span className="delete">🗑️</span>
                   </td>
                   <td>
-                    <button className="view-profile">View Profile</button>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#6b46c1",
+                        fontSize: "10px",
+                        textTransform: "none",
+                      }}
+                      onClick={() =>
+                        navigate(`/dashboard/anexV/${company?.id}`)
+                      }
+                    >
+                      View Profile
+                    </Button>
                   </td>
                 </tr>
               ))}

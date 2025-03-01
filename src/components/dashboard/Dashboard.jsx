@@ -38,7 +38,7 @@ const Dashboard = () => {
             <Route path="/annex-form" element={<Form />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/edit-profile" element={<EditProfile />} />
-            <Route path="/anexV" element={<AnnexVII />} />
+            <Route path="/anexV/:id" element={<AnnexVII />} />
             <Route path="/annex-form2" element={<AnnexForm />} />
           </Routes>
         </div>
