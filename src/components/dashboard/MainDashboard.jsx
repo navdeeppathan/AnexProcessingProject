@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MainDashboard.css";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-
+import { CircularProgress } from "@mui/material";
 const MainDashboard = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
@@ -84,43 +84,40 @@ const MainDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {formData.map((company) => (
-                <tr key={company?.id}>
-                  <td>CMAU2312086</td>
-                  <td>
-                    <span className="total">07</span>
-                  </td>
-                  <td>
-                    <span className="pending">02</span>
-                  </td>
-                  <td>
-                    <span className="complete">02</span>
-                  </td>
-                  <td>
-                    <span className={`status ${"active"}`}>Active</span>
-                  </td>
-                  <td>
-                    <span className="edit">✏️</span>
-                    <span className="delete">🗑️</span>
-                  </td>
-                  <td>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        bgcolor: "#6b46c1",
-                        fontSize: "10px",
-                        textTransform: "none",
-                      }}
-                      onClick={() =>
-                        navigate(`/dashboard/anexV/${company?.id}`)
-                      }
-                    >
-                      View Profile
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+                {formData && Array.isArray(formData) ? (
+                  formData.map((company) => (
+                    <tr key={company?.id}>
+                      <td>CMAU2312086</td>
+                      <td><span className="total">07</span></td>
+                      <td><span className="pending">02</span></td>
+                      <td><span className="complete">02</span></td>
+                      <td><span className={`status ${"active"}`}>Active</span></td>
+                      <td>
+                        <span className="edit">✏️</span>
+                        <span className="delete">🗑️</span>
+                      </td>
+                      <td>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            bgcolor: "#6b46c1",
+                            fontSize: "10px",
+                            textTransform: "none",
+                          }}
+                          onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
+                        >
+                          View Profile
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="text-center">No data available</td>
+                  </tr>
+                )}
             </tbody>
+
           </table>
         </main>
       </div>

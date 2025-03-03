@@ -107,9 +107,9 @@ const AnnexVII = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":
-        return "bg-amber-100"; // Yellow for pending
+        return "bg-[#FFF5EC]"; // Yellow for pending
       case "approved":
-        return "bg-green-100"; // Green for approved
+        return "bg-[#EEF8EC]"; // Green for approved
       case "rejected":
         return "bg-red-300";
       // Red for rejected
