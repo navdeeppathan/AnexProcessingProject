@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { Card, Box, Button } from "@mui/material";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { Card, Box, Button, CircularProgress } from "@mui/material";
 import SimpleHeader from "../utils/SimpleHeader";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const PDFMakerOrgnl = () => {
   const [formData, setFormData] = useState(null);
@@ -13,42 +15,51 @@ const PDFMakerOrgnl = () => {
   const navigate = useNavigate();
   const formRef = useRef();
 
-  console.log("formdata", formData?.company_name);
+  const [formId, setFormId] = useState(null);
+  console.log("formdata", formData);
 
   useEffect(() => {
-    const fetchFormData = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const response = await fetch(
-          "https://annex.sofinish.co.uk/api/forms/18",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        // console.log("data:-", data);
-        setFormData(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFormData();
+    const storedData = localStorage.getItem("formData");
+    const storedData2 = JSON.parse(storedData);
+    const data = storedData2.data;
+    setFormData(data);
   }, []);
 
+  // useEffect(() => {
+  //   const fetchFormData = async () => {
+  //     setLoading(true);
+  //     setError("");
+  //     try {
+  //       const response = await fetch(
+  //         "https://annex.sofinish.co.uk/api/forms/18",
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+
+  //       const data = await response.json();
+  //       // console.log("data:-", data);
+  //       setFormData(data);
+  //     } catch (err) {
+  //       setError(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchFormData();
+  // }, []);
+
   const handleDigitalSignature = () => {
-    navigate("/digital-signature");
+    // localStorage.setItem("formId", formId);
+    navigate(`/digital-signature`);
   };
 
   // console.log(formRef.current);
@@ -61,9 +72,23 @@ const PDFMakerOrgnl = () => {
     pdf.save("waste_shipment_form.pdf");
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-
+  // if (loading)
+  //   return (
+  //     <p className="flex flex-col items-center justify-center h-screen">
+  //       <CircularProgress />
+  //       <p className="text-black font-medium text-xl">Loading...</p>
+  //     </p>
+  //   );
+  // if (error) return <p>Error: {error}</p>;
+  // if (error)
+  //   return (
+  //     <p className="flex flex-col items-center justify-center h-screen">
+  //       <ErrorOutlineIcon />
+  //       <p className="text-black font-medium text-xl">
+  //         <p>Error: {error}</p>
+  //       </p>
+  //     </p>
+  //   );
   const ordinalSuffix = (num) => {
     const suffixes = [
       "First",
@@ -79,6 +104,64 @@ const PDFMakerOrgnl = () => {
     ];
     return suffixes[num] || `${num + 1}th`; // Fallback for large numbers
   };
+
+  const base64ToFile = (base64String, fileName) => {
+    const arr = base64String.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName, { type: mime });
+  };
+
+  let emailData = localStorage.getItem("emailData");
+
+  let img = localStorage.getItem("savedSignature");
+  const file = base64ToFile(img, "signature.png");
+
+  const handleForm = async (id) => {
+    // setFormId(id);
+
+    const formData2 = new FormData();
+    formData2.append("form_id", id);
+    formData2.append("signed_by", emailData);
+    formData2.append("signature", file);
+
+    // console.log(formData2);
+
+    try {
+      // console.log("clicked");
+
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/signatures",
+        {
+          method: "POST",
+          body: formData2, // Send FormData
+        }
+      );
+
+      const result = await response.json();
+      console.log("dskjbhhgjsdlalg:-", result);
+      if (response.ok) {
+        Swal.fire("Success", "Signature uploaded successfully", "success");
+        localStorage.removeItem("savedSignature");
+        navigate("/thankyou");
+      } else {
+        Swal.fire(
+          "Error",
+          result.message || "Failed to upload signature",
+          "error"
+        );
+      }
+    } catch (error) {
+      Swal.fire("Error", "Network error", "error");
+    }
+  };
+  console.log(formId);
+
   return (
     <div>
       <div>
@@ -166,153 +249,179 @@ const PDFMakerOrgnl = () => {
                         5.({String.fromCharCode(97 + index)}){" "}
                         {ordinalSuffix(index)} Carrier
                       </h3>
-                      <p>
-                        <strong>Name:</strong> {data?.name}
-                      </p>
-                      <p>
-                        <strong>Address:</strong>
-                        {data?.address}
-                      </p>
-                      <p>
-                        <strong>Contact Person:</strong>
-                        {data?.contact_person}
-                      </p>
-                      <p>
-                        <strong>Tel:</strong>
-                        {data?.phone}
-                      </p>
-                      <p>
-                        <strong>Fax:</strong>
-                        {data?.fax}
-                      </p>
-                      <p>
-                        <strong>Email:</strong>
-                        {data?.email}
-                      </p>
-                      <p>
-                        <strong>Means of Transport:</strong>
-                        {data?.means_of_transport}
-                      </p>
-                      <p>
-                        <strong>Date of Transfer:</strong>
-                        {data?.date_of_transport}
-                      </p>
-                      <p>
-                        <strong>Signature:</strong>
-                        (signed)
-                      </p>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p>
+                            <strong>Name:</strong> {data?.name}
+                          </p>
+                          <p>
+                            <strong>Address:</strong>
+                            {data?.address}
+                          </p>
+                          <p>
+                            <strong>Contact Person:</strong>
+                            {data?.contact_person}
+                          </p>
+                          <p>
+                            <strong>Tel:</strong>
+                            {data?.phone}
+                          </p>
+                          <p>
+                            <strong>Fax:</strong>
+                            {data?.fax}
+                          </p>
+                          <p>
+                            <strong>Email:</strong>
+                            {data?.email}
+                          </p>
+                          <p>
+                            <strong>Means of Transport:</strong>
+                            {data?.means_of_transport}
+                          </p>
+                          <p>
+                            <strong>Date of Transfer:</strong>
+                            {data?.date_of_transport}
+                          </p>
+                          <p>
+                            <strong>Signature:</strong>
+                            (signed)
+                          </p>
+                        </div>
+                        {data?.email === emailData && (
+                          <img
+                            src={img}
+                            alt="Signature"
+                            className="h-12 cursor-pointer"
+                          />
+                        )}
+                      </div>
                     </Box>
                   ))}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
-                  <Box className="border  p-4">
-                    <h3 className="font-semibold">
-                      6. Waste generator (Original producer/new
-                      producer/collector):
-                    </h3>
-                    <p>
-                      <strong>Name:</strong>
-                      {item?.waste_processor_name}
-                    </p>
-                    <p>
-                      <strong>Address:</strong>
-                      {item?.waste_processor_address}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Contact Person:</strong>
-                      {item?.waste_processor_contact_person}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Mobile:</strong>
-                      {item?.waste_processor_tel}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Email:</strong>
-                      {item?.waste_processor_email}
-                    </p>
-                  </Box>
-                  <div className="grid grid-cols-1 ">
-                    <Box className="border  p-4">
-                      <h3 className="font-semibold">
-                        8. Recovery operation (or if appropriate disposal
-                        operation in the case of waste referred to in Article
-                        3(4)):
-                      </h3>
-                      <p>{item?.recovery_operation_name}</p>
-                    </Box>
-                    <Box className="border  p-4">
-                      <h3 className="font-semibold">
-                        9. Usual description of the waste:
-                      </h3>
-                      <p>{item?.usual_des_of_the_waste}</p>
-                    </Box>
-                  </div>
-                </div>
+                {item?.waste_generator.map((data, index) => (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 ">
+                      <Box className="border  p-4">
+                        <h3 className="font-semibold">
+                          6. Waste generator (Original producer/new
+                          producer/collector):
+                        </h3>
+                        <p>
+                          <strong>Name:</strong>
+                          {data?.name}
+                        </p>
+                        <p>
+                          <strong>Address:</strong>
+                          {data?.address}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Contact Person:</strong>
+                          {data?.contact_person}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Mobile:</strong>
+                          {data?.mobile}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Email:</strong>
+                          {data?.email}
+                        </p>
+                      </Box>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
-                  <Box className="border  p-4">
-                    <h3 className="font-semibold">7. Recovery facility:</h3>
-                    <p>
-                      <strong className="mr-2">Name:</strong>
-                      {item?.processing_facility_name}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Address:</strong>
-                      {item?.processing_facility_address}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Contact Person:</strong>
-                      {item?.processing_facility_contact_per}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Tel:</strong>
-                      {item?.processing_facility_tel}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Fax:</strong>
-                      {item?.processing_facility_fax}
-                    </p>
-                    <p>
-                      <strong className="mr-2">Email:</strong>
-                      {item?.processing_facility_email}
-                    </p>
-                  </Box>
+                      <div className="grid grid-cols-1 ">
+                        <Box className="border  p-4">
+                          <h3 className="font-semibold">
+                            8. Recovery operation (or if appropriate disposal
+                            operation in the case of waste referred to in
+                            Article 3(4)):
+                          </h3>
+                          <p>{item?.recovery_operation_name}</p>
+                        </Box>
+                        <Box className="border  p-4">
+                          <h3 className="font-semibold">
+                            9. Usual description of the waste:
+                          </h3>
+                          <p>{item?.usual_des_of_the_waste}</p>
+                        </Box>
+                      </div>
+                    </div>
 
-                  <Box className="border p-4">
-                    <h3 className="font-semibold">
-                      10. Waste identification (fill in relevant codes):
-                    </h3>
-                    <p className="mr-2">
-                      <strong>(i) Basel Annex IX:</strong>
-                      {item?.basel_annex_ix}
-                    </p>
-                    <p className="mr-2">
-                      <strong>(ii) OECD (if different from (i) )</strong>
-                      {item?.oecd_ii}
-                    </p>
-                    <p className="mr-2">
-                      <strong>(iii) Annex IIA(4)</strong>
-                      {item?.annex_iia4}
-                    </p>
-                    <p className="mr-2">
-                      <strong>(iv) Annex IIIA(5)</strong>
-                      {item?.annex_iia5}
-                    </p>
-                    <p className="mr-2">
-                      <strong>(v) EC list of wastes:</strong>
-                      {item?.ec_list_of_wastes}
-                    </p>
-                    <p className="mr-2">
-                      <strong>(vi) National code:</strong>
-                      {item?.national_code}
-                    </p>
-                    <p className="mr-2">
-                      <strong>(vii) Other (specify): HS CODE: 26201900:</strong>
-                      {item?.other_specify}
-                    </p>
-                  </Box>
-                </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 ">
+                      <Box className="border  p-4">
+                        <h3 className="font-semibold">7. Recovery facility:</h3>
+                        <p>
+                          <strong className="mr-2">Name:</strong>
+                          {data?.recovery_name}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Address:</strong>
+                          {data?.recovery_address}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Contact Person:</strong>
+                          {data?.recovery_contact}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Tel:</strong>
+                          {data?.recovery_tel}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Fax:</strong>
+                          {data?.recovery_fax}
+                        </p>
+                        <p>
+                          <strong className="mr-2">Email:</strong>
+                          {item?.recovery_email}
+                        </p>
+                      </Box>
 
+                      <Box className="border p-4">
+                        <h3 className="font-semibold">
+                          10. Waste identification (fill in relevant codes):
+                        </h3>
+                        <div>
+                          {/* Waste Identification Codes */}
+
+                          <div className="space-y-2.5">
+                            <p className="mr-2">
+                              <strong>(i) Basel Annex IX:</strong>{" "}
+                              {item?.basel_annex_ix}
+                            </p>
+
+                            <p className="mr-2">
+                              <strong>
+                                (ii) OECD (if different from (i)):
+                              </strong>{" "}
+                              {item?.oecd_ii}
+                            </p>
+                            <p className="mr-2">
+                              <strong>(iii) Annex IIA(4):</strong>{" "}
+                              {item?.annex_iia4}
+                            </p>
+                            <p className="mr-2">
+                              <strong>(iv) Annex IIIA(5):</strong>{" "}
+                              {item?.annex_iia5}
+                            </p>
+                            <p className="mr-2">
+                              <strong>(v) EC list of wastes:</strong>{" "}
+                              {item?.ec_list_of_wastes}
+                            </p>
+                            <p className="mr-2">
+                              <strong>(vi) National code:</strong>{" "}
+                              {item?.national_code}
+                            </p>
+                            <p className="mr-2">
+                              <strong>
+                                (vii) Other (specify): HS CODE: 26201900:
+                              </strong>{" "}
+                              {item?.other_specify}
+                            </p>
+                          </div>
+                        </div>
+                      </Box>
+                    </div>
+                  </>
+                ))}
                 <div className="grid grid-cols-1 ">
                   <Box className="border  p-4">
                     <h3 className="font-semibold">
@@ -450,6 +559,7 @@ const PDFMakerOrgnl = () => {
                 <Button
                   variant="contained"
                   onClick={handleDigitalSignature}
+                  // onClick={handleDigitalSignature(item.annex_id)}
                   sx={{ bgcolor: "#5C75C5" }}
                 >
                   Digital signature
@@ -460,17 +570,17 @@ const PDFMakerOrgnl = () => {
                 <span className="text-gray-600">
                   Drag your signature and place in your box
                 </span>
-                {/* {signature && (
+
                 <img
-                  src={signature}
+                  src={img}
                   alt="Signature"
                   className="h-12 cursor-pointer"
                 />
-              )} */}
               </div>
               <div>
                 <Button
-                  onClick={handleDownloadPDF}
+                  // onClick={handleDownloadPDF}
+                  onClick={() => handleForm(item.id)}
                   variant="contained"
                   // disabled
                 >

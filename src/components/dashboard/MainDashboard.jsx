@@ -40,7 +40,7 @@ const MainDashboard = () => {
   if (loading) {
     <p className="flex flex-col items-center justify-center h-screen">
       <CircularProgress />
-      <p className="text-black font-medium text-xl">waiting...</p>
+      <p className="text-black font-medium text-xl">Loading...</p>
     </p>;
   }
   if (error) return <p>Error: {error}</p>;
@@ -84,40 +84,51 @@ const MainDashboard = () => {
               </tr>
             </thead>
             <tbody>
-                {formData && Array.isArray(formData) ? (
-                  formData.map((company) => (
-                    <tr key={company?.id}>
-                      <td>CMAU2312086</td>
-                      <td><span className="total">07</span></td>
-                      <td><span className="pending">02</span></td>
-                      <td><span className="complete">02</span></td>
-                      <td><span className={`status ${"active"}`}>Active</span></td>
-                      <td>
-                        <span className="edit">✏️</span>
-                        <span className="delete">🗑️</span>
-                      </td>
-                      <td>
-                        <Button
-                          variant="contained"
-                          sx={{
-                            bgcolor: "#6b46c1",
-                            fontSize: "10px",
-                            textTransform: "none",
-                          }}
-                          onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
-                        >
-                          View Profile
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="7" className="text-center">No data available</td>
+              {formData && Array.isArray(formData) ? (
+                formData.map((company) => (
+                  <tr key={company?.id}>
+                    <td>CMAU2312086</td>
+                    <td>
+                      <span className="total">07</span>
+                    </td>
+                    <td>
+                      <span className="pending">02</span>
+                    </td>
+                    <td>
+                      <span className="complete">02</span>
+                    </td>
+                    <td>
+                      <span className={`status ${"active"}`}>Active</span>
+                    </td>
+                    <td>
+                      <span className="edit">✏️</span>
+                      <span className="delete">🗑️</span>
+                    </td>
+                    <td>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          bgcolor: "#6b46c1",
+                          fontSize: "10px",
+                          textTransform: "none",
+                        }}
+                        onClick={() =>
+                          navigate(`/dashboard/anexV/${company?.id}`)
+                        }
+                      >
+                        View Profile
+                      </Button>
+                    </td>
                   </tr>
-                )}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center">
+                    No data available
+                  </td>
+                </tr>
+              )}
             </tbody>
-
           </table>
         </main>
       </div>

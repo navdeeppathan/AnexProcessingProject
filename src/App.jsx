@@ -14,6 +14,7 @@ import PDFMakerOrgnl from "./components/pdfMaker/PDFMakerOrgnl";
 import ThirdCarrierForm from "./components/auth/createCompany/Test";
 import OTPVerification2 from "./components/auth/login/otpverify";
 import PdfDownload from "./components/auth/createCompany/PdfDownload";
+import ThankyouPage from "./components/Thankyou/ThankyouPage";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -85,14 +86,14 @@ const App = () => {
             // </AuthWrapper>
           }
         />
-        {/* <Route
-          path="/pdf-download"
+        <Route
+          path="/thankyou"
           element={
             // <AuthWrapper>
-            <PdfDownload />
+            <ThankyouPage />
             // </AuthWrapper>
           }
-        /> */}
+        />
       </Routes>
     </Router>
   );

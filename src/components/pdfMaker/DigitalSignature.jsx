@@ -4,8 +4,10 @@ import SignatureCanvas from "react-signature-canvas";
 import SimpleHeader from "../utils/SimpleHeader";
 import { Box, Button } from "@mui/material";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const DigitalSignature = () => {
+  const navigate = useNavigate();
   const getUserFromLocalStorage = () => {
     const userData = localStorage.getItem("user");
     return userData ? JSON.parse(userData) : null;
@@ -41,6 +43,17 @@ const DigitalSignature = () => {
       const signature = sigPad.current.toDataURL();
       setSignatureData(signature);
       localStorage.setItem("savedSignature", signature);
+
+      //
+      // const signatures = signatureData || uploadedSignature;
+      // if (!signatures) {
+      //   Swal.fire("Error", "No signature to upload", "error");
+      //   return;
+      // }
+      // Convert Base64 to File
+
+      // localStorage.setItem("signaturesImg", signatureData);
+      navigate(-1);
     }
   };
 
@@ -59,50 +72,31 @@ const DigitalSignature = () => {
       Swal.fire("Error", "User ID not found", "error");
       return;
     }
-  
-    const signatures = signatureData || uploadedSignature;
-    if (!signatures) {
-      Swal.fire("Error", "No signature to upload", "error");
-      return;
-    }
-  
-    // Convert Base64 to File
-    const file = base64ToFile(signatures, "signature.png");
-  
-    // Prepare FormData
-    const formData = new FormData();
-    formData.append("signature", file);
-    formData.append("user_id", userId);
-  
-    try {
-      const response = await fetch("https://annex.sofinish.co.uk/api/signatures", {
-        method: "POST",
-        body: formData, // Send FormData
-      });
-  
-      const result = await response.json();
-      if (response.ok) {
-        Swal.fire("Success", "Signature uploaded successfully", "success");
-      } else {
-        Swal.fire("Error", result.message || "Failed to upload signature", "error");
-      }
-    } catch (error) {
-      Swal.fire("Error", "Network error", "error");
-    }
+
+    // try {
+    //   const response = await fetch(
+    //     "https://annex.sofinish.co.uk/api/signatures",
+    //     {
+    //       method: "POST",
+    //       body: formData, // Send FormData
+    //     }
+    //   );
+
+    //   const result = await response.json();
+    //   if (response.ok) {
+    //     Swal.fire("Success", "Signature uploaded successfully", "success");
+    //   } else {
+    //     Swal.fire(
+    //       "Error",
+    //       result.message || "Failed to upload signature",
+    //       "error"
+    //     );
+    //   }
+    // } catch (error) {
+    //   Swal.fire("Error", "Network error", "error");
+    // }
   };
-  
-  const base64ToFile = (base64String, fileName) => {
-    const arr = base64String.split(",");
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], fileName, { type: mime });
-  };
-  
+
   return (
     <div className="bg-gray-100">
       <SimpleHeader />
@@ -119,6 +113,11 @@ const DigitalSignature = () => {
       >
         <div>
           <div className="relative rounded-lg p-4">
+            {/* Corner Borders */}
+            <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-gray-400"></div>
+            <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-gray-400"></div>
+            <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-gray-400"></div>
+            <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-gray-400"></div>
             <SignatureCanvas
               ref={sigPad}
               penColor="black"

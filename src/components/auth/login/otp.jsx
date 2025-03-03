@@ -104,8 +104,8 @@ const OTPVerification = () => {
       );
 
       const data = await response.json();
-      // console.log("verify-data", data);
-      if (data.message) {
+      console.log("verify-data", data);
+      if (data.success === true) {
         Swal.fire({
           title: "Success!",
           text: data.message,
@@ -113,6 +113,8 @@ const OTPVerification = () => {
           timer: 2000,
           showConfirmButton: false,
         }).then(() => {
+          localStorage.setItem("formData", JSON.stringify(data));
+          localStorage.setItem("emailData", emaildata);
           window.location.href = "/pdf-maker";
         });
       }
