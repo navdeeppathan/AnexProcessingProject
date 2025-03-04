@@ -4,22 +4,32 @@ import "./otpverify.css"; // Style file
 import Swal from "sweetalert2";
 import DashboardHeader from "../../utils/DashboardHeader";
 import SimpleHeader from "../../utils/SimpleHeader";
-import { ImgContainer } from "../../../assets/ImgContainer";
 
 const OTPVerification = () => {
-  const { emaildata } = useParams();
-  console.log(emaildata);
-
-  useEffect(() => {
-    if (emaildata) {
-      sendOTP();
-    }
-  }, [emaildata]); // Added emaildata as a dependency
-
+  const { emaildata } = useParams(); // Get Base64-encoded email from URL
+  const [decodedEmail, setDecodedEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const inputRefs = [useRef(), useRef(), useRef(), useRef()];
+
+  // Decode Base64 function
+  const decodeBase64 = (encodedEmail) => {
+    try {
+      return atob(encodedEmail);
+    } catch (error) {
+      console.error("Invalid Base64 string:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    if (emaildata) {
+      const decoded = decodeBase64(emaildata);
+      setDecodedEmail(decoded);
+      sendOTP(decoded);
+    }
+  }, [emaildata]); // Runs when emaildata changes
 
   // Handle OTP Input Change
   const handleChange = (index, event) => {
@@ -44,9 +54,9 @@ const OTPVerification = () => {
   };
 
   // Send OTP API
-  const sendOTP = async () => {
-    if (!emaildata) {
-      setMessage("Please enter an email address.");
+  const sendOTP = async (email) => {
+    if (!email) {
+      setMessage("Invalid email.");
       return;
     }
 
@@ -55,17 +65,15 @@ const OTPVerification = () => {
 
     try {
       const response = await fetch(
-        `https://annex.sofinish.co.uk/api/send-otp/${emaildata}`, // Corrected URL
+        `https://annex.sofinish.co.uk/api/send-otp/${email}`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
 
       const data = await response.json();
-      console.log("email data:-", data);
+      console.log("email data:", data);
       if (response.ok) {
         setMessage("OTP sent successfully!");
       } else {
@@ -96,10 +104,8 @@ const OTPVerification = () => {
         "https://annex.sofinish.co.uk/api/verify-otp",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: emaildata, otp: otpCode }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: decodedEmail, otp: otpCode }),
         }
       );
 
@@ -114,9 +120,11 @@ const OTPVerification = () => {
           showConfirmButton: false,
         }).then(() => {
           localStorage.setItem("formData", JSON.stringify(data));
-          localStorage.setItem("emailData", emaildata);
+          localStorage.setItem("emailData", decodedEmail);
           window.location.href = "/pdf-maker";
         });
+      } else {
+        setMessage(data.message || "OTP verification failed.");
       }
     } catch (error) {
       setMessage("Network error. Please try again.");
@@ -127,25 +135,20 @@ const OTPVerification = () => {
 
   return (
     <div>
-      <div>
-        <SimpleHeader />
-      </div>
+      <SimpleHeader />
       <div className="flex flex-col items-center mt-36 space-y-8">
         <div className="flex flex-col items-center space-y-2">
           <img
             src="/image.png"
             alt="Email Icon"
-            // className="email-icon"
             className="w-24 h-24"
           />
           <h2 className="text-xl font-bold">Verify your email</h2>
           <div className="flex space-x-2">
-            <p>Please enter the 4 digit code sent to</p>
-            <p>{emaildata}</p>
+            <p>Please enter the 4-digit code sent to</p>
+            <p>{decodedEmail}</p>
           </div>
         </div>
-
-        {/* <p>{message}</p> */}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="otp-inputs">
@@ -161,11 +164,8 @@ const OTPVerification = () => {
               />
             ))}
           </div>
-          {/* <button onClick={sendOTP} className="send-otp-btn" disabled={loading}>
-            {loading ? "Sending..." : "Send OTP"}
-          </button> */}
           <div className="flex flex-col items-center">
-            <p className="text-[#6d4db0] cursor-pointer" onClick={sendOTP}>
+            <p className="text-[#6d4db0] cursor-pointer" onClick={() => sendOTP(decodedEmail)}>
               Resend Code
             </p>
 
