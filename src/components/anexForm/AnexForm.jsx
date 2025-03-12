@@ -15,10 +15,15 @@ const AnnexForm = () => {
   const [error, setError] = useState(null);
   const [selectedAnnexId, setSelectedAnnexId] = useState(null);
   // Fetch forms from API
+  const user = localStorage.getItem("user");
+  const userId = JSON.parse(user);
+  console.log(userId?.id);
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch("https://annex.sofinish.co.uk/api/forms");
+        const response = await fetch(
+          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.id}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch forms");
         }
