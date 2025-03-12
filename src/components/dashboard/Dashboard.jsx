@@ -9,6 +9,7 @@ import EditProfile from "../profile/EditProfile";
 import AnnexVII from "../anexForm/AnnexVII";
 import AnnexForm from "../anexForm/AnexForm";
 import Sidebar from "../utils/Sidebar";
+import Draft from "../Draft/Draft";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Dashboard = () => {
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/anexV/:id" element={<AnnexVII />} />
             <Route path="/annex-form2" element={<AnnexForm />} />
+            {/* <Route path="/draft" element={<Draft />} /> */}
           </Routes>
         </div>
       </div>

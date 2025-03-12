@@ -11,6 +11,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EmailIcon from "@mui/icons-material/Email";
 import AddIcon from "@mui/icons-material/Add";
+import DraftsIcon from "@mui/icons-material/Drafts";
 
 const Form = () => {
   const generateId = () => {
@@ -30,6 +31,7 @@ const Form = () => {
   const [formData, setFormData] = useState({
     user_id: generateId(),
     annex_id: generateRandomString(),
+
     company_name: "",
     address: "",
     contact_number: "",
@@ -43,18 +45,23 @@ const Form = () => {
     contPerson: "",
     fax2: "",
     email2: "",
+    //
+    shipment_facility_name: "",
+    shipment_facility_date: "",
 
     //
     public_agency: "",
     //
     number_of_shipments: 0,
+    weight: 0,
+
     //
     aShipdate: "",
     //
 
-    preferred_carrier_name: "",
-    preferred_carrier_arrival_date: "",
-    preferred_carrier_departure_date: "",
+    // preferred_carrier_name: "",
+    // preferred_carrier_arrival_date: "",
+    // preferred_carrier_departure_date: "",
     //
     waste_processor_name: "",
     waste_processor_address: "",
@@ -132,20 +139,22 @@ const Form = () => {
 
   // Add a new empty carrier to the list
   const addCarrier = () => {
-    setCarriers([
-      ...carriers,
-      {
-        name: "",
-        address: "",
-        contact_person: "",
-        phone: "",
-        fax: "",
-        email: "",
-        means_of_transport: "",
-        date_of_transport: "",
-        departure_date: "",
-      },
-    ]);
+    if (carriers.length < 5) {
+      setCarriers([
+        ...carriers,
+        {
+          name: "",
+          address: "",
+          contact_person: "",
+          phone: "",
+          fax: "",
+          email: "",
+          means_of_transport: "",
+          date_of_transport: "",
+          departure_date: "",
+        },
+      ]);
+    }
   };
 
   // Remove a carrier by index
@@ -186,7 +195,6 @@ const Form = () => {
       console.log("dataform submit:", data);
       if (response.ok) {
         setSuccess("Company created successfully!");
-
         setFormData({
           company_name: "",
           address: "",
@@ -206,13 +214,15 @@ const Form = () => {
           public_agency: "",
           //
           number_of_shipments: 0,
+          weight: 0,
+
           //
           aShipdate: "",
           //
 
-          preferred_carrier_name: "",
-          preferred_carrier_arrival_date: "",
-          preferred_carrier_departure_date: "",
+          // preferred_carrier_name: "",
+          // preferred_carrier_arrival_date: "",
+          // preferred_carrier_departure_date: "",
           //
           waste_processor_name: "",
           waste_processor_address: "",
@@ -241,6 +251,9 @@ const Form = () => {
           countriesOrstates_exp_dis: "",
           countriesOrstates_transit: "",
           countriesOrstates_imprt_arr: "",
+          //
+          shipment_facility_name: "",
+          shipment_facility_date: "",
 
           //
           declaration_name: "",
@@ -290,6 +303,155 @@ const Form = () => {
       setLoading(false);
     }
   };
+
+  const handleDraft = async (e) => {
+    console.log(carriers);
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+    // console.log(formData);
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+    formDataToSend.append("carriers", JSON.stringify(carriers));
+    formDataToSend.append("draft", 1);
+    console.log("Form Data Entries:");
+    for (let pair of formDataToSend.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    try {
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/submit-form",
+        {
+          method: "POST",
+          body: formDataToSend,
+        }
+      );
+
+      const data = await response.json();
+      console.log("dataform submit:", data);
+      if (response.ok) {
+        setSuccess("Company created successfully!");
+
+        window.location.href = "/dashboard/draft";
+        setFormData({
+          company_name: "",
+          address: "",
+          contact_number: "",
+          contact_person: "",
+          fax: "",
+          email: "",
+          //
+          consignee_name: "",
+          consignee_address: "",
+          consignee_contact: "",
+          contPerson: "",
+          fax2: "",
+          email2: "",
+
+          //
+          public_agency: "",
+          //
+          number_of_shipments: 0,
+          weight: 0,
+
+          //
+          aShipdate: "",
+          //
+
+          // preferred_carrier_name: "",
+          // preferred_carrier_arrival_date: "",
+          // preferred_carrier_departure_date: "",
+          //
+          waste_processor_name: "",
+          waste_processor_address: "",
+          waste_processor_contact_person: "",
+          waste_processor_tel: "",
+          waste_processor_fax: "",
+          waste_processor_email: "",
+          waste_processor_meansof_trans: "",
+          waste_processor_dateof_trans: "",
+
+          //
+          processing_facility_name: "",
+          processing_facility_address: "",
+          processing_facility_contact_per: "",
+          processing_facility_tel: "",
+          processing_facility_fax: "",
+          processing_facility_email: "",
+
+          //
+          recovery_operation_name: "",
+
+          //
+          usual_des_of_the_waste: "",
+
+          //
+          countriesOrstates_exp_dis: "",
+          countriesOrstates_transit: "",
+          countriesOrstates_imprt_arr: "",
+          //
+          shipment_facility_name: "",
+          shipment_facility_date: "",
+
+          //
+          declaration_name: "",
+          declaration_date: "",
+          //
+          signature_exp_dis: "",
+          signature_transit: "",
+          signature_imprt_arr: "",
+          //
+          basel_annex_ix: "",
+          oecd_ii: "",
+          annex_iia4: "",
+          annex_iiia5: "",
+          ec_list_of_wastes: "",
+          national_code: "",
+          other_specify: "",
+          //
+
+          license_number: "",
+          approval_details: "",
+          waste_amount: 0,
+          toxic_content: 1,
+          local_authority_confirmation: 1,
+          waste_transport_status: "",
+          shipment_received_at_facility: "",
+        });
+        setCarriers([
+          {
+            name: "",
+            address: "",
+            contact_person: "",
+            phone: "",
+            fax: "",
+            email: "",
+            means_of_transport: "",
+            date_of_transport: "",
+            departure_date: "",
+          },
+        ]);
+      } else {
+        setError(data.message || "Failed to create company");
+      }
+    } catch (error) {
+      // console.log("eroor:-", error);
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    <p className="flex flex-col items-center justify-center h-screen">
+      <CircularProgress />
+      <p className="text-black font-medium text-xl">Loading...</p>
+    </p>;
+  }
 
   return (
     <div className="bg-[#F8F9FA]">
@@ -351,7 +513,7 @@ const Form = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    label="Contact Person"
+                    label="Address"
                     variant="outlined"
                   />
                 </Grid>
@@ -373,6 +535,7 @@ const Form = () => {
                     onChange={handleChange}
                     fullWidth
                     label="Tel"
+                    inputProps={{ maxLength: 10 }}
                     variant="outlined"
                   />
                 </Grid>
@@ -448,6 +611,7 @@ const Form = () => {
                     value={formData.consignee_contact}
                     onChange={handleChange}
                     label="Tel"
+                    inputProps={{ maxLength: 10 }}
                     variant="outlined"
                     defaultValue="01234567890"
                   />
@@ -497,10 +661,25 @@ const Form = () => {
                 />
               </Grid>
 
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6" fontWeight="bold">
+                  4. Actual Weight:
+                </Typography>
+
+                <TextField
+                  label="Weight"
+                  fullWidth
+                  name="weight"
+                  value={formData.weight}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </Grid>
+
               {/* Actual Date of Shipment */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
-                  4. Actual Date of Shipment:
+                  5. Actual Date of Shipment:
                 </Typography>
 
                 <TextField
@@ -508,7 +687,6 @@ const Form = () => {
                   type="date"
                   value={formData.aShipdate}
                   onChange={handleChange}
-                  label="Date"
                   fullWidth
                   variant="outlined"
                 />
@@ -517,7 +695,7 @@ const Form = () => {
               {/*policy agency */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
-                  4. Public Agency:
+                  6. Public Agency:
                 </Typography>
 
                 <TextField
@@ -612,6 +790,7 @@ const Form = () => {
                         value={carrier.phone}
                         onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
+                        inputProps={{ maxLength: 10 }}
                         margin="normal"
                       />
                     </Grid>
@@ -638,7 +817,7 @@ const Form = () => {
                         margin="normal"
                       />
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    {/* <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
                         name="means_of_transport"
@@ -648,12 +827,11 @@ const Form = () => {
                         variant="outlined"
                         margin="normal"
                       />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
+                    </Grid> */}
+                    {/* <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
                         name="date_of_transport"
-                        label="Date of Transport"
                         type="date"
                         value={carrier.date_of_transport}
                         onChange={(e) => handleCarrierChange(index, e)}
@@ -661,12 +839,11 @@ const Form = () => {
                         margin="normal"
                         InputLabelProps={{ shrink: true }}
                       />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
+                    </Grid> */}
+                    {/* <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
                         name="departure_date"
-                        label="Departure Date"
                         type="date"
                         value={carrier.departure_date}
                         onChange={(e) => handleCarrierChange(index, e)}
@@ -674,13 +851,14 @@ const Form = () => {
                         margin="normal"
                         InputLabelProps={{ shrink: true }}
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Box>
               ))}
 
               <Box display="flex" justifyContent="center" mt={2}>
                 <Button
+                  disabled={carriers.length === 5}
                   variant="outlined"
                   onClick={addCarrier}
                   startIcon={<AddIcon />}
@@ -696,7 +874,7 @@ const Form = () => {
               </Box>
             </Box>
           </div>
-          <div>
+          {/* <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
                 5. Preferred Carrier:
@@ -720,7 +898,6 @@ const Form = () => {
                     name="preferred_carrier_arrival_date"
                     value={formData.preferred_carrier_arrival_date}
                     onChange={handleChange}
-                    label="Date of Arrival"
                     variant="outlined"
                     defaultValue="Lorem ipsum dolor sit mate"
                   />
@@ -733,18 +910,17 @@ const Form = () => {
                     name="preferred_carrier_departure_date"
                     value={formData.preferred_carrier_departure_date}
                     onChange={handleChange}
-                    label="Date of Departure"
                     variant="outlined"
                   />
                 </Grid>
               </Grid>
             </Box>
-          </div>
+          </div> */}
 
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                6.Waste generator (Original producer/new producer/collector):
+                7.Waste generator (Original producer/new producer/collector):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -784,6 +960,7 @@ const Form = () => {
                     value={formData.waste_processor_tel}
                     onChange={handleChange}
                     label="Tel"
+                    inputProps={{ maxLength: 10 }}
                     variant="outlined"
                   />
                 </Grid>
@@ -824,7 +1001,6 @@ const Form = () => {
                     name="waste_processor_dateof_trans"
                     value={formData.waste_processor_dateof_trans}
                     onChange={handleChange}
-                    label="Date of transport"
                     variant="outlined"
                   />
                 </Grid>
@@ -836,7 +1012,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                7. Recovery facility:
+                8. Recovery facility:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -879,6 +1055,7 @@ const Form = () => {
                     value={formData.processing_facility_tel}
                     onChange={handleChange}
                     label="Tel"
+                    inputProps={{ maxLength: 10 }}
                     variant="outlined"
                     defaultValue="01234567890"
                   />
@@ -912,7 +1089,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                8. Recovery operation (or if appropriate disposal operation in
+                9. Recovery operation (or if appropriate disposal operation in
                 the case of waste referred to in Article 3(4)):
               </Typography>
               <Grid container spacing={2}>
@@ -922,7 +1099,7 @@ const Form = () => {
                     name="recovery_operation_name"
                     value={formData.recovery_operation_name}
                     onChange={handleChange}
-                    label="Name"
+                    label="R-code / D-code:"
                     variant="outlined"
                     defaultValue="Lorem Ipsum"
                   />
@@ -934,7 +1111,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                9. Usual description of the waste:
+                10. Usual description of the waste:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -943,7 +1120,7 @@ const Form = () => {
                     name="usual_des_of_the_waste"
                     value={formData.usual_des_of_the_waste}
                     onChange={handleChange}
-                    label="Name"
+                    label="Description"
                     variant="outlined"
                     defaultValue="Lorem Ipsum"
                   />
@@ -955,7 +1132,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                10. Waste identification (fill in relevant codes):
+                11. Waste identification (fill in relevant codes):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3}>
@@ -1035,7 +1212,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                11. Countries/states concerned:
+                12. Countries/states concerned:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1078,7 +1255,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                12. Declaration of the person who arranges the shipment:
+                13. Declaration of the person who arranges the shipment:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1089,7 +1266,6 @@ const Form = () => {
                     onChange={handleChange}
                     label="Name"
                     variant="outlined"
-                    defaultValue="Lorem Ipsum"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -1099,9 +1275,7 @@ const Form = () => {
                     name="declaration_date"
                     value={formData.declaration_date}
                     onChange={handleChange}
-                    label="Date"
                     variant="outlined"
-                    defaultValue="Lorem Ipsum"
                   />
                 </Grid>
               </Grid>
@@ -1111,7 +1285,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                13. Signature upon receipt of the waste by the consignee:
+                14. Signature upon receipt of the waste by the consignee:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1120,31 +1294,18 @@ const Form = () => {
                     name="signature_exp_dis"
                     value={formData.signature_exp_dis}
                     onChange={handleChange}
-                    label="Export/dispatch:"
+                    label="Name"
                     variant="outlined"
-                    defaultValue="Lorem Ipsum"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
+                    type="Date"
                     name="signature_transit"
                     value={formData.signature_transit}
                     onChange={handleChange}
-                    label="Transit:"
                     variant="outlined"
-                    defaultValue="Lorem Ipsum"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="signature_imprt_arr"
-                    value={formData.signature_imprt_arr}
-                    onChange={handleChange}
-                    label="Import/arrival:"
-                    variant="outlined"
-                    defaultValue="Lorem Ipsum"
                   />
                 </Grid>
               </Grid>
@@ -1154,7 +1315,37 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                14. Other
+                15. Shipment received at recovery facility:
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    name="shipment_facility_name"
+                    value={formData.shipment_facility_name}
+                    onChange={handleChange}
+                    label="Name"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    name="shipment_facility_date"
+                    value={formData.shipment_facility_date}
+                    onChange={handleChange}
+                    variant="outlined"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </div>
+
+          {/* <div>
+            <Box p={2} borderRadius={2} bgcolor="white">
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                15. Other
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1211,25 +1402,41 @@ const Form = () => {
                 </Grid>
               </Grid>
             </Box>
-          </div>
+          </div> */}
 
           <div>
-            <Box display="flex" justifyContent="end">
+            <Box display="flex" justifyContent="end" gap={2}>
+              <Button
+                variant="contained"
+                startIcon={<DraftsIcon />}
+                sx={{
+                  textTransform: "none",
+                  backgroundColor: "#576CBC",
+                  "&:hover": { backgroundColor: "#405B8C" },
+                }}
+                onClick={handleDraft}
+              >
+                {/* {loading ? (
+                  <CircularProgress size={24} sx={{ color: "white" }} />
+                ) : ( */}
+                Save as Draft
+                {/* )} */}
+              </Button>
               <Button
                 variant="contained"
                 type="submit"
-                startIcon={!loading && <EmailIcon />}
+                startIcon={<EmailIcon />}
                 sx={{
                   textTransform: "none",
                   backgroundColor: "#576CBC",
                   "&:hover": { backgroundColor: "#405B8C" },
                 }}
               >
-                {loading ? (
+                {/* {loading ? (
                   <CircularProgress size={24} sx={{ color: "white" }} />
-                ) : (
-                  "Send for Signature"
-                )}
+                ) : ( */}
+                Send for Signature
+                {/* )} */}
               </Button>
             </Box>
           </div>

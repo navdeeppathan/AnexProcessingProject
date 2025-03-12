@@ -20,13 +20,13 @@ const AdminDashboard = () => {
         <div className="w-[20%] ">
           <AdminSidebar />
         </div>
-        <div className="w-[80%] ">
+        <div className="w-[80%]">
           <Routes>
             <Route path="/" element={<DashboardTemplate />} />
             <Route path="/companies" element={<MainCompanies />} />
 
             <Route path="/profile" element={<Profile />} />
-            <Route path="/edit-profile" element={<EditProfile />} />
+            {/* <Route path="/edit-profile" element={<EditProfile />} /> */}
           </Routes>
         </div>
       </div>

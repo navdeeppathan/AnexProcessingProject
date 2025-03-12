@@ -15,7 +15,7 @@ const DashboardTemplate = () => {
               <header className="flex items-center justify-between bg-white  rounded-b-md">
                 <h2 className="font-bold text-3xl">Dashboard</h2>
 
-                <div>
+                {/* <div>
                   <Button
                     variant="contained"
                     sx={{ bgcolor: "#6D5AC5", padding: "10px" }}
@@ -24,7 +24,7 @@ const DashboardTemplate = () => {
                     Create Company
                   </Button>
                   <CreateCompany open={open} onClose={() => setOpen(false)} />
-                </div>
+                </div> */}
               </header>
               <div className="stats-cards">
                 <div className="card blue">
@@ -42,9 +42,9 @@ const DashboardTemplate = () => {
               </div>
             </div>
           </main>
-          <div className="">
+          {/* <div className="">
             <Companies />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -9,24 +9,34 @@ const MainDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const user = localStorage.getItem("user");
+  const userId = JSON.parse(user);
+  console.log(userId?.id);
+
   useEffect(() => {
     const fetchFormData = async () => {
       setLoading(true);
       setError("");
+
       try {
-        const response = await fetch(`https://annex.sofinish.co.uk/api/forms`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
+        console.log(response);
+
         const data = await response.json();
-        // console.log("data:-", data);
+        console.log("data:-", data);
         setFormData(data);
       } catch (err) {
         setError(err.message);
@@ -44,8 +54,10 @@ const MainDashboard = () => {
     </p>;
   }
   if (error) return <p>Error: {error}</p>;
+
+  console.log("formdata:-", formData);
   return (
-    <div>
+    <div className="p-5 min-h-screen">
       <div>
         <main className="flex-1 p-5 bg-[#f4f4f9]">
           <header className="flex items-center justify-between">
@@ -84,7 +96,8 @@ const MainDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {formData && Array.isArray(formData) ? (
+              {/* {formData.length !== 0 ? ( */}
+              {formData && Array.isArray(formData) && formData.length > 0 ? (
                 formData.map((company) => (
                   <tr key={company?.id}>
                     <td>CMAU2312086</td>

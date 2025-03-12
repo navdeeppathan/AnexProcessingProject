@@ -234,8 +234,12 @@ const PDFMakerOrgnl = () => {
                     <p> {item?.number_of_shipments}</p>
                   </Box>
                   <Box className="border  p-4">
+                    <h3 className="font-semibold">4. Weight</h3>
+                    <p> {item?.weight}</p>
+                  </Box>
+                  <Box className="border  p-4">
                     <h3 className="font-semibold">
-                      4. Actual Date of Shipment
+                      5. Actual Date of Shipment
                     </h3>
                     <p>{item?.aShipdate}</p>
                   </Box>
@@ -246,7 +250,7 @@ const PDFMakerOrgnl = () => {
                   {item?.carriers.map((data, index) => (
                     <Box key={data?.id} className="border  p-4">
                       <h3 className="font-semibold">
-                        5.({String.fromCharCode(97 + index)}){" "}
+                        6.({String.fromCharCode(97 + index)}){" "}
                         {ordinalSuffix(index)} Carrier
                       </h3>
                       <div className="flex justify-between items-center">
@@ -274,14 +278,14 @@ const PDFMakerOrgnl = () => {
                             <strong>Email:</strong>
                             {data?.email}
                           </p>
-                          <p>
+                          {/* <p>
                             <strong>Means of Transport:</strong>
                             {data?.means_of_transport}
                           </p>
                           <p>
                             <strong>Date of Transfer:</strong>
                             {data?.date_of_transport}
-                          </p>
+                          </p> */}
                           <p>
                             <strong>Signature:</strong>
                             (signed)
@@ -303,7 +307,7 @@ const PDFMakerOrgnl = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 ">
                       <Box className="border  p-4">
                         <h3 className="font-semibold">
-                          6. Waste generator (Original producer/new
+                          7. Waste generator (Original producer/new
                           producer/collector):
                         </h3>
                         <p>
@@ -331,15 +335,18 @@ const PDFMakerOrgnl = () => {
                       <div className="grid grid-cols-1 ">
                         <Box className="border  p-4">
                           <h3 className="font-semibold">
-                            8. Recovery operation (or if appropriate disposal
+                            9. Recovery operation (or if appropriate disposal
                             operation in the case of waste referred to in
                             Article 3(4)):
                           </h3>
-                          <p>{item?.recovery_operation_name}</p>
+                          <p>
+                            <strong className="mr-2">R-code / D-code:</strong>
+                            {item?.recovery_operation_name}
+                          </p>
                         </Box>
                         <Box className="border  p-4">
                           <h3 className="font-semibold">
-                            9. Usual description of the waste:
+                            10. Usual description of the waste:
                           </h3>
                           <p>{item?.usual_des_of_the_waste}</p>
                         </Box>
@@ -348,7 +355,7 @@ const PDFMakerOrgnl = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 ">
                       <Box className="border  p-4">
-                        <h3 className="font-semibold">7. Recovery facility:</h3>
+                        <h3 className="font-semibold">8. Recovery facility:</h3>
                         <p>
                           <strong className="mr-2">Name:</strong>
                           {data?.recovery_name}
@@ -377,7 +384,7 @@ const PDFMakerOrgnl = () => {
 
                       <Box className="border p-4">
                         <h3 className="font-semibold">
-                          10. Waste identification (fill in relevant codes):
+                          11. Waste identification (fill in relevant codes):
                         </h3>
                         <div>
                           {/* Waste Identification Codes */}
@@ -425,7 +432,7 @@ const PDFMakerOrgnl = () => {
                 <div className="grid grid-cols-1 ">
                   <Box className="border  p-4">
                     <h3 className="font-semibold">
-                      11. Countries/states concerned:
+                      12. Countries/states concerned:
                     </h3>
                   </Box>
                 </div>
@@ -446,7 +453,7 @@ const PDFMakerOrgnl = () => {
                 <div className="grid grid-cols-1 ">
                   <Box className="border  p-4">
                     <h3 className="font-semibold">
-                      12. Declaration of the person who arranges the shipment: I
+                      13. Declaration of the person who arranges the shipment: I
                       certify that the above information is complete and correct
                       to the best of my knowledge.
                     </h3>
@@ -469,20 +476,20 @@ const PDFMakerOrgnl = () => {
                 <div className="grid grid-cols-1 ">
                   <Box className="border  p-4">
                     <h3 className="font-semibold">
-                      13. Signature upon receipt of the waste by the consignee:
+                      14. Signature upon receipt of the waste by the consignee:
                     </h3>
                     <div className="flex items-center justify-between mt-2 ">
                       <div className="flex">
                         <span className="text-black mr-1">Name:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-56">
+                          {item?.signature_exp_dis}
+                        </div>
                       </div>
                       <div className="flex">
                         <span className="text-black mr-1">Date:</span>
-                        <div className="border-b border-black w-56"></div>
-                      </div>
-                      <div className="flex">
-                        <span className="text-black mr-1">Signature:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-56">
+                          {item?.signature_transit}
+                        </div>
                       </div>
                     </div>
                   </Box>
@@ -493,17 +500,21 @@ const PDFMakerOrgnl = () => {
                       TO BE COMPLETED BY THE RECOVERY FACILITY
                     </h3>
                     <h3 className="font-semibold mt-1">
-                      14. Shipment received at recovery facility. Quantity
+                      15. Shipment received at recovery facility. Quantity
                       received: ____________________ Tonnes (Mg) m³
                     </h3>
                     <div className="flex items-center mt-2 justify-between">
                       <div className="flex">
                         <span className="text-black mr-1">Name:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-56">
+                          {item?.shipment_facility_name}
+                        </div>
                       </div>
                       <div className="flex">
                         <span className="text-black mr-1">Date:</span>
-                        <div className="border-b border-black w-56"></div>
+                        <div className="border-b border-black w-56">
+                          {item?.shipment_facility_date}
+                        </div>
                       </div>
                       <div className="flex">
                         <span className="text-black mr-1">Signature:</span>
