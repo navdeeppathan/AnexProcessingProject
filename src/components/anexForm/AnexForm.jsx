@@ -22,7 +22,7 @@ const AnnexForm = () => {
     const fetchForms = async () => {
       try {
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.id}`
+          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch forms");
@@ -49,18 +49,26 @@ const AnnexForm = () => {
     }, 500); // Set the annex_id to trigger PdfDownload
   };
 
+  const userData = localStorage.getItem("user");
+  const users = JSON.parse(userData);
+  console.log(users);
+
   return (
     <div>
       <div className="min-h-screen px-10">
         <main className="content">
           <header className="flex items-center justify-between">
             <h2 className="text-3xl font-bold">Annex forms</h2>
-            <button
-              className="create-btn"
-              onClick={() => navigate("/dashboard/annex-form")}
-            >
-              Create ANNEX Form
-            </button>
+            {users?.role_id === 3 ? (
+              ""
+            ) : (
+              <button
+                className="create-btn"
+                onClick={() => navigate("/dashboard/annex-form")}
+              >
+                Create ANNEX Form
+              </button>
+            )}
           </header>
 
           {loading ? (
@@ -93,16 +101,20 @@ const AnnexForm = () => {
                     </p>
 
                     {/* <span className="copy-icon">📋</span> */}
-                    <span
-                      className="absolute top-2.5 right-2.5 cursor-pointer"
-                      onClick={() => handleSettingsClick(form?.id)}
-                    >
-                      {loadingpdf && selectedAnnexId === form?.id ? (
-                        <CircularProgress color="black" size="30px" />
-                      ) : (
-                        <SettingsIcon />
-                      )}
-                    </span>
+                    {users?.role_id === 3 ? (
+                      ""
+                    ) : (
+                      <span
+                        className="absolute top-2.5 right-2.5 cursor-pointer"
+                        onClick={() => handleSettingsClick(form?.id)}
+                      >
+                        {loadingpdf && selectedAnnexId === form?.id ? (
+                          <CircularProgress color="black" size="30px" />
+                        ) : (
+                          <SettingsIcon />
+                        )}
+                      </span>
+                    )}
                   </div>
                 ))
               )}

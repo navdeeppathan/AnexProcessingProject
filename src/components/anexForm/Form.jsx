@@ -16,7 +16,7 @@ import DraftsIcon from "@mui/icons-material/Drafts";
 const Form = () => {
   const generateId = () => {
     const user = localStorage.getItem("user");
-    const user_id = JSON.parse(user).user_id;
+    const user_id = JSON.parse(user)?.company_id;
     return user_id;
   };
 

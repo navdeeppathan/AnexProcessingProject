@@ -2,6 +2,10 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
+  const userData = localStorage.getItem("user");
+  const user = JSON.parse(userData);
+  console.log(user);
+
   const location = useLocation();
   const navigation = [
     {
@@ -46,20 +50,22 @@ const Sidebar = () => {
         </svg>
       ),
     },
-    {
-      path: "/dashboard/edit-profile",
-      name: "Edit Profile",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="white"
-          className="w-6 h-6"
-        >
-          <path d="M6 4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h4c.72 0 1.39.39 1.73 1h.54c.34-.61 1.01-1 1.73-1h4c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2h-4c-1.1 0-2 .9-2 2 0-1.1-.9-2-2-2H6m0 2h4v12H6V6m8 0h4v12h-4V6z" />
-        </svg>
-      ),
-    },
+    // {user?.role_id===3?"":}
+    // {
+
+    //   path: "/dashboard/edit-profile",
+    //   name: "Edit Profile",
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       viewBox="0 0 24 24"
+    //       fill="white"
+    //       className="w-6 h-6"
+    //     >
+    //       <path d="M6 4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h4c.72 0 1.39.39 1.73 1h.54c.34-.61 1.01-1 1.73-1h4c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2h-4c-1.1 0-2 .9-2 2 0-1.1-.9-2-2-2H6m0 2h4v12H6V6m8 0h4v12h-4V6z" />
+    //     </svg>
+    //   ),
+    // },
     // {
     //   path: "/dashboard/draft",
     //   name: "Draft Forms",
@@ -74,7 +80,37 @@ const Sidebar = () => {
     //     </svg>
     //   ),
     // },
+    {
+      path: "/dashboard/users",
+      name: "Users",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="white"
+          className="w-6 h-6"
+        >
+          <path d="M6 4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h4c.72 0 1.39.39 1.73 1h.54c.34-.61 1.01-1 1.73-1h4c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2h-4c-1.1 0-2 .9-2 2 0-1.1-.9-2-2-2H6m0 2h4v12H6V6m8 0h4v12h-4V6z" />
+        </svg>
+      ),
+    },
   ];
+  if (user?.role_id !== 3) {
+    navigation.splice(3, 0, {
+      path: "/dashboard/edit-profile",
+      name: "Edit Profile",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="white"
+          className="w-6 h-6"
+        >
+          <path d="M6 4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h4c.72 0 1.39.39 1.73 1h.54c.34-.61 1.01-1 1.73-1h4c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2h-4c-1.1 0-2 .9-2 2 0-1.1-.9-2-2-2H6m0 2h4v12H6V6m8 0h4v12h-4V6z" />
+        </svg>
+      ),
+    });
+  }
 
   return (
     <nav className="w-full h-full border-r bg-[#6F5CC5] space-y-8 sm:w-80">

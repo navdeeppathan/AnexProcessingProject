@@ -107,7 +107,7 @@ const MainCompanies = () => {
                   <th>Phone no</th>
                   <th>Email</th>
                   <th>Status</th>
-                  <th>Operation</th>
+                  {/* <th>Operation</th> */}
                   <th>View Profile</th>
                 </tr>
               </thead>
@@ -133,14 +133,14 @@ const MainCompanies = () => {
                         {"Active" || "Inactive"}
                       </span>
                     </td>
-                    <td>
+                    {/* <td>
                       <span
                         className="delete"
                         onClick={() => deleteCompany(company.id)}
                       >
                         🗑️
                       </span>
-                    </td>
+                    </td> */}
                     <td>
                       <button
                         className="view-profile"

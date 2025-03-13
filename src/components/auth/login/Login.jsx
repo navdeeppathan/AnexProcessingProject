@@ -22,9 +22,9 @@ const Login = () => {
       });
 
       const data = await response.json();
-
+      console.log("login response data:-", data);
       if (data.status === 200) {
-        if (data.data.role_id === 1 && activeTab === "admin") {
+        if (data.data.role_id == 1 && activeTab == "admin") {
           Swal.fire({
             title: "Success!",
             text: "Admin Login Successful",
@@ -33,10 +33,11 @@ const Login = () => {
             showConfirmButton: false,
           }).then(() => {
             localStorage.setItem("user", JSON.stringify(data.data));
+            localStorage.setItem("totaldata", JSON.stringify(data));
             localStorage.setItem("role_id", JSON.stringify(data.data.role_id));
             window.location.href = "/admin/dashboard/";
           });
-        } else if (data.data.role_id === 2 && activeTab === "company") {
+        } else if (data.data.role_id == 2 && activeTab == "company") {
           console.log(data);
           Swal.fire({
             title: "Success!",
@@ -46,6 +47,21 @@ const Login = () => {
             showConfirmButton: false,
           }).then(() => {
             localStorage.setItem("user", JSON.stringify(data.data));
+            localStorage.setItem("totaldata", JSON.stringify(data));
+            localStorage.setItem("role_id", JSON.stringify(data.data.role_id));
+            window.location.href = "/dashboard";
+          });
+        } else if (data.data.role_id == 3 && activeTab == "company") {
+          console.log(data);
+          Swal.fire({
+            title: "Success!",
+            text: "Company Login Successful",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(() => {
+            localStorage.setItem("user", JSON.stringify(data.data));
+            localStorage.setItem("totaldata", JSON.stringify(data));
             localStorage.setItem("role_id", JSON.stringify(data.data.role_id));
             window.location.href = "/dashboard";
           });

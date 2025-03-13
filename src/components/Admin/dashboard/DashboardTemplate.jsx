@@ -6,6 +6,10 @@ import { Button } from "@mui/material";
 import CreateCompany from "../../auth/createCompany/CreateCompany";
 const DashboardTemplate = () => {
   const [open, setOpen] = useState(false);
+  const user = localStorage.getItem("totaldata");
+  const userdata = JSON.parse(user);
+  console.log(userdata);
+  // console.log(userId.role_id);
   return (
     <div className="h-screen">
       <div>
@@ -28,16 +32,19 @@ const DashboardTemplate = () => {
               </header>
               <div className="stats-cards">
                 <div className="card blue">
-                  Pending Signatures <h2>75</h2>
+                  Total Companies <h2>{userdata?.total_company}</h2>
                 </div>
                 <div className="card purple">
-                  Total Number of Annex Forms <h2>67</h2>
+                  Total Number of Annex Forms <h2>{userdata?.form}</h2>
                 </div>
-                <div className="card orange">
-                  Pending Requests <h2>36</h2>
+                <div className="card">
+                  {/* <div className="card orange"> */}
+                  {/* Pending Requests <h2>36</h2> */}
                 </div>
-                <div className="card light-blue">
-                  Total Requests <h2>129</h2>
+                <div className="card">
+                  {/* <div className="card light-blue"> */}
+
+                  {/* Total Requests <h2>129</h2> */}
                 </div>
               </div>
             </div>

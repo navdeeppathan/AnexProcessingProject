@@ -136,21 +136,32 @@ const AnnexVII = () => {
         return;
     }
   };
+  const userData = localStorage.getItem("user");
+  const user = JSON.parse(userData);
+  console.log(user);
 
   return (
     <div className="w-full flex flex-col p-6 min-h-screen ">
       {/* header */}
       <div>
-        <header className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">
-            CMAU2312086 - BLMCB0258247 - CMA CGM - MEX202405
-          </h1>
-          <button
-            onClick={sendReminderEmail}
-            className="bg-indigo-600 text-white px-4 py-2 rounded"
-          >
-            Send Reminder to All
-          </button>
+        <header className="flex justify-end items-center">
+          {/* {formData?.map((item) => (
+            <h1 className="text-xl font-bold text-center flex-grow ">
+              {item?.annex_id}
+            </h1>
+          ))} */}
+          {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX202405 */}
+
+          {user?.role_id === 3 ? (
+            ""
+          ) : (
+            <button
+              onClick={sendReminderEmail}
+              className="bg-indigo-600 text-white px-4 py-2 rounded flex items-center"
+            >
+              Send Reminder to All
+            </button>
+          )}
 
           {/* <button className="create-btn">Create ANNEX Form</button> */}
         </header>
@@ -183,7 +194,8 @@ const AnnexVII = () => {
                             </p>
                           </div>
                           <h5 className="text-sm md:text-base text-center font-semibold">
-                            CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105
+                            {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
+                            {item?.annex_id}
                           </h5>
                         </div>
 
@@ -271,7 +283,7 @@ const AnnexVII = () => {
                           </div>
 
                           {/* Additional Details */}
-                          <div className="grid grid-cols-1 md:grid-cols-2  ">
+                          <div className="grid grid-cols-1 md:grid-cols-3  ">
                             <Box className={`border p-4 `}>
                               <h3 className="font-semibold">
                                 3. Actual Quantity
@@ -1051,7 +1063,8 @@ const Page = ({ item }) => {
                   </p>
                 </div>
                 <h5 className="text-sm md:text-base text-center font-semibold">
-                  CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105
+                  {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
+                  {item?.annex_id}
                 </h5>
               </div>
 
@@ -1116,7 +1129,7 @@ const Page = ({ item }) => {
                 </div>
 
                 {/* Additional Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2  ">
+                <div className="grid grid-cols-1 md:grid-cols-3  ">
                   <Box className={`border p-4 `}>
                     <h3 className="font-semibold">3. Actual Quantity</h3>
                     <p> {item?.number_of_shipments}</p>

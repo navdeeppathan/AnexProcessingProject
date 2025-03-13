@@ -11,8 +11,14 @@ const MainDashboard = () => {
 
   const user = localStorage.getItem("user");
   const userId = JSON.parse(user);
-  console.log(userId?.id);
+  console.log(userId);
+  console.log(userId.role_id);
 
+  //total
+  const totaldata = localStorage.getItem("totaldata");
+  const totaldatas = JSON.parse(totaldata);
+  // console.log("total data:-", totaldatas);
+  //  console.log(userId.role_id);
   useEffect(() => {
     const fetchFormData = async () => {
       setLoading(true);
@@ -20,7 +26,7 @@ const MainDashboard = () => {
 
       try {
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.id}`,
+          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}`,
           {
             method: "GET",
             headers: {
@@ -62,25 +68,31 @@ const MainDashboard = () => {
         <main className="flex-1 p-5 bg-[#f4f4f9]">
           <header className="flex items-center justify-between">
             <h2 className="text-3xl font-bold">Dashboard</h2>
-            <button
-              className="create-btn"
-              onClick={() => navigate("/dashboard/annex-form")}
-            >
-              Create ANNEX Form
-            </button>
+            {userId?.role_id === 3 ? (
+              ""
+            ) : (
+              <button
+                className="create-btn"
+                // disabled={}
+                onClick={() => navigate("/dashboard/annex-form")}
+              >
+                Create ANNEX Form
+              </button>
+            )}
           </header>
           <div className="stats-cards">
             <div className="card blue">
-              Pending Signatures <h2>75</h2>
+              Pending Signatures
+              <h2>{totaldatas?.countSignature - totaldatas?.doneSignature}</h2>
             </div>
             <div className="card purple">
-              Total Number of Annex Forms <h2>67</h2>
+              Total Number of Annex Forms <h2>{totaldatas?.form}</h2>
             </div>
             <div className="card orange">
-              Pending Requests <h2>36</h2>
+              Done Signatures <h2>{totaldatas?.doneSignature}</h2>
             </div>
             <div className="card light-blue">
-              Total Requests <h2>129</h2>
+              Total Requests <h2>{totaldatas?.countSignature}</h2>
             </div>
           </div>
           <table className="data-table">
@@ -91,7 +103,7 @@ const MainDashboard = () => {
                 <th>Pending Requests</th>
                 <th>Complete Requests</th>
                 <th>Status</th>
-                <th>Action</th>
+
                 <th>View Profile</th>
               </tr>
             </thead>
@@ -100,7 +112,7 @@ const MainDashboard = () => {
               {formData && Array.isArray(formData) && formData.length > 0 ? (
                 formData.map((company) => (
                   <tr key={company?.id}>
-                    <td>CMAU2312086</td>
+                    <td>{company?.annex_id}</td>
                     <td>
                       <span className="total">07</span>
                     </td>
@@ -113,10 +125,7 @@ const MainDashboard = () => {
                     <td>
                       <span className={`status ${"active"}`}>Active</span>
                     </td>
-                    <td>
-                      <span className="edit">✏️</span>
-                      <span className="delete">🗑️</span>
-                    </td>
+
                     <td>
                       <Button
                         variant="contained"

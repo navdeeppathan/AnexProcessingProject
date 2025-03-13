@@ -81,9 +81,10 @@ const EditProfile = () => {
 
       if (response.ok) {
         setSuccess("Company created successfully!");
-        setTimeout(() => {
-          setSuccess("");
-        }, 2000);
+        localStorage.setItem("user", JSON.stringify(data?.data));
+        setSuccess("");
+        window.location.reload();
+
         // setTimeout(() => {
         // onClose();
         // }, 2000);

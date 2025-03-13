@@ -10,19 +10,19 @@ import AnnexVII from "../anexForm/AnnexVII";
 import AnnexForm from "../anexForm/AnexForm";
 import Sidebar from "../utils/Sidebar";
 import Draft from "../Draft/Draft";
+import User from "../auth/user/User";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      localStorage.removeItem("user");
-      navigate("/", { replace: true });
-    } else if (user.role_id != "2") {
+    const user = localStorage.getItem("user");
+    const userData = user ? JSON.parse(user) : null;
+
+    if (!userData || ![2, 3].includes(userData.role_id)) {
       localStorage.removeItem("user");
       navigate("/", { replace: true });
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div>
@@ -42,6 +42,7 @@ const Dashboard = () => {
             <Route path="/anexV/:id" element={<AnnexVII />} />
             <Route path="/annex-form2" element={<AnnexForm />} />
             {/* <Route path="/draft" element={<Draft />} /> */}
+            <Route path="/users" element={<User />} />
           </Routes>
         </div>
       </div>
