@@ -157,12 +157,14 @@ const AnnexVII = () => {
           {user?.role_id === 3 ? (
             ""
           ) : (
-            <button
+            <Button
+              variant="contained"
+              sx={{ bgcolor: "#6F5CC5" }}
               onClick={sendReminderEmail}
               className="bg-indigo-600 text-white px-4 py-2 rounded flex items-center"
             >
               Send Reminder to All
-            </button>
+            </Button>
           )}
 
           {/* <button className="create-btn">Create ANNEX Form</button> */}
@@ -220,7 +222,7 @@ const AnnexVII = () => {
                             )}`}
                           >
                             <h3 className="font-semibold">
-                              1. Consignment Information
+                              1. Person who arranges the shipment
                             </h3>
                             <div className="flex  justify-between">
                               <div>
@@ -361,7 +363,14 @@ const AnnexVII = () => {
                           </Box>
                         </div>
                         <div
-                          className={`grid grid-cols-1 md:grid-cols-${item?.carriers?.length}`}
+                          className={`grid grid-cols-1 ${
+                            item?.carriers?.length &&
+                            item?.carriers?.length === 1
+                              ? "md:grid-cols-1"
+                              : item.carriers.length > 4
+                              ? "md:grid-cols-3"
+                              : "md:grid-cols-2"
+                          }`}
                         >
                           {item?.carriers.map((data, index) => (
                             <Box

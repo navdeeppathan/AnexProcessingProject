@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const PDFMakerOrgnl = () => {
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   // const [error, setError] = useState("");
   const navigate = useNavigate();
   const formRef = useRef();
@@ -41,13 +41,6 @@ const PDFMakerOrgnl = () => {
     pdf.save("waste_shipment_form.pdf");
   };
 
-  // if (loading)
-  //   return (
-  //     <p className="flex flex-col items-center justify-center h-screen">
-  //       <CircularProgress />
-  //       <p className="text-black font-medium text-xl">Loading...</p>
-  //     </p>
-  //   );
   // if (error) return <p>Error: {error}</p>;
   // if (error)
   //   return (
@@ -90,10 +83,15 @@ const PDFMakerOrgnl = () => {
   // console.log(emailData);
   let img = localStorage.getItem("savedSignature");
 
+  // const uploadImg = localStorage.getItem("uploadedSignature");
+  // const file2 = base64ToFile(uploadImg, "uploadImg.png");
+  // console.log("uploaded file:-", file2);
+
   const handleForm = async (id) => {
     // setFormId(id);
 
     const file = base64ToFile(img, "signature.png");
+
     if (!file) {
       return;
     }
@@ -103,7 +101,7 @@ const PDFMakerOrgnl = () => {
     formData2.append("signature", file);
 
     // console.log(formData2);
-
+    setLoading(true);
     try {
       // console.log("clicked");
 
@@ -129,10 +127,20 @@ const PDFMakerOrgnl = () => {
         );
       }
     } catch (error) {
-      Swal.fire("Error", "Network error", "error");
+      Swal.fire(error);
+    } finally {
+      setLoading(false);
     }
   };
   console.log(formId);
+
+  if (loading)
+    return (
+      <p className="flex flex-col items-center justify-center h-screen">
+        <CircularProgress />
+        <p className="text-black font-medium text-xl">Loading...</p>
+      </p>
+    );
 
   return (
     <div>

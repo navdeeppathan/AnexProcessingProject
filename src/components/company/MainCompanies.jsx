@@ -10,6 +10,7 @@ import {
   Button,
   Typography,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneInput from "react-phone-input-2";
@@ -21,10 +22,11 @@ const MainCompanies = () => {
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState(null);
+  const [selectedCompanyId, setSelectedCompanyId] = useState(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const navigate = useNavigate();
 
   // Fetch Companies from API
-
   useEffect(() => {
     const fetchCompanies = async () => {
       setLoading(true);
@@ -75,6 +77,12 @@ const MainCompanies = () => {
   const editCompany = (company) => {
     setEditingCompany(company);
     setOpen(true);
+  };
+
+  // Handle show company details
+  const handleShowCompanyDetails = (id) => {
+    setSelectedCompanyId(id);
+    setShowDetailsModal(true);
   };
 
   return (
@@ -144,18 +152,16 @@ const MainCompanies = () => {
                         {"Active" || "Inactive"}
                       </span>
                     </td>
-                    {/* <td>
-                      <span
-                        className="delete"
-                        onClick={() => deleteCompany(company.id)}
-                      >
-                        🗑️
-                      </span>
-                    </td> */}
                     <td>
                       <button
                         className="view-profile"
-                        // onClick={() => navigate(`/company/${company.id}`)}
+                        onClick={() =>
+                          handleShowCompanyDetails(
+                            company.phone_number,
+                            company.company_name,
+                            company.email
+                          )
+                        }
                       >
                         View
                       </button>
@@ -167,12 +173,26 @@ const MainCompanies = () => {
           )}
         </main>
       </div>
+
+      {/* Company Details Modal */}
+      <CompanyDetailsModal
+        open={showDetailsModal}
+        onClose={() => setShowDetailsModal(false)}
+        companyId={selectedCompanyId}
+      />
     </div>
   );
 };
 
-const ShowCompanyModel = async ({ open, onClose }) => {
-  const [formData, setFormData] = useState({
+// Separate component for company details modal
+const CompanyDetailsModal = ({
+  open,
+  onClose,
+  companyph,
+  companyName,
+  companyemail,
+}) => {
+  const [companyData, setCompanyData] = useState({
     company_name: "",
     email: "",
     registration_number: "",
@@ -185,26 +205,11 @@ const ShowCompanyModel = async ({ open, onClose }) => {
     password: "",
     logo: null,
   });
-
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({}); // Store errors as an object
+  const [error, setError] = useState("");
 
-  try {
-    const response = await fetch(
-      `https://annex.sofinish.co.uk/api/companies/${id}`,
-      {
-        method: "GET",
-      }
-    );
-
-    if (response.ok) {
-      setCompanies(companies.filter((company) => company.id !== id));
-    } else {
-      alert("Failed to delete company.");
-    }
-  } catch (err) {
-    alert("Network error. Please try again.");
-  }
+  // Fetch company details when modal opens
+  // yy
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -219,6 +224,8 @@ const ShowCompanyModel = async ({ open, onClose }) => {
           boxShadow: 24,
           p: 4,
           borderRadius: 2,
+          maxHeight: "90vh",
+          overflowY: "auto",
         }}
       >
         {/* Header */}
@@ -231,77 +238,89 @@ const ShowCompanyModel = async ({ open, onClose }) => {
           </IconButton>
         </Box>
 
-        {/* Form */}
-        <form>
+        {/* Content */}
+        {loading ? (
+          <Box display="flex" justifyContent="center" my={4}>
+            <CircularProgress />
+          </Box>
+        ) : error ? (
+          <Typography color="error" mt={2}>
+            {error}
+          </Typography>
+        ) : (
           <Box mt={2} display="grid" gap={2} gridTemplateColumns="1fr 1fr">
             <TextField
               label="Company Name"
               name="company_name"
-              value={formData.company_name}
+              value={companyData.company_name || ""}
               fullWidth
-              required
+              InputProps={{ readOnly: true }}
             />
             <TextField
               label="Email"
               name="email"
-              type="email"
-              value={formData.email}
+              value={companyData.email || ""}
               fullWidth
-              required
+              InputProps={{ readOnly: true }}
             />
             <TextField
               label="Registration Number"
               name="registration_number"
-              value={formData.registration_number}
+              value={companyData.registration_number || ""}
               fullWidth
+              InputProps={{ readOnly: true }}
             />
             <TextField
-              select
               label="City"
               name="city"
-              value={formData.city}
+              value={companyData.city || ""}
               fullWidth
-            ></TextField>
+              InputProps={{ readOnly: true }}
+            />
             <TextField
-              select
               label="Country"
               name="country"
-              value={formData.country}
+              value={companyData.country || ""}
               fullWidth
-            ></TextField>
+              InputProps={{ readOnly: true }}
+            />
             <TextField
               label="Address"
               name="address"
-              value={formData.address}
+              value={companyData.address || ""}
               fullWidth
+              InputProps={{ readOnly: true }}
             />
             <TextField
               label="Company Head"
               name="company_head"
-              value={formData.company_head}
+              value={companyData.company_head || ""}
               fullWidth
+              InputProps={{ readOnly: true }}
             />
-            <PhoneInput
-              country={"gb"}
-              value={formData.phone_number}
-              inputStyle={{ width: "100%" }}
+            <TextField
+              label="Phone Number"
+              name="phone_number"
+              value={companyData.phone_number || ""}
+              fullWidth
+              InputProps={{ readOnly: true }}
             />
             <TextField
               label="Annex Price"
-              type="number"
               name="annex_price"
-              value={formData.annex_price}
+              value={companyData.annex_price || ""}
               fullWidth
-            />
-            <TextField
-              label="Password"
-              name="password"
-              type="password"
-              value={formData.password}
-              fullWidth
+              InputProps={{ readOnly: true }}
             />
           </Box>
-        </form>
+        )}
+
+        {/* Footer */}
+        <Box mt={3} display="flex" justifyContent="flex-end">
+          <Button variant="contained" onClick={onClose}>
+            Close
+          </Button>
+        </Box>
       </Box>
     </Modal>
   );
