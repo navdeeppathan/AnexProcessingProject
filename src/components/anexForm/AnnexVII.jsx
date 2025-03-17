@@ -157,12 +157,14 @@ const AnnexVII = () => {
           {user?.role_id === 3 ? (
             ""
           ) : (
-            <button
+            <Button
+              variant="contained"
+              sx={{ bgcolor: "#6F5CC5" }}
               onClick={sendReminderEmail}
               className="bg-indigo-600 text-white px-4 py-2 rounded flex items-center"
             >
               Send Reminder to All
-            </button>
+            </Button>
           )}
 
           {/* <button className="create-btn">Create ANNEX Form</button> */}

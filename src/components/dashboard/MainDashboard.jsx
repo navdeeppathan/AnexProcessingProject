@@ -103,7 +103,6 @@ const MainDashboard = () => {
                 <th>Pending Requests</th>
                 <th>Complete Requests</th>
                 <th>Status</th>
-
                 <th>View</th>
               </tr>
             </thead>
