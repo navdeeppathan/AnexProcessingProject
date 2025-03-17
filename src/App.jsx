@@ -71,7 +71,7 @@ const App = () => {
           }
         />
         <Route
-          path="/otp/:emaildata"
+          path="/otp/:emaildata/:id"
           element={
             <AuthWrapper>
               <OTP />

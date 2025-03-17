@@ -30,8 +30,7 @@ const CreateCompany = ({ open, onClose }) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [errors, setErrors] = useState({}); // Store errors as an object
 
   const cities = ["New York", "London", "Paris", "Berlin"];
   const countries = ["USA", "UK", "France", "Germany"];
@@ -39,6 +38,7 @@ const CreateCompany = ({ open, onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" })); // Clear error when typing
   };
 
   const handlePhoneChange = (value) => {
@@ -59,8 +59,7 @@ const CreateCompany = ({ open, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setSuccess("");
+    setErrors({});
 
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
@@ -72,21 +71,13 @@ const CreateCompany = ({ open, onClose }) => {
         "https://annex.sofinish.co.uk/api/companies",
         {
           method: "POST",
-          body: formDataToSend, // FormData handles file upload automatically
+          body: formDataToSend,
         }
       );
 
       const data = await response.json();
-
       if (response.ok) {
-        setSuccess("Company created successfully!");
-        setTimeout(() => {
-          setSuccess("");
-        }, 1000);
-        // setTimeout(() => {
         onClose();
-        // }, 2000);
-
         setFormData({
           company_name: "",
           email: "",
@@ -101,16 +92,10 @@ const CreateCompany = ({ open, onClose }) => {
           logo: null,
         });
       } else {
-        setError(data.message || "Failed to create company.");
-        setTimeout(() => {
-          setError("");
-        }, 1000);
+        setErrors(data.errors || {});
       }
     } catch (err) {
-      setError("Network error. Please try again.");
-      setTimeout(() => {
-        setError("");
-      }, 1000);
+      setErrors({ general: "Network error. Please try again." });
     } finally {
       setLoading(false);
     }
@@ -141,9 +126,10 @@ const CreateCompany = ({ open, onClose }) => {
           </IconButton>
         </Box>
 
-        {/* Error & Success Messages */}
-        {error && <Typography color="error">{error}</Typography>}
-        {success && <Typography color="success">{success}</Typography>}
+        {/* General Error Message */}
+        {errors.general && (
+          <Typography color="error">{errors.general}</Typography>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
@@ -183,6 +169,8 @@ const CreateCompany = ({ open, onClose }) => {
               onChange={handleChange}
               fullWidth
               required
+              error={!!errors.company_name}
+              helperText={errors.company_name?.[0] || ""}
             />
             <TextField
               label="Email"
@@ -192,6 +180,8 @@ const CreateCompany = ({ open, onClose }) => {
               onChange={handleChange}
               fullWidth
               required
+              error={!!errors.email}
+              helperText={errors.email?.[0] || ""}
             />
             <TextField
               label="Registration Number"
@@ -250,10 +240,13 @@ const CreateCompany = ({ open, onClose }) => {
             />
             <TextField
               label="Annex Price"
+              type="number"
               name="annex_price"
               value={formData.annex_price}
               onChange={handleChange}
               fullWidth
+              error={!!errors.annex_price}
+              helperText={errors.annex_price?.[0] || ""}
             />
             <TextField
               label="Password"
@@ -266,14 +259,7 @@ const CreateCompany = ({ open, onClose }) => {
           </Box>
 
           {/* Submit Button */}
-          <Box
-            mt={3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <Box mt={3} display="flex" justifyContent="center">
             <Button
               type="submit"
               variant="contained"
