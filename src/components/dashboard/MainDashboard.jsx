@@ -104,7 +104,7 @@ const MainDashboard = () => {
                 <th>Complete Requests</th>
                 <th>Status</th>
 
-                <th>View Profile</th>
+                <th>View</th>
               </tr>
             </thead>
             <tbody>

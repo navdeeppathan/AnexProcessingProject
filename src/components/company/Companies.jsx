@@ -63,19 +63,23 @@ const Companies = () => {
                   />
                 </td>
                 <td>{company.company_name}</td>
-                <td>{company.phone_number ? company.phone_number: "N/A"}</td>
+                <td>{company.phone_number ? company.phone_number : "N/A"}</td>
                 <td>{company.email}</td>
                 <td>
-                        <span className={`status ${company.status == "1" ? "active" : "block"}`} >
-                           {"Active" || "Inactive"}
-                      </span>
+                  <span
+                    className={`status ${
+                      company.status == "1" ? "active" : "block"
+                    }`}
+                  >
+                    {"Active" || "Inactive"}
+                  </span>
                 </td>
                 <td>
                   <span className="edit">✏️</span>
                   <span className="delete">🗑️</span>
                 </td>
                 <td>
-                  <button className="view-profile">View Profile</button>
+                  <button className="view-profile">View</button>
                 </td>
               </tr>
             ))}

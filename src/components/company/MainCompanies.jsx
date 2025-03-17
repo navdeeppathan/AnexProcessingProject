@@ -157,7 +157,7 @@ const MainCompanies = () => {
                         className="view-profile"
                         // onClick={() => navigate(`/company/${company.id}`)}
                       >
-                        View Profile
+                        View
                       </button>
                     </td>
                   </tr>
@@ -171,7 +171,7 @@ const MainCompanies = () => {
   );
 };
 
-const ShowCompanyModel = ({ open, onClose }) => {
+const ShowCompanyModel = async ({ open, onClose }) => {
   const [formData, setFormData] = useState({
     company_name: "",
     email: "",
@@ -188,6 +188,23 @@ const ShowCompanyModel = ({ open, onClose }) => {
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({}); // Store errors as an object
+
+  try {
+    const response = await fetch(
+      `https://annex.sofinish.co.uk/api/companies/${id}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (response.ok) {
+      setCompanies(companies.filter((company) => company.id !== id));
+    } else {
+      alert("Failed to delete company.");
+    }
+  } catch (err) {
+    alert("Network error. Please try again.");
+  }
 
   return (
     <Modal open={open} onClose={onClose}>
