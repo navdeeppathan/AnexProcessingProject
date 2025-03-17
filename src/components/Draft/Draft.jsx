@@ -96,9 +96,9 @@ const Draft = () => {
                         fontSize: "10px",
                         textTransform: "none",
                       }}
-                      onClick={() =>
-                        navigate(`/dashboard/anexV/${company?.id}`)
-                      }
+                      // onClick={() =>
+                      //   navigate(`/dashboard/anexV/${company?.id}`)
+                      // }
                     >
                       View Profile
                     </Button>

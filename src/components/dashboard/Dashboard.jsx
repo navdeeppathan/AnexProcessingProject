@@ -41,7 +41,7 @@ const Dashboard = () => {
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/anexV/:id" element={<AnnexVII />} />
             <Route path="/annex-form2" element={<AnnexForm />} />
-            {/* <Route path="/draft" element={<Draft />} /> */}
+            <Route path="/draft" element={<Draft />} />
             <Route path="/users" element={<User />} />
           </Routes>
         </div>

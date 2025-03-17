@@ -97,15 +97,15 @@ const Form = () => {
     //
     signature_exp_dis: "",
     signature_transit: "",
-    signature_imprt_arr: "",
+    // signature_imprt_arr: "",
     //
-    license_number: "",
-    approval_details: "",
+    // license_number: "",
+    // approval_details: "",
     waste_amount: 0,
     toxic_content: 1,
     local_authority_confirmation: 1,
-    waste_transport_status: "",
-    shipment_received_at_facility: "",
+    // waste_transport_status: "",
+    // shipment_received_at_facility: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -118,9 +118,9 @@ const Form = () => {
       phone: "",
       fax: "",
       email: "",
-      means_of_transport: "",
-      date_of_transport: "",
-      departure_date: "",
+      // means_of_transport: "",
+      // date_of_transport: "",
+      // departure_date: "",
     },
   ]);
   const handleChange = (e) => {
@@ -149,9 +149,9 @@ const Form = () => {
           phone: "",
           fax: "",
           email: "",
-          means_of_transport: "",
-          date_of_transport: "",
-          departure_date: "",
+          // means_of_transport: "",
+          // date_of_transport: "",
+          // departure_date: "",
         },
       ]);
     }
@@ -178,9 +178,18 @@ const Form = () => {
     formDataToSend.append("carriers", JSON.stringify(carriers));
 
     // console.log("Form Data Entries:");
-    // for (let pair of formDataToSend.entries()) {
-    //   console.log(pair[0], pair[1]);
-    // }
+    let isEmpty = false;
+    for (let pair of formDataToSend.entries()) {
+      console.log(pair[0], pair[1]);
+      if (!pair[1]) {
+        isEmpty = true;
+      }
+    }
+    if (isEmpty) {
+      alert("All fields are required");
+      isEmpty = false;
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -288,13 +297,13 @@ const Form = () => {
             phone: "",
             fax: "",
             email: "",
-            means_of_transport: "",
-            date_of_transport: "",
-            departure_date: "",
+            // means_of_transport: "",
+            // date_of_transport: "",
+            // departure_date: "",
           },
         ]);
       } else {
-        setError(data.message || "Failed to create company");
+        setError(data.message || "Failed to create form");
       }
     } catch (error) {
       // console.log("eroor:-", error);
