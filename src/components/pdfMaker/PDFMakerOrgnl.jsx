@@ -181,6 +181,15 @@ const PDFMakerOrgnl = () => {
                   <p>
                     <strong>Contact Person:</strong> {item?.contact_person}
                   </p>
+                  <p>
+                    <strong>Fax:</strong> {item?.fax}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {item?.email}
+                  </p>
+                  <p>
+                    <strong>Contact Number:</strong> {item?.contact_number}
+                  </p>
                 </Box>
                 <Box className="border  p-4">
                   <h3 className="font-semibold">2. Consignee</h3>
@@ -193,6 +202,15 @@ const PDFMakerOrgnl = () => {
                   </p>
                   <p>
                     <strong>Contact Person:</strong> {item?.contPerson}
+                  </p>
+                  <p>
+                    <strong>Fax:</strong> {item?.fax2}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {item?.email2}
+                  </p>
+                  <p>
+                    <strong>Contact Number:</strong> {item?.consignee_contact}
                   </p>
                 </Box>
               </div>
@@ -365,10 +383,10 @@ const PDFMakerOrgnl = () => {
                           </p>
                           <p>
                             <strong className="mr-2">Email:</strong>
-                            {item?.recovery_email}
+                            {data?.recovery_email}
                           </p>
                         </div>
-                        {item?.email === emailData && (
+                        {data?.email === emailData && (
                           <img
                             src={img}
                             alt="Signature"
