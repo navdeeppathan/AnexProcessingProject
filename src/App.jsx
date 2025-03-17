@@ -15,6 +15,7 @@ import ThirdCarrierForm from "./components/auth/createCompany/Test";
 import OTPVerification2 from "./components/auth/login/otpverify";
 import PdfDownload from "./components/auth/createCompany/PdfDownload";
 import ThankyouPage from "./components/Thankyou/ThankyouPage";
+import Test from "./components/auth/createCompany/Test";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -91,6 +92,15 @@ const App = () => {
           element={
             // <AuthWrapper>
             <ThankyouPage />
+            // </AuthWrapper>
+          }
+        />
+
+        <Route
+          path="/test2"
+          element={
+            // <AuthWrapper>
+            <Test />
             // </AuthWrapper>
           }
         />

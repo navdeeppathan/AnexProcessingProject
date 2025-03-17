@@ -10,7 +10,7 @@ const Draft = () => {
 
   const user = localStorage.getItem("user");
   const userId = JSON.parse(user);
-  console.log(userId?.id);
+  console.log(userId?.company_id);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -19,7 +19,7 @@ const Draft = () => {
 
       try {
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/draftforms/${userId?.id}`,
+          `https://annex.sofinish.co.uk/api/draftforms/${userId?.company_id}`,
           {
             method: "GET",
             headers: {
@@ -61,10 +61,6 @@ const Draft = () => {
           <thead>
             <tr>
               <th>Annex</th>
-              <th>Total Requests</th>
-              <th>Pending Requests</th>
-              <th>Complete Requests</th>
-              <th>Status</th>
 
               <th>View Profile</th>
             </tr>
@@ -74,8 +70,8 @@ const Draft = () => {
             {formData && Array.isArray(formData) && formData.length > 0 ? (
               formData.map((company) => (
                 <tr key={company?.id}>
-                  <td>CMAU2312086</td>
-                  <td>
+                  <td>{company?.annex_id}</td>
+                  {/* <td>
                     <span className="total">07</span>
                   </td>
                   <td>
@@ -83,10 +79,10 @@ const Draft = () => {
                   </td>
                   <td>
                     <span className="complete">02</span>
-                  </td>
-                  <td>
+                  </td> */}
+                  {/* <td>
                     <span className={`status ${"active"}`}>Active</span>
-                  </td>
+                  </td> */}
 
                   <td>
                     <Button
@@ -100,7 +96,7 @@ const Draft = () => {
                       //   navigate(`/dashboard/anexV/${company?.id}`)
                       // }
                     >
-                      View Profile
+                      View
                     </Button>
                   </td>
                 </tr>

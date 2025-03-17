@@ -30,7 +30,7 @@ const AnnexForm = () => {
         const data = await response.json();
 
         console.log("annexVasdnk:-", data);
-        setForms(data);
+        setForms(data.applications);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -144,7 +144,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const formRef = useRef();
+  const formRef = useRef(null);
 
   console.log("formdata:-", id);
 
@@ -184,7 +184,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
   }, [id]);
 
   // console.log(formRef.current);
-
+  const [loadingPDF, setLoadingPDF] = useState(false);
   const handleDownloadPDF = async () => {
     const pdfContainer = formRef.current;
     if (!pdfContainer) return;
@@ -238,6 +238,37 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     pdfContainer.style.width = "0";
     pdfContainer.style.height = "0";
   };
+
+  // const handleDownloadPDF = async () => {
+  //   setLoadingPDF(true);
+  //   const pdfContainer = formRef.current;
+  //   if (!pdfContainer) return;
+
+  //   try {
+  //     const pdf = new jsPDF("p", "pt", "a4");
+  //     pdf.text(20, 20, "This is a PDF with an uploaded image");
+
+  //     // Select the first image inside pdfContainer
+  //     const imgElement = pdfContainer.querySelector("img");
+
+  //     if (imgElement) {
+  //       const imageObj = new Image();
+  //       imageObj.crossOrigin = "Anonymous"; // Handle CORS issues
+  //       imageObj.src = imgElement.src;
+
+  //       // Load image before adding it to PDF
+  //       imageObj.onload = function () {
+  //         pdf.addImage(imageObj, "PNG", 20, 50, 150, 150);
+  //         pdf.save("image.pdf");
+  //       };
+  //     } else {
+  //       pdf.save("image.pdf"); // Save without image if not found
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating PDF:", error);
+  //     setLoadingPDF(false);
+  //   }
+  // };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -324,6 +355,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                             (sign) => sign.signed_by === item?.email
                           ) && (
                             <img
+                              crossOrigin="anonymous"
                               src={`https://annex.sofinish.co.uk/${
                                 item?.signature?.find(
                                   (sign) => sign.signed_by === item?.email
@@ -374,6 +406,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                               }`}
                               alt="Signature"
                               className="w-30 h-10"
+                              crossOrigin="anonymous"
                             />
                           )}
                         </div>
@@ -399,7 +432,13 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                     </Box>
                   </div>
                   <div
-                    className={`grid grid-cols-1 md:grid-cols-${item?.carriers?.length}`}
+                    className={`grid grid-cols-1 ${
+                      item?.carriers?.length && item?.carriers?.length === 1
+                        ? "md:grid-cols-1"
+                        : item.carriers.length > 4
+                        ? "md:grid-cols-3"
+                        : "md:grid-cols-2"
+                    }`}
                   >
                     {item?.carriers.map((data, index) => (
                       <Box key={data?.id} className="border  p-4">
@@ -777,7 +816,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                   onClick={handleDownloadPDF}
                   variant="contained"
                 >
-                  Download
+                  {loadingPDF ? "Generating..." : "Download PDF"}
                 </Button>
               </div>
             </div>

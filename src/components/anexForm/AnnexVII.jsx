@@ -222,7 +222,7 @@ const AnnexVII = () => {
                             )}`}
                           >
                             <h3 className="font-semibold">
-                              1. Consignment Information
+                              1. Person who arranges the shipment
                             </h3>
                             <div className="flex  justify-between">
                               <div>
@@ -363,7 +363,14 @@ const AnnexVII = () => {
                           </Box>
                         </div>
                         <div
-                          className={`grid grid-cols-1 md:grid-cols-${item?.carriers?.length}`}
+                          className={`grid grid-cols-1 ${
+                            item?.carriers?.length &&
+                            item?.carriers?.length === 1
+                              ? "md:grid-cols-1"
+                              : item.carriers.length > 4
+                              ? "md:grid-cols-3"
+                              : "md:grid-cols-2"
+                          }`}
                         >
                           {item?.carriers.map((data, index) => (
                             <Box

@@ -6,6 +6,10 @@ import { CircularProgress } from "@mui/material";
 const MainDashboard = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
+  const [donesignatures, setSignature] = useState(null);
+  const [totalemails, setTotalEmail] = useState(null);
+  const [totalforms, setTotalForm] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -43,7 +47,10 @@ const MainDashboard = () => {
 
         const data = await response.json();
         console.log("data:-", data);
-        setFormData(data);
+        setFormData(data.applications);
+        setSignature(data.total_done_signatures);
+        setTotalEmail(data.total_emails);
+        setTotalForm(data.total_forms);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -83,16 +90,16 @@ const MainDashboard = () => {
           <div className="stats-cards">
             <div className="card blue">
               Pending Signatures
-              <h2>{totaldatas?.countSignature - totaldatas?.doneSignature}</h2>
+              <h2>{totalemails - donesignatures}</h2>
             </div>
             <div className="card purple">
-              Total Number of Annex Forms <h2>{totaldatas?.form}</h2>
+              Total Number of Annex Forms <h2>{totalforms}</h2>
             </div>
             <div className="card orange">
-              Done Signatures <h2>{totaldatas?.doneSignature}</h2>
+              Done Signatures <h2>{donesignatures}</h2>
             </div>
             <div className="card light-blue">
-              Total Requests <h2>{totaldatas?.countSignature}</h2>
+              Total Requests <h2>{totalemails}</h2>
             </div>
           </div>
           <table className="data-table">
@@ -103,23 +110,27 @@ const MainDashboard = () => {
                 <th>Pending Requests</th>
                 <th>Complete Requests</th>
                 <th>Status</th>
-                <th>View</th>
+                <th>View Annex</th>
               </tr>
             </thead>
             <tbody>
               {/* {formData.length !== 0 ? ( */}
-              {formData && Array.isArray(formData) && formData.length > 0 ? (
+              {formData && formData && formData.length > 0 ? (
                 formData.map((company) => (
                   <tr key={company?.id}>
                     <td>{company?.annex_id}</td>
                     <td>
-                      <span className="total">07</span>
+                      <span className="total">{company?.email_count}</span>
                     </td>
                     <td>
-                      <span className="pending">02</span>
+                      <span className="pending">
+                        {company?.email_count - company?.signature_count}{" "}
+                      </span>
                     </td>
                     <td>
-                      <span className="complete">02</span>
+                      <span className="complete">
+                        {company?.signature_count}
+                      </span>
                     </td>
                     <td>
                       <span className={`status ${"active"}`}>Active</span>
@@ -130,7 +141,7 @@ const MainDashboard = () => {
                         variant="contained"
                         sx={{
                           bgcolor: "#6b46c1",
-                          fontSize: "10px",
+                          fontSize: "15px",
                           textTransform: "none",
                         }}
                         onClick={() =>
