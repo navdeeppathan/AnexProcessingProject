@@ -197,7 +197,7 @@ const PDFMakerOrgnl = () => {
                     <strong>Name:</strong> {item?.consignee_name}
                   </p>
                   <p>
-                    <strong>Address:</strong> <strong>Name:</strong>{" "}
+                    <strong>Address:</strong>
                     {item?.consignee_address}
                   </p>
                   <p>
