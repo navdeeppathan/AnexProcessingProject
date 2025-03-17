@@ -63,7 +63,7 @@ const MainDashboard = () => {
 
   console.log("formdata:-", formData);
   return (
-    <div className="p-5 min-h-screen">
+    <div className="min-h-screen">
       <div>
         <main className="flex-1 p-5 bg-[#f4f4f9]">
           <header className="flex items-center justify-between">
