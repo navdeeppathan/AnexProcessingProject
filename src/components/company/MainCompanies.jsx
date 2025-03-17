@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./Companies.css";
-import { Button } from "@mui/material";
+
 import CreateCompany from "../auth/createCompany/CreateCompany";
 import { useNavigate } from "react-router-dom";
+import {
+  Modal,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/material.css";
 
 const MainCompanies = () => {
   const [companies, setCompanies] = useState([]);
@@ -144,7 +155,7 @@ const MainCompanies = () => {
                     <td>
                       <button
                         className="view-profile"
-                        onClick={() => navigate(`/company/${company.id}`)}
+                        // onClick={() => navigate(`/company/${company.id}`)}
                       >
                         View Profile
                       </button>
@@ -157,6 +168,125 @@ const MainCompanies = () => {
         </main>
       </div>
     </div>
+  );
+};
+
+const ShowCompanyModel = ({ open, onClose }) => {
+  const [formData, setFormData] = useState({
+    company_name: "",
+    email: "",
+    registration_number: "",
+    city: "",
+    country: "",
+    address: "",
+    company_head: "",
+    phone_number: "",
+    annex_price: "",
+    password: "",
+    logo: null,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({}); // Store errors as an object
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "50%",
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 2,
+        }}
+      >
+        {/* Header */}
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            Company Details
+          </Typography>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+
+        {/* Form */}
+        <form>
+          <Box mt={2} display="grid" gap={2} gridTemplateColumns="1fr 1fr">
+            <TextField
+              label="Company Name"
+              name="company_name"
+              value={formData.company_name}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Registration Number"
+              name="registration_number"
+              value={formData.registration_number}
+              fullWidth
+            />
+            <TextField
+              select
+              label="City"
+              name="city"
+              value={formData.city}
+              fullWidth
+            ></TextField>
+            <TextField
+              select
+              label="Country"
+              name="country"
+              value={formData.country}
+              fullWidth
+            ></TextField>
+            <TextField
+              label="Address"
+              name="address"
+              value={formData.address}
+              fullWidth
+            />
+            <TextField
+              label="Company Head"
+              name="company_head"
+              value={formData.company_head}
+              fullWidth
+            />
+            <PhoneInput
+              country={"gb"}
+              value={formData.phone_number}
+              inputStyle={{ width: "100%" }}
+            />
+            <TextField
+              label="Annex Price"
+              type="number"
+              name="annex_price"
+              value={formData.annex_price}
+              fullWidth
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              fullWidth
+            />
+          </Box>
+        </form>
+      </Box>
+    </Modal>
   );
 };
 

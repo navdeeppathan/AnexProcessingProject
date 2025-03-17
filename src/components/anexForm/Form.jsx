@@ -562,6 +562,7 @@ const Form = () => {
                 <Grid item xs={12} sm={4}>
                   <TextField
                     name="email"
+                    type="email"
                     value={formData.email}
                     onChange={handleChange}
                     fullWidth
@@ -640,6 +641,7 @@ const Form = () => {
                   <TextField
                     fullWidth
                     name="email2"
+                    type="email"
                     value={formData.email2}
                     onChange={handleChange}
                     label="Email"
@@ -990,6 +992,7 @@ const Form = () => {
                     value={formData.waste_processor_email}
                     onChange={handleChange}
                     label="Email"
+                    type="email"
                     variant="outlined"
                   />
                 </Grid>
@@ -1087,6 +1090,7 @@ const Form = () => {
                     value={formData.processing_facility_email}
                     onChange={handleChange}
                     label="Email"
+                    type="email"
                     variant="outlined"
                     defaultValue="info@loremipsum.co.uk"
                   />
