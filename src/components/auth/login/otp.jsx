@@ -139,11 +139,21 @@ const OTPVerification = () => {
           localStorage.setItem("emailData", decodedEmail);
           window.location.href = "/pdf-maker";
         });
-      } else {
-        setMessage(data.message || "OTP verification failed.");
+      } else if (data.success === false) {
+        Swal.fire({
+          title: "Failed",
+          text: data.message || "OTP verification failed.",
+          icon: "error",
+        });
+        // setMessage(data.error || "OTP verification failed.");
       }
     } catch (error) {
-      setMessage("Network error. Please try again.");
+      Swal.fire({
+        title: "Failed",
+        text: "OTP verification failed.",
+        icon: "error",
+      });
+      // setMessage("Network error. Please try again.");
     } finally {
       setLoading(false);
     }

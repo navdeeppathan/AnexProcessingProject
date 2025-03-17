@@ -22,7 +22,7 @@ const PDFMakerOrgnl = () => {
   const item = JSON.parse(storedData);
 
   // setFormData(data);
-  // console.log(storedData2.id);
+  console.log(item);
   // }, []);
   const [formData, setFormData] = useState(null);
 
@@ -171,47 +171,70 @@ const PDFMakerOrgnl = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 ">
                 <Box className="border  p-4 ">
                   <h3 className="font-semibold">1. Consignment Information</h3>
-                  <p>
-                    <strong>Name:</strong>
-                    {item?.company_name}
-                  </p>
-                  <p>
-                    <strong>Address:</strong> {item?.address}
-                  </p>
-                  <p>
-                    <strong>Contact Person:</strong> {item?.contact_person}
-                  </p>
-                  <p>
-                    <strong>Fax:</strong> {item?.fax}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {item?.email}
-                  </p>
-                  <p>
-                    <strong>Contact Number:</strong> {item?.contact_number}
-                  </p>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p>
+                        <strong>Name:</strong>
+                        {item?.company_name}
+                      </p>
+                      <p>
+                        <strong>Address:</strong> {item?.address}
+                      </p>
+                      <p>
+                        <strong>Contact Person:</strong> {item?.contact_person}
+                      </p>
+                      <p>
+                        <strong>Fax:</strong> {item?.fax}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {item?.email}
+                      </p>
+                      <p>
+                        <strong>Contact Number:</strong> {item?.contact_number}
+                      </p>
+                    </div>
+                    {item?.email === emailData && img && (
+                      <img
+                        src={img}
+                        alt="Signature"
+                        className="h-30 cursor-pointer"
+                      />
+                    )}
+                  </div>
                 </Box>
-                <Box className="border  p-4">
+                <Box className="border p-4">
                   <h3 className="font-semibold">2. Consignee</h3>
-                  <p>
-                    <strong>Name:</strong> {item?.consignee_name}
-                  </p>
-                  <p>
-                    <strong>Address:</strong>
-                    {item?.consignee_address}
-                  </p>
-                  <p>
-                    <strong>Contact Person:</strong> {item?.contPerson}
-                  </p>
-                  <p>
-                    <strong>Fax:</strong> {item?.fax2}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {item?.email2}
-                  </p>
-                  <p>
-                    <strong>Contact Number:</strong> {item?.consignee_contact}
-                  </p>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p>
+                        <strong>Name:</strong> {item?.consignee_name}
+                      </p>
+                      <p>
+                        <strong>Address:</strong>
+                        {item?.consignee_address}
+                      </p>
+                      <p>
+                        <strong>Contact Person:</strong> {item?.contPerson}
+                      </p>
+                      <p>
+                        <strong>Fax:</strong> {item?.fax2}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {item?.email2}
+                      </p>
+                      <p>
+                        <strong>Contact Number:</strong>{" "}
+                        {item?.consignee_contact}
+                      </p>
+                    </div>
+                    {item?.email2 === emailData && img && (
+                      <img
+                        src={img}
+                        alt="Signature"
+                        className="h-30 cursor-pointer"
+                      />
+                    )}
+                  </div>
                 </Box>
               </div>
 
@@ -283,11 +306,11 @@ const PDFMakerOrgnl = () => {
                           (signed)
                         </p>
                       </div>
-                      {data?.email === emailData && (
+                      {data?.email === emailData && img && (
                         <img
                           src={img}
                           alt="Signature"
-                          className="h-12 cursor-pointer"
+                          className="h-30 cursor-pointer"
                         />
                       )}
                     </div>
@@ -325,11 +348,11 @@ const PDFMakerOrgnl = () => {
                             {data?.email}
                           </p>
                         </div>
-                        {data?.email === emailData && (
+                        {data?.email === emailData && img && (
                           <img
                             src={img}
                             alt="Signature"
-                            className="h-12 cursor-pointer"
+                            className="h-30 cursor-pointer"
                           />
                         )}
                       </div>
@@ -386,11 +409,11 @@ const PDFMakerOrgnl = () => {
                             {data?.recovery_email}
                           </p>
                         </div>
-                        {data?.email === emailData && (
+                        {data?.recovery_email === emailData && img && (
                           <img
                             src={img}
                             alt="Signature"
-                            className="h-12 cursor-pointer"
+                            className="h-30 cursor-pointer"
                           />
                         )}
                       </div>
@@ -589,13 +612,13 @@ const PDFMakerOrgnl = () => {
               </Button>
             </div>
             {/* Middle: Drag Signature Message & Preview */}
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <span className="text-gray-600">
                 Drag your signature and place in your box
               </span>
 
-              <img src={img} alt="Signature" className="h-12 cursor-pointer" />
-            </div>
+              <img src={img} alt="Signature" className="h-30 cursor-pointer" />
+            </div> */}
             <div>
               <Button
                 // onClick={handleDownloadPDF}
