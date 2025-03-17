@@ -138,7 +138,7 @@ const MainDashboard = () => {
                           navigate(`/dashboard/anexV/${company?.id}`)
                         }
                       >
-                        View Profile
+                        View
                       </Button>
                     </td>
                   </tr>
