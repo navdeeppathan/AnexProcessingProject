@@ -88,18 +88,19 @@ const MainDashboard = () => {
             )}
           </header>
           <div className="stats-cards">
+            <div className="card purple">
+              Total Number of Annex Forms <h2>{totalforms}</h2>
+            </div>
+            <div className="card light-blue">
+              Total Requests <h2>{totalemails}</h2>
+            </div>
+
             <div className="card blue">
               Pending Signatures
               <h2>{totalemails - donesignatures}</h2>
             </div>
-            <div className="card purple">
-              Total Number of Annex Forms <h2>{totalforms}</h2>
-            </div>
             <div className="card orange">
               Done Signatures <h2>{donesignatures}</h2>
-            </div>
-            <div className="card light-blue">
-              Total Requests <h2>{totalemails}</h2>
             </div>
           </div>
           <table className="data-table">
@@ -111,6 +112,7 @@ const MainDashboard = () => {
                 <th>Complete Requests</th>
                 <th>Status</th>
                 <th>View Annex</th>
+                <th>Download</th>
               </tr>
             </thead>
             <tbody>
@@ -149,6 +151,21 @@ const MainDashboard = () => {
                         }
                       >
                         View
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          bgcolor: "#6b46c1",
+                          fontSize: "15px",
+                          textTransform: "none",
+                        }}
+                        // onClick={() =>
+                        //   navigate(`/dashboard/anexV/${company?.id}`)
+                        // }
+                      >
+                        Download
                       </Button>
                     </td>
                   </tr>

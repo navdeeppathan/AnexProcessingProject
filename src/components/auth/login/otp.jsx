@@ -128,17 +128,31 @@ const OTPVerification = () => {
       // localStorage.removeItem("formData");
 
       if (data.success === true) {
-        Swal.fire({
-          title: "Success!",
-          text: data.message,
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        }).then(() => {
-          localStorage.setItem("formData", JSON.stringify(data?.data));
-          localStorage.setItem("emailData", decodedEmail);
-          window.location.href = "/pdf-maker";
-        });
+        if (data?.countSignature == 0) {
+          Swal.fire({
+            title: "Success!",
+            text: data.message,
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(() => {
+            localStorage.setItem("formData", JSON.stringify(data?.data));
+            localStorage.setItem("emailData", decodedEmail);
+            window.location.href = "/pdf-maker";
+          });
+        } else {
+          Swal.fire({
+            title: "Already Signed!",
+            text: "You already signed this Annex. For more clarity please connect Admin!!!",
+            icon: "error",
+            timer: 5000,
+            showConfirmButton: false,
+          });
+
+          setTimeout(() => {
+            window.location.href = "/thankyou";
+          }, 5000);
+        }
       } else if (data.success === false) {
         Swal.fire({
           title: "Failed",

@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EmailIcon from "@mui/icons-material/Email";
 import AddIcon from "@mui/icons-material/Add";
 import DraftsIcon from "@mui/icons-material/Drafts";
+import Swal from "sweetalert2";
 
 const Form = () => {
   const generateId = () => {
@@ -67,10 +68,10 @@ const Form = () => {
     waste_processor_address: "",
     waste_processor_contact_person: "",
     waste_processor_tel: "",
-    waste_processor_fax: "",
+    // waste_processor_fax: "",
     waste_processor_email: "",
-    waste_processor_meansof_trans: "",
-    waste_processor_dateof_trans: "",
+    // waste_processor_meansof_trans: "",
+    // waste_processor_dateof_trans: "",
 
     //
     processing_facility_name: "",
@@ -203,7 +204,14 @@ const Form = () => {
       const data = await response.json();
       console.log("dataform submit:", data);
       if (response.ok) {
-        setSuccess("Company created successfully!");
+        setSuccess(data?.message);
+        Swal.fire({
+          title: "Success!",
+          text: data?.message,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
         setFormData({
           company_name: "",
           address: "",
@@ -237,10 +245,10 @@ const Form = () => {
           waste_processor_address: "",
           waste_processor_contact_person: "",
           waste_processor_tel: "",
-          waste_processor_fax: "",
+          // waste_processor_fax: "",
           waste_processor_email: "",
-          waste_processor_meansof_trans: "",
-          waste_processor_dateof_trans: "",
+          // waste_processor_meansof_trans: "",
+          // waste_processor_dateof_trans: "",
 
           //
           processing_facility_name: "",
@@ -975,7 +983,7 @@ const Form = () => {
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                {/* <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
                     name="waste_processor_fax"
@@ -984,7 +992,7 @@ const Form = () => {
                     label="Fax"
                     variant="outlined"
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
@@ -996,7 +1004,7 @@ const Form = () => {
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                {/* <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
                     name="waste_processor_meansof_trans"
@@ -1005,8 +1013,8 @@ const Form = () => {
                     label="Means of transport"
                     variant="outlined"
                   />
-                </Grid>
-                <Grid item xs={12} sm={4}>
+                </Grid> */}
+                {/* <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
                     type="date"
@@ -1015,7 +1023,7 @@ const Form = () => {
                     onChange={handleChange}
                     variant="outlined"
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
             </Box>
           </div>
