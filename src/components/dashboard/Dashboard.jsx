@@ -11,6 +11,7 @@ import AnnexForm from "../anexForm/AnexForm";
 import Sidebar from "../utils/Sidebar";
 import Draft from "../Draft/Draft";
 import User from "../auth/user/User";
+import DraftForm from "../Draft/DraftForm";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const Dashboard = () => {
             <Route path="/annex-form2" element={<AnnexForm />} />
             <Route path="/draft" element={<Draft />} />
             <Route path="/users" element={<User />} />
+            <Route path="/draftForm/:id" element={<DraftForm />} />
           </Routes>
         </div>
       </div>

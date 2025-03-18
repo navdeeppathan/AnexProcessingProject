@@ -13,632 +13,14 @@ import EmailIcon from "@mui/icons-material/Email";
 import AddIcon from "@mui/icons-material/Add";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const DraftForm = () => {
   const { id } = useParams();
-  //   const generateId = () => {
-  //     const user = localStorage.getItem("user");
-  //     const user_id = JSON.parse(user)?.company_id;
-  //     return user_id;
-  //   };
-
-  //   function generateRandomString() {
-  //     const prefix = "CMAU";
-  //     const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // 7-digit random number
-  //     return prefix + randomNumber;
-  //   }
-  //   // const annexid = generateRandomString();
-  //   // console.log("asjd:---", annexid);
-  //   const [getFormData, setGetFormData] = useState(null);
-
-  //   //formdata
-  //   const [formData, setFormData] = useState({
-  //     user_id: generateId(),
-  //     annex_id: generateRandomString(),
-
-  //     company_name: "",
-  //     address: "",
-  //     contact_number: "",
-  //     contact_person: "",
-  //     fax: "",
-  //     email: "",
-  //     //
-  //     consignee_name: "",
-  //     consignee_address: "",
-  //     consignee_contact: "",
-  //     contPerson: "",
-  //     fax2: "",
-  //     email2: "",
-  //     //
-  //     shipment_facility_name: "",
-  //     shipment_facility_date: "",
-
-  //     //
-  //     public_agency: "",
-  //     //
-  //     number_of_shipments: 0,
-  //     weight: 0,
-
-  //     //
-  //     aShipdate: "",
-  //     //
-
-  //     // preferred_carrier_name: "",
-  //     // preferred_carrier_arrival_date: "",
-  //     // preferred_carrier_departure_date: "",
-  //     //
-  //     waste_processor_name: "",
-  //     waste_processor_address: "",
-  //     waste_processor_contact_person: "",
-  //     waste_processor_tel: "",
-  //     waste_processor_fax: "",
-  //     waste_processor_email: "",
-  //     waste_processor_meansof_trans: "",
-  //     waste_processor_dateof_trans: "",
-
-  //     //
-  //     processing_facility_name: "",
-  //     processing_facility_address: "",
-  //     processing_facility_contact_per: "",
-  //     processing_facility_tel: "",
-  //     processing_facility_fax: "",
-  //     processing_facility_email: "",
-
-  //     //
-  //     recovery_operation_name: "",
-
-  //     //
-  //     usual_des_of_the_waste: "",
-
-  //     //
-  //     countriesOrstates_exp_dis: "",
-  //     countriesOrstates_transit: "",
-  //     countriesOrstates_imprt_arr: "",
-
-  //     //
-  //     declaration_name: "",
-  //     declaration_date: "",
-  //     //
-  //     signature_exp_dis: "",
-  //     signature_transit: "",
-  //     // signature_imprt_arr: "",
-  //     //
-  //     // license_number: "",
-  //     // approval_details: "",
-  //     waste_amount: 0,
-  //     toxic_content: 1,
-  //     local_authority_confirmation: 1,
-  //     // waste_transport_status: "",
-  //     // shipment_received_at_facility: "",
-
-  //     carriers: [
-  //       {
-  //         name: "",
-  //         address: "",
-  //         contact_person: "",
-  //         phone: "",
-  //         fax: "",
-  //         email: "",
-  //       },
-  //     ],
-  //   });
-
-  //   //get the form data from id
-  //   //   useEffect(() => {
-  //   //     const fetchFormData = async () => {
-  //   //       setLoading(true);
-  //   //       setError("");
-
-  //   //       try {
-  //   //         const response = await fetch(
-  //   //           `https://annex.sofinish.co.uk/api/draftforms/${id}`,
-  //   //           {
-  //   //             method: "GET",
-  //   //             headers: {
-  //   //               "Content-Type": "application/json",
-  //   //             },
-  //   //           }
-  //   //         );
-
-  //   //         if (!response.ok) {
-  //   //           throw new Error(`HTTP error! Status: ${response.status}`);
-  //   //         }
-
-  //   //         console.log(response);
-
-  //   //         const data = await response.json();
-  //   //         console.log("data:-", data);
-  //   //         setGetFormData(data);
-  //   //       } catch (err) {
-  //   //         setError(err.message);
-  //   //       } finally {
-  //   //         setLoading(false);
-  //   //       }
-  //   //     };
-
-  //   //     fetchFormData();
-  //   //   }, []);
-  //   useEffect(() => {
-  //     const fetchFormData = async () => {
-  //       setLoading(true);
-  //       setError("");
-
-  //       try {
-  //         const response = await fetch(
-  //           `https://annex.sofinish.co.uk/api/draftforms/${id}`
-  //         );
-
-  //         if (!response.ok)
-  //           throw new Error(`HTTP error! Status: ${response.status}`);
-
-  //         const data = await response.json();
-  //         setFormData((prev) => ({ ...prev, ...data }));
-  //       } catch (err) {
-  //         setError(err.message);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-
-  //     fetchFormData();
-  //   }, [id]); // Dependency changed from `[]` to `[id]` for dynamic fetching
-
-  //   //set the get form data into formdata
-  //   useEffect(() => {
-  //     if (getFormData) {
-  //       setFormData((prevFormData) => ({
-  //         ...prevFormData, // Keep existing form values
-  //         ...getFormData, // Overwrite with fetched data
-  //       }));
-  //     }
-  //   }, [getFormData]);
-
-  //   const [loading, setLoading] = useState(false);
-  //   const [error, setError] = useState("");
-  //   const [success, setSuccess] = useState("");
-  //   const [carriers, setCarriers] = useState([
-  //     {
-  //       name: "",
-  //       address: "",
-  //       contact_person: "",
-  //       phone: "",
-  //       fax: "",
-  //       email: "",
-  //       // means_of_transport: "",
-  //       // date_of_transport: "",
-  //       // departure_date: "",
-  //     },
-  //   ]);
-  //   const handleChange = (e) => {
-  //     const { name, value } = e.target;
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       [name]: value,
-  //     }));
-  //   };
-
-  //   // Handle changes in the carriers array
-  //   const handleCarrierChange = (index, event) => {
-  //     const { name, value } = event.target;
-  //     setFormData((prev) => {
-  //       const updatedCarriers = [...prev.carriers];
-  //       updatedCarriers[index][name] = value;
-  //       return { ...prev, carriers: updatedCarriers };
-  //     });
-  //   };
-
-  //   // Add a new carrier to the list
-  //   const addCarrier = () => {
-  //     if (formData.carriers.length < 5) {
-  //       setFormData((prev) => ({
-  //         ...prev,
-  //         carriers: [
-  //           ...prev.carriers,
-  //           {
-  //             name: "",
-  //             address: "",
-  //             contact_person: "",
-  //             phone: "",
-  //             fax: "",
-  //             email: "",
-  //           },
-  //         ],
-  //       }));
-  //     }
-  //   };
-  //   // Remove a carrier by index
-  //   const removeCarrier = (index) => {
-  //     if (formData.carriers.length > 1) {
-  //       setFormData((prev) => ({
-  //         ...prev,
-  //         carriers: prev.carriers.filter((_, i) => i !== index),
-  //       }));
-  //     }
-  //   };
-
-  //   const handleSubmit = async (e) => {
-  //     console.log(carriers);
-  //     e.preventDefault();
-  //     setLoading(true);
-  //     setError("");
-  //     setSuccess("");
-  //     // console.log(formData);
-  //     const formDataToSend = new FormData();
-  //     Object.keys(formData).forEach((key) => {
-  //       formDataToSend.append(key, formData[key]);
-  //     });
-  //     formDataToSend.append("carriers", JSON.stringify(carriers));
-
-  //     // console.log("Form Data Entries:");
-  //     let isEmpty = false;
-  //     for (let pair of formDataToSend.entries()) {
-  //       console.log(pair[0], pair[1]);
-  //       if (!pair[1]) {
-  //         isEmpty = true;
-  //       }
-  //     }
-  //     if (isEmpty) {
-  //       alert("All fields are required");
-  //       isEmpty = false;
-  //       return;
-  //     }
-
-  //     try {
-  //       const response = await fetch(
-  //         "https://annex.sofinish.co.uk/api/submit-form",
-  //         {
-  //           method: "POST",
-  //           body: formDataToSend,
-  //         }
-  //       );
-
-  //       const data = await response.json();
-  //       console.log("dataform submit:", data);
-  //       if (response.ok) {
-  //         setSuccess("Company created successfully!");
-  //         setFormData({
-  //           company_name: "",
-  //           address: "",
-  //           contact_number: "",
-  //           contact_person: "",
-  //           fax: "",
-  //           email: "",
-  //           //
-  //           consignee_name: "",
-  //           consignee_address: "",
-  //           consignee_contact: "",
-  //           contPerson: "",
-  //           fax2: "",
-  //           email2: "",
-
-  //           //
-  //           public_agency: "",
-  //           //
-  //           number_of_shipments: 0,
-  //           weight: 0,
-
-  //           //
-  //           aShipdate: "",
-  //           //
-
-  //           // preferred_carrier_name: "",
-  //           // preferred_carrier_arrival_date: "",
-  //           // preferred_carrier_departure_date: "",
-  //           //
-  //           waste_processor_name: "",
-  //           waste_processor_address: "",
-  //           waste_processor_contact_person: "",
-  //           waste_processor_tel: "",
-  //           waste_processor_fax: "",
-  //           waste_processor_email: "",
-  //           waste_processor_meansof_trans: "",
-  //           waste_processor_dateof_trans: "",
-
-  //           //
-  //           processing_facility_name: "",
-  //           processing_facility_address: "",
-  //           processing_facility_contact_per: "",
-  //           processing_facility_tel: "",
-  //           processing_facility_fax: "",
-  //           processing_facility_email: "",
-
-  //           //
-  //           recovery_operation_name: "",
-
-  //           //
-  //           usual_des_of_the_waste: "",
-
-  //           //
-  //           countriesOrstates_exp_dis: "",
-  //           countriesOrstates_transit: "",
-  //           countriesOrstates_imprt_arr: "",
-  //           //
-  //           shipment_facility_name: "",
-  //           shipment_facility_date: "",
-
-  //           //
-  //           declaration_name: "",
-  //           declaration_date: "",
-  //           //
-  //           signature_exp_dis: "",
-  //           signature_transit: "",
-  //           signature_imprt_arr: "",
-  //           //
-  //           basel_annex_ix: "",
-  //           oecd_ii: "",
-  //           annex_iia4: "",
-  //           annex_iiia5: "",
-  //           ec_list_of_wastes: "",
-  //           national_code: "",
-  //           other_specify: "",
-  //           //
-
-  //           license_number: "",
-  //           approval_details: "",
-  //           waste_amount: 0,
-  //           toxic_content: 1,
-  //           local_authority_confirmation: 1,
-  //           waste_transport_status: "",
-  //           shipment_received_at_facility: "",
-  //         });
-  //         setCarriers([
-  //           {
-  //             name: "",
-  //             address: "",
-  //             contact_person: "",
-  //             phone: "",
-  //             fax: "",
-  //             email: "",
-  //             // means_of_transport: "",
-  //             // date_of_transport: "",
-  //             // departure_date: "",
-  //           },
-  //         ]);
-  //       } else {
-  //         setError(data.message || "Failed to create form");
-  //       }
-  //     } catch (error) {
-  //       // console.log("eroor:-", error);
-  //       setError("Network error. Please try again.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   const handleDraft = async (e) => {
-  //     console.log(carriers);
-  //     e.preventDefault();
-  //     setLoading(true);
-  //     setError("");
-  //     setSuccess("");
-  //     // console.log(formData);
-  //     const formDataToSend = new FormData();
-  //     Object.keys(formData).forEach((key) => {
-  //       formDataToSend.append(key, formData[key]);
-  //     });
-  //     formDataToSend.append("carriers", JSON.stringify(carriers));
-  //     formDataToSend.append("draft", 1);
-  //     console.log("Form Data Entries:");
-  //     for (let pair of formDataToSend.entries()) {
-  //       console.log(pair[0], pair[1]);
-  //     }
-
-  //     try {
-  //       const response = await fetch(
-  //         "https://annex.sofinish.co.uk/api/submit-form",
-  //         {
-  //           method: "POST",
-  //           body: formDataToSend,
-  //         }
-  //       );
-
-  //       const data = await response.json();
-  //       console.log("dataform submit:", data);
-  //       if (response.ok) {
-  //         setSuccess("Company created successfully!");
-
-  //         window.location.href = "/dashboard/draft";
-  //         setFormData({
-  //           company_name: "",
-  //           address: "",
-  //           contact_number: "",
-  //           contact_person: "",
-  //           fax: "",
-  //           email: "",
-  //           //
-  //           consignee_name: "",
-  //           consignee_address: "",
-  //           consignee_contact: "",
-  //           contPerson: "",
-  //           fax2: "",
-  //           email2: "",
-
-  //           //
-  //           public_agency: "",
-  //           //
-  //           number_of_shipments: 0,
-  //           weight: 0,
-
-  //           //
-  //           aShipdate: "",
-  //           //
-
-  //           // preferred_carrier_name: "",
-  //           // preferred_carrier_arrival_date: "",
-  //           // preferred_carrier_departure_date: "",
-  //           //
-  //           waste_processor_name: "",
-  //           waste_processor_address: "",
-  //           waste_processor_contact_person: "",
-  //           waste_processor_tel: "",
-  //           waste_processor_fax: "",
-  //           waste_processor_email: "",
-  //           waste_processor_meansof_trans: "",
-  //           waste_processor_dateof_trans: "",
-
-  //           //
-  //           processing_facility_name: "",
-  //           processing_facility_address: "",
-  //           processing_facility_contact_per: "",
-  //           processing_facility_tel: "",
-  //           processing_facility_fax: "",
-  //           processing_facility_email: "",
-
-  //           //
-  //           recovery_operation_name: "",
-
-  //           //
-  //           usual_des_of_the_waste: "",
-
-  //           //
-  //           countriesOrstates_exp_dis: "",
-  //           countriesOrstates_transit: "",
-  //           countriesOrstates_imprt_arr: "",
-  //           //
-  //           shipment_facility_name: "",
-  //           shipment_facility_date: "",
-
-  //           //
-  //           declaration_name: "",
-  //           declaration_date: "",
-  //           //
-  //           signature_exp_dis: "",
-  //           signature_transit: "",
-  //           signature_imprt_arr: "",
-  //           //
-  //           basel_annex_ix: "",
-  //           oecd_ii: "",
-  //           annex_iia4: "",
-  //           annex_iiia5: "",
-  //           ec_list_of_wastes: "",
-  //           national_code: "",
-  //           other_specify: "",
-  //           //
-
-  //           license_number: "",
-  //           approval_details: "",
-  //           waste_amount: 0,
-  //           toxic_content: 1,
-  //           local_authority_confirmation: 1,
-  //           waste_transport_status: "",
-  //           shipment_received_at_facility: "",
-  //         });
-  //         setCarriers([
-  //           {
-  //             name: "",
-  //             address: "",
-  //             contact_person: "",
-  //             phone: "",
-  //             fax: "",
-  //             email: "",
-  //             means_of_transport: "",
-  //             date_of_transport: "",
-  //             departure_date: "",
-  //           },
-  //         ]);
-  //       } else {
-  //         setError(data.message || "Failed to create company");
-  //       }
-  //     } catch (error) {
-  //       // console.log("eroor:-", error);
-  //       setError("Network error. Please try again.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  // const generateId = () => {
-  //   const user = localStorage.getItem("user");
-  //   return JSON.parse(user)?.company_id || "";
-  // };
-
-  // const generateRandomString = () => {
-  //   return `CMAU${Math.floor(1000000 + Math.random() * 9000000)}`;
-  // };
-
-  // const [formData, setFormData] = useState({
-  //   user_id: generateId(),
-  //   annex_id: generateRandomString(),
-  //   company_name: "",
-  //   address: "",
-  //   contact_number: "",
-  //   contact_person: "",
-  //   fax: "",
-  //   email: "",
-  //   consignee_name: "",
-  //   consignee_address: "",
-  //   consignee_contact: "",
-  //   contPerson: "",
-  //   fax2: "",
-  //   email2: "",
-  //   shipment_facility_name: "",
-  //   shipment_facility_date: "",
-  //   public_agency: "",
-  //   number_of_shipments: 0,
-  //   weight: 0,
-  //   aShipdate: "",
-  //   waste_processor_name: "",
-  //   waste_processor_address: "",
-  //   waste_processor_contact_person: "",
-  //   waste_processor_tel: "",
-  //   waste_processor_fax: "",
-  //   waste_processor_email: "",
-  //   waste_processor_meansof_trans: "",
-  //   waste_processor_dateof_trans: "",
-  //   processing_facility_name: "",
-  //   processing_facility_address: "",
-  //   processing_facility_contact_per: "",
-  //   processing_facility_tel: "",
-  //   processing_facility_fax: "",
-  //   processing_facility_email: "",
-  //   recovery_operation_name: "",
-  //   usual_des_of_the_waste: "",
-  //   countriesOrstates_exp_dis: "",
-  //   countriesOrstates_transit: "",
-  //   countriesOrstates_imprt_arr: "",
-  //   declaration_name: "",
-  //   declaration_date: "",
-  //   signature_exp_dis: "",
-  //   signature_transit: "",
-  //   waste_amount: 0,
-  //   toxic_content: 1,
-  //   local_authority_confirmation: 1,
-  //   carriers: [
-  //     {
-  //       name: "",
-  //       address: "",
-  //       contact_person: "",
-  //       phone: "",
-  //       fax: "",
-  //       email: "",
-  //     },
-  //   ],
-  // });
-
-  // useEffect(() => {
-  //   const fetchFormData = async () => {
-  //     setLoading(true);
-  //     setError("");
-  //     try {
-  //       const response = await fetch(
-  //         `https://annex.sofinish.co.uk/api/draftforms/${id}`
-  //       );
-  //       if (!response.ok)
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       const data = await response.json();
-  //       setFormData((prev) => ({ ...prev, ...data }));
-  //     } catch (err) {
-  //       setError(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   if (id) fetchFormData();
-  // }, [id]);
-
   const [formData, setFormData] = useState({
-    user_id: "", // Will be set from getFormData
-    annex_id: "", // Will be set from getFormData
+    user_id: "",
+    annex_id: "",
+    draft: 0,
     company_name: "",
     address: "",
     contact_number: "",
@@ -651,6 +33,8 @@ const DraftForm = () => {
     contPerson: "",
     fax2: "",
     email2: "",
+    shipment_facility_name: "",
+    shipment_facility_date: "",
     public_agency: "",
     number_of_shipments: 0,
     weight: 0,
@@ -659,10 +43,7 @@ const DraftForm = () => {
     waste_processor_address: "",
     waste_processor_contact_person: "",
     waste_processor_tel: "",
-    waste_processor_fax: "",
     waste_processor_email: "",
-    waste_processor_meansof_trans: "",
-    waste_processor_dateof_trans: "",
     processing_facility_name: "",
     processing_facility_address: "",
     processing_facility_contact_per: "",
@@ -681,37 +62,144 @@ const DraftForm = () => {
     waste_amount: 0,
     toxic_content: 1,
     local_authority_confirmation: 1,
-    carriers: [
-      {
-        name: "",
-        address: "",
-        contact_person: "",
-        phone: "",
-        fax: "",
-        email: "",
-      },
-    ],
+    basel_annex_ix: "",
+    annex_iia4: "",
+    annex_iiia5: "",
+    ec_list_of_wastes: "",
+    oecd_ii: "",
+    national_code: "",
+    other_specify: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [carriers, setCarriers] = useState([
+    {
+      name: "",
+      address: "",
+      contact_person: "",
+      phone: "",
+      fax: "",
+      email: "",
+    },
+  ]);
+
+  // Fetch form data from API
   useEffect(() => {
     const fetchFormData = async () => {
       setLoading(true);
       setError("");
       try {
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/draftforms/${id}`
+          `https://annex.sofinish.co.uk/api/forms/${id}`
         );
         if (!response.ok)
           throw new Error(`HTTP error! Status: ${response.status}`);
-        const data = await response.json();
 
-        // Set form data with values from API
-        setFormData((prev) => ({
-          ...prev,
-          ...data,
-          user_id: data.user_id || prev.user_id,
-          annex_id: data.annex_id || prev.annex_id,
-        }));
+        const data = await response.json();
+        console.log("Fetched Data:", data); // Log the fetched data
+
+        // Check if data is an array and get the first element
+        if (Array.isArray(data) && data.length > 0) {
+          const formDataFromApi = data[0]; // Access the first object in the array
+
+          // Set form data with values from API
+          setFormData((prev) => ({
+            ...prev,
+            user_id: formDataFromApi.user_id || prev.user_id,
+            annex_id: formDataFromApi.annex_id || prev.annex_id,
+            company_name: formDataFromApi.company_name || "",
+            address: formDataFromApi.address || "",
+            contact_number: formDataFromApi.contact_number || "",
+            contact_person: formDataFromApi.contact_person || "",
+            fax: formDataFromApi.fax || "",
+            email: formDataFromApi.email || "",
+            consignee_name: formDataFromApi.consignee_name || "",
+            consignee_address: formDataFromApi.consignee_address || "",
+            consignee_contact: formDataFromApi.consignee_contact || "",
+            contPerson: formDataFromApi.contPerson || "",
+            fax2: formDataFromApi.fax2 || "",
+            email2: formDataFromApi.email2 || "",
+            shipment_facility_name:
+              formDataFromApi.shipment_facility_name || "",
+            shipment_facility_date:
+              formDataFromApi.shipment_facility_date || "",
+            public_agency: formDataFromApi.public_agency || "",
+            number_of_shipments:
+              Number(formDataFromApi.number_of_shipments) || 0,
+            weight: Number(formDataFromApi.weight) || 0,
+            aShipdate: formDataFromApi.aShipdate || "",
+            waste_processor_name:
+              formDataFromApi.waste_generator[0]?.name || "",
+            waste_processor_address:
+              formDataFromApi.waste_generator[0]?.address || "",
+            waste_processor_contact_person:
+              formDataFromApi.waste_generator[0]?.contact_person || "",
+            waste_processor_tel:
+              formDataFromApi.waste_generator[0]?.mobile || "",
+
+            waste_processor_email:
+              formDataFromApi.waste_generator[0]?.email || "",
+
+            processing_facility_name:
+              formDataFromApi.waste_generator[0]?.recovery_name || "",
+            processing_facility_address:
+              formDataFromApi.waste_generator[0]?.recovery_address || "",
+            processing_facility_contact_per:
+              formDataFromApi.waste_generator[0]?.recovery_contact || "",
+            processing_facility_tel:
+              formDataFromApi.waste_generator[0]?.recovery_tel || "",
+            processing_facility_fax:
+              formDataFromApi.waste_generator[0]?.recovery_fax || "",
+            processing_facility_email:
+              formDataFromApi.waste_generator[0]?.recovery_email || "",
+            recovery_operation_name:
+              formDataFromApi.recovery_operation_name || "",
+            usual_des_of_the_waste:
+              formDataFromApi.usual_des_of_the_waste || "",
+            countriesOrstates_exp_dis:
+              formDataFromApi.countriesOrstates_exp_dis || "",
+            countriesOrstates_transit:
+              formDataFromApi.countriesOrstates_transit || "",
+            countriesOrstates_imprt_arr:
+              formDataFromApi.countriesOrstates_imprt_arr || "",
+            declaration_name: formDataFromApi.declaration_name || "",
+            declaration_date: formDataFromApi.declaration_date || "",
+            signature_exp_dis: formDataFromApi.signature_exp_dis || "",
+            signature_transit: formDataFromApi.signature_transit || "",
+            waste_amount: Number(formDataFromApi.waste_amount) || 0,
+            toxic_content: Number(formDataFromApi.toxic_content) || 1,
+            local_authority_confirmation:
+              Number(formDataFromApi.local_authority_confirmation) || 1,
+            basel_annex_ix: formDataFromApi.basel_annex_ix,
+            annex_iia4: formDataFromApi.annex_iia4_tel,
+            annex_iiia5: formDataFromApi.annex_iiia5_tel,
+            ec_list_of_wastes: formDataFromApi.ec_list_of_wastes,
+            oecd_ii: formDataFromApi.oecd_ii,
+            national_code: formDataFromApi.national_code,
+            other_specify: formDataFromApi.other_specify,
+          }));
+
+          // If carriers are present in the data, set them in the carriers state
+          if (
+            formDataFromApi.carriers &&
+            Array.isArray(formDataFromApi.carriers)
+          ) {
+            setCarriers(
+              formDataFromApi.carriers.map((carrier) => ({
+                name: carrier.name || "",
+                address: carrier.address || "",
+                contact_person: carrier.contact_person || "",
+                phone: carrier.phone || "",
+                fax: carrier.fax || "",
+                email: carrier.email || "",
+              }))
+            );
+          }
+        } else {
+          console.error("Unexpected data structure:", data);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -724,134 +212,42 @@ const DraftForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleCarrierChange = (index, e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => {
-      const updatedCarriers = [...prev.carriers];
+  const handleCarrierChange = (index, event) => {
+    const { name, value } = event.target;
+    setCarriers((prev) => {
+      const updatedCarriers = [...prev];
       updatedCarriers[index][name] = value;
-      return { ...prev, carriers: updatedCarriers };
+      return updatedCarriers;
     });
   };
 
   const addCarrier = () => {
-    if (formData.carriers.length < 5) {
-      setFormData((prev) => ({
+    if (carriers.length < 5) {
+      setCarriers((prev) => [
         ...prev,
-        carriers: [
-          ...prev.carriers,
-          {
-            name: "",
-            address: "",
-            contact_person: "",
-            phone: "",
-            fax: "",
-            email: "",
-          },
-        ],
-      }));
+        {
+          name: "",
+          address: "",
+          contact_person: "",
+          phone: "",
+          fax: "",
+          email: "",
+        },
+      ]);
     }
   };
 
   const removeCarrier = (index) => {
-    if (formData.carriers.length > 1) {
-      setFormData((prev) => ({
-        ...prev,
-        carriers: prev.carriers.filter((_, i) => i !== index),
-      }));
+    if (carriers.length > 1) {
+      setCarriers((prev) => prev.filter((_, i) => i !== index));
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   setError("");
-  //   setSuccess("");
-  //   const formDataToSend = new FormData();
-  //   Object.keys(formData).forEach((key) => {
-  //     if (key === "carriers") {
-  //       formDataToSend.append(key, JSON.stringify(formData[key]));
-  //     } else {
-  //       formDataToSend.append(key, formData[key]);
-  //     }
-  //   });
-
-  //   try {
-  //     const response = await fetch(
-  //       "https://annex.sofinish.co.uk/api/submit-form",
-  //       {
-  //         method: "POST",
-  //         body: formDataToSend,
-  //       }
-  //     );
-
-  //     if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
-
-  //     setSuccess("Company created successfully!");
-  //     setFormData({
-  //       user_id: generateId(),
-  //       annex_id: generateRandomString(),
-  //       company_name: "",
-  //       address: "",
-  //       contact_number: "",
-  //       contact_person: "",
-  //       fax: "",
-  //       email: "",
-  //       consignee_name: "",
-  //       consignee_address: "",
-  //       consignee_contact: "",
-  //       contPerson: "",
-  //       fax2: "",
-  //       email2: "",
-  //       public_agency: "",
-  //       number_of_shipments: 0,
-  //       weight: 0,
-  //       aShipdate: "",
-  //       waste_processor_name: "",
-  //       waste_processor_address: "",
-  //       waste_processor_contact_person: "",
-  //       waste_processor_tel: "",
-  //       waste_processor_fax: "",
-  //       waste_processor_email: "",
-  //       waste_processor_meansof_trans: "",
-  //       waste_processor_dateof_trans: "",
-  //       processing_facility_name: "",
-  //       processing_facility_address: "",
-  //       processing_facility_contact_per: "",
-  //       processing_facility_tel: "",
-  //       processing_facility_fax: "",
-  //       processing_facility_email: "",
-  //       recovery_operation_name: "",
-  //       usual_des_of_the_waste: "",
-  //       countriesOrstates_exp_dis: "",
-  //       countriesOrstates_transit: "",
-  //       countriesOrstates_imprt_arr: "",
-  //       declaration_name: "",
-  //       declaration_date: "",
-  //       signature_exp_dis: "",
-  //       signature_transit: "",
-  //       waste_amount: 0,
-  //       toxic_content: 1,
-  //       local_authority_confirmation: 1,
-  //       carriers: [
-  //         {
-  //           name: "",
-  //           address: "",
-  //           contact_person: "",
-  //           phone: "",
-  //           fax: "",
-  //           email: "",
-  //         },
-  //       ],
-  //     });
-  //   } catch (error) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -861,12 +257,26 @@ const DraftForm = () => {
 
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
-      if (key === "carriers") {
-        formDataToSend.append(key, JSON.stringify(formData[key]));
-      } else {
-        formDataToSend.append(key, formData[key]);
-      }
+      formDataToSend.append(key, formData[key]);
     });
+    formDataToSend.append("carriers", JSON.stringify(carriers));
+
+    let isEmpty = false;
+    for (let pair of formDataToSend.entries()) {
+      if (!pair[1]) {
+        isEmpty = true;
+      }
+    }
+    // if (isEmpty) {
+    //   // alert("All fields are required");
+    //   Swal.fire({
+    //     title: "Error!",
+    //     text: "All fields are required",
+    //     icon: "error",
+    //     timer: 1000,
+    //   });
+    //   return;
+    // }
 
     try {
       const response = await fetch(
@@ -877,56 +287,65 @@ const DraftForm = () => {
         }
       );
 
-      if (!response.ok)
-        throw new Error(`Submission failed: ${response.status}`);
-
-      setSuccess("Company created successfully!");
-      setFormData({
-        user_id: "",
-        annex_id: "",
-        company_name: "",
-        address: "",
-        contact_number: "",
-        contact_person: "",
-        fax: "",
-        email: "",
-        consignee_name: "",
-        consignee_address: "",
-        consignee_contact: "",
-        contPerson: "",
-        fax2: "",
-        email2: "",
-        public_agency: "",
-        number_of_shipments: 0,
-        weight: 0,
-        aShipdate: "",
-        waste_processor_name: "",
-        waste_processor_address: "",
-        waste_processor_contact_person: "",
-        waste_processor_tel: "",
-        waste_processor_fax: "",
-        waste_processor_email: "",
-        waste_processor_meansof_trans: "",
-        waste_processor_dateof_trans: "",
-        processing_facility_name: "",
-        processing_facility_address: "",
-        processing_facility_contact_per: "",
-        processing_facility_tel: "",
-        processing_facility_fax: "",
-        processing_facility_email: "",
-        recovery_operation_name: "",
-        usual_des_of_the_waste: "",
-        countriesOrstates_exp_dis: "",
-        countriesOrstates_transit: "",
-        countriesOrstates_imprt_arr: "",
-        declaration_name: "",
-        declaration_date: "",
-        signature_exp_dis: "",
-        signature_transit: "",
-        waste_amount: 0,
-        toxic_content: 1,
-        local_authority_confirmation: 1,
-        carriers: [
+      const data = await response.json();
+      if (response.ok) {
+        setSuccess("form submited successfully!");
+        Swal.fire({
+          title: "Error!",
+          text: data?.message,
+          icon: "error",
+          timer: 1000,
+        });
+        // Reset formData and carriers
+        setFormData({
+          user_id: "",
+          annex_id: "",
+          company_name: "",
+          address: "",
+          contact_number: "",
+          contact_person: "",
+          fax: "",
+          email: "",
+          consignee_name: "",
+          consignee_address: "",
+          consignee_contact: "",
+          contPerson: "",
+          fax2: "",
+          email2: "",
+          shipment_facility_name: "",
+          shipment_facility_date: "",
+          public_agency: "",
+          number_of_shipments: 0,
+          weight: 0,
+          aShipdate: "",
+          waste_processor_name: "",
+          waste_processor_address: "",
+          waste_processor_contact_person: "",
+          waste_processor_tel: "",
+          waste_processor_fax: "",
+          waste_processor_email: "",
+          waste_processor_meansof_trans: "",
+          waste_processor_dateof_trans: "",
+          processing_facility_name: "",
+          processing_facility_address: "",
+          processing_facility_contact_per: "",
+          processing_facility_tel: "",
+          processing_facility_fax: "",
+          processing_facility_email: "",
+          recovery_operation_name: "",
+          usual_des_of_the_waste: "",
+          countriesOrstates_exp_dis: "",
+          countriesOrstates_transit: "",
+          countriesOrstates_imprt_arr: "",
+          declaration_name: "",
+          declaration_date: "",
+          signature_exp_dis: "",
+          signature_transit: "",
+          waste_amount: 0,
+          toxic_content: 1,
+          local_authority_confirmation: 1,
+        });
+        setCarriers([
           {
             name: "",
             address: "",
@@ -935,26 +354,134 @@ const DraftForm = () => {
             fax: "",
             email: "",
           },
-        ],
-      });
+        ]);
+      } else {
+        setError(data.message || "Failed to create form");
+        Swal.fire({
+          title: "Error!",
+          text: data.message,
+          icon: "error",
+          timer: 1000,
+        });
+      }
     } catch (error) {
-      setError(error.message);
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  // const handleDraft = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setError("");
+  //   setSuccess("");
+
+  //   const formDataToSend = new FormData();
+  //   Object.keys(formData).forEach((key) => {
+  //     formDataToSend.append(key, formData[key]);
+  //   });
+  //   formDataToSend.append("carriers", JSON.stringify(carriers));
+  //   formDataToSend.append("draft", 1);
+
+  //   try {
+  //     const response = await fetch(
+  //       "https://annex.sofinish.co.uk/api/submit-form",
+  //       {
+  //         method: "POST",
+  //         body: formDataToSend,
+  //       }
+  //     );
+
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       setSuccess("Draft saved successfully!");
+  //       window.location.href = "/dashboard/draft";
+  //       // Reset formData and carriers
+  //       setFormData({
+  //         user_id: "",
+  //         annex_id: "",
+  //         company_name: "",
+  //         address: "",
+  //         contact_number: "",
+  //         contact_person: "",
+  //         fax: "",
+  //         email: "",
+  //         consignee_name: "",
+  //         consignee_address: "",
+  //         consignee_contact: "",
+  //         contPerson: "",
+  //         fax2: "",
+  //         email2: "",
+  //         shipment_facility_name: "",
+  //         shipment_facility_date: "",
+  //         public_agency: "",
+  //         number_of_shipments: 0,
+  //         weight: 0,
+  //         aShipdate: "",
+  //         waste_processor_name: "",
+  //         waste_processor_address: "",
+  //         waste_processor_contact_person: "",
+  //         waste_processor_tel: "",
+  //         waste_processor_fax: "",
+  //         waste_processor_email: "",
+  //         waste_processor_meansof_trans: "",
+  //         waste_processor_dateof_trans: "",
+  //         processing_facility_name: "",
+  //         processing_facility_address: "",
+  //         processing_facility_contact_per: "",
+  //         processing_facility_tel: "",
+  //         processing_facility_fax: "",
+  //         processing_facility_email: "",
+  //         recovery_operation_name: "",
+  //         usual_des_of_the_waste: "",
+  //         countriesOrstates_exp_dis: "",
+  //         countriesOrstates_transit: "",
+  //         countriesOrstates_imprt_arr: "",
+  //         declaration_name: "",
+  //         declaration_date: "",
+  //         signature_exp_dis: "",
+  //         signature_transit: "",
+  //         waste_amount: 0,
+  //         toxic_content: 1,
+  //         local_authority_confirmation: 1,
+  //       });
+  //       setCarriers([
+  //         {
+  //           name: "",
+  //           address: "",
+  //           contact_person: "",
+  //           phone: "",
+  //           fax: "",
+  //           email: "",
+  //         },
+  //       ]);
+  //     } else {
+  //       setError(data.message || "Failed to create draft");
+  //     }
+  //   } catch (error) {
+  //     setError("Network error. Please try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // Loading and Error Handling
   if (loading) {
-    <p className="flex flex-col items-center justify-center h-screen">
-      <CircularProgress />
-      <p className="text-black font-medium text-xl">Loading...</p>
-    </p>;
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <CircularProgress />
+        <p className="text-black font-medium text-xl mt-4">Loading...</p>
+      </div>
+    );
   }
-  // if (isEmpty) {
-  //   alert("All fields are required");
-  //   setLoading(false);
-  //   return;
-  // }
+
+  if (error) {
+    return <p className="text-red-500 text-center mt-5">Error: {error}</p>;
+  }
+
+  console.log("formData:-", formData);
+
   return (
     <div className="bg-[#F8F9FA]">
       <form onSubmit={handleSubmit}>
@@ -1378,48 +905,6 @@ const DraftForm = () => {
               </Box>
             </Box>
           </div>
-          {/* <div>
-            <Box p={2} borderRadius={2} bgcolor="white">
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                5. Preferred Carrier:
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="preferred_carrier_name"
-                    value={formData.preferred_carrier_name}
-                    onChange={handleChange}
-                    label="Name"
-                    variant="outlined"
-                    defaultValue="Lorem Ipsum"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    name="preferred_carrier_arrival_date"
-                    value={formData.preferred_carrier_arrival_date}
-                    onChange={handleChange}
-                    variant="outlined"
-                    defaultValue="Lorem ipsum dolor sit mate"
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    name="preferred_carrier_departure_date"
-                    value={formData.preferred_carrier_departure_date}
-                    onChange={handleChange}
-                    variant="outlined"
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-          </div> */}
 
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
@@ -1468,16 +953,7 @@ const DraftForm = () => {
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="waste_processor_fax"
-                    value={formData.waste_processor_fax}
-                    onChange={handleChange}
-                    label="Fax"
-                    variant="outlined"
-                  />
-                </Grid>
+
                 <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
@@ -1486,26 +962,6 @@ const DraftForm = () => {
                     onChange={handleChange}
                     label="Email"
                     type="email"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="waste_processor_meansof_trans"
-                    value={formData.waste_processor_meansof_trans}
-                    onChange={handleChange}
-                    label="Means of transport"
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    name="waste_processor_dateof_trans"
-                    value={formData.waste_processor_dateof_trans}
-                    onChange={handleChange}
                     variant="outlined"
                   />
                 </Grid>
@@ -1912,22 +1368,6 @@ const DraftForm = () => {
 
           <div>
             <Box display="flex" justifyContent="end" gap={2}>
-              <Button
-                variant="contained"
-                startIcon={<DraftsIcon />}
-                sx={{
-                  textTransform: "none",
-                  backgroundColor: "#576CBC",
-                  "&:hover": { backgroundColor: "#405B8C" },
-                }}
-                onClick={handleDraft}
-              >
-                {/* {loading ? (
-                  <CircularProgress size={24} sx={{ color: "white" }} />
-                ) : ( */}
-                Save as Draft
-                {/* )} */}
-              </Button>
               <Button
                 variant="contained"
                 type="submit"
