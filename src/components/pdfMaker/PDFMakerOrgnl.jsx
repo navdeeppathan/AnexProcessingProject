@@ -22,8 +22,9 @@ const PDFMakerOrgnl = () => {
   const item = JSON.parse(storedData);
 
   // setFormData(data);
-  console.log(item);
+  console.log("jbsdagjlbdsg-", item);
   // }, []);
+
   const [formData, setFormData] = useState(null);
 
   const handleDigitalSignature = () => {
@@ -134,13 +135,13 @@ const PDFMakerOrgnl = () => {
   };
   console.log(formId);
 
-  if (loading)
-    return (
-      <p className="flex flex-col items-center justify-center h-screen">
-        <CircularProgress />
-        <p className="text-black font-medium text-xl">Loading...</p>
-      </p>
-    );
+  // if (loading)
+  //   return (
+  //     <p className="flex flex-col items-center justify-center h-screen">
+  //       <CircularProgress />
+  //       <p className="text-black font-medium text-xl">Loading...</p>
+  //     </p>
+  //   );
 
   return (
     <div>
