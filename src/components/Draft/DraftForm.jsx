@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 const DraftForm = () => {
   const { id } = useParams();
   const [formData, setFormData] = useState({
+    id: id,
     user_id: "",
     annex_id: "",
     draft: 0,
@@ -291,10 +292,10 @@ const DraftForm = () => {
       if (response.ok) {
         setSuccess("form submited successfully!");
         Swal.fire({
-          title: "Error!",
+          title: "Success!",
           text: data?.message,
-          icon: "error",
-          timer: 1000,
+          icon: "success",
+          timer: 3000,
         });
         // Reset formData and carriers
         setFormData({
