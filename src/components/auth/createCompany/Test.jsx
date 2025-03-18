@@ -1,52 +1,28 @@
-import React, { useState } from "react";
-import jsPDF from "jspdf";
+import React from "react";
 
 const Test = () => {
-  const [image, setImage] = useState(null);
-
-  // Handle Image Upload
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target.result); // Store base64 image
-      };
-      reader.readAsDataURL(file);
-    }
+  const shipmentProgress = (total, emails) => {
+    return (emails / total) * 100;
   };
 
   return (
-    <div className="App">
-      <h1>Upload an Image and Generate PDF</h1>
-
-      {/* Image Upload */}
-      <input
-        type="file"
-        accept="image/png, image/jpeg"
-        onChange={handleImageUpload}
-      />
-
-      {/* Display Uploaded Image */}
-      {image && <img src={image} alt="Uploaded" width="100" height="100" />}
-
-      {/* PDF Generator */}
-      {image && <PDFG image={image} />}
+    <div>
+      <div className="bg-white rounded-lg shadow p-2">
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-4">Shipment Progress</h2>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-indigo-600 h-2 rounded-full"
+              style={{ width: `${shipmentProgress(10, 8)}%` }}
+            ></div>
+          </div>
+          <span className="text-sm text-gray-600">
+            {shipmentProgress(7, 3).toFixed(2)}%
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Test;
-
-const PDFG = ({ image }) => {
-  const generatePdf = () => {
-    const pdf = new jsPDF("p", "pt", "a4");
-    pdf.text(20, 20, "This is a PDF with an uploaded image");
-
-    // Add image to PDF
-    pdf.addImage(image, "PNG", 20, 50, 150, 150);
-    pdf.save("image.pdf");
-  };
-
-  return <button onClick={generatePdf}>Generate PDF</button>;
-};

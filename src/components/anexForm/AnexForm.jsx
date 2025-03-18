@@ -324,7 +324,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                   <div className="grid grid-cols-1 md:grid-cols-2 ">
                     <Box className="border  p-4 ">
                       <h3 className="font-semibold">
-                        1. Consignment Information
+                        1. Person who arranges the shipment
                       </h3>
                       <div className="flex justify-between">
                         <div>
@@ -667,114 +667,166 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                           </div>
                         </Box>
                       </div>
+
+                      <div className="grid grid-cols-1 ">
+                        <Box className="border  p-4">
+                          <h3 className="font-semibold">
+                            12. Countries/states concerned:
+                          </h3>
+                        </Box>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 ">
+                        <Box className="border  p-4">
+                          <p>{item?.countriesOrstates_exp_dis}</p>
+                        </Box>
+
+                        <Box className="border  p-4">
+                          <p>{item?.countriesOrstates_transit}</p>
+                        </Box>
+                        <Box className="border  p-4">
+                          <p>{item?.countriesOrstates_imprt_arr}</p>
+                        </Box>
+                      </div>
+                      <div className="grid grid-cols-1 ">
+                        <Box className={`border p-4 `}>
+                          <h3 className="font-semibold">
+                            13. Declaration of the person who arranges the
+                            shipment: I certify that the above information is
+                            complete and correct to the best of my knowledge.
+                          </h3>
+                          <div className="flex mt-2 justify-between">
+                            <div className="flex items-center justify-between w-full ">
+                              <p>
+                                <strong className="mr-2">Name:</strong>
+                                {item?.declaration_name}
+                              </p>
+                              <p>
+                                <strong className="mr-2">Date:</strong>
+                                {item?.declaration_date}
+                              </p>
+                              <p>
+                                <strong className="mr-2">Signature:</strong>
+                                {/* (signed) */}
+                              </p>
+                            </div>
+                            <div>
+                              {item?.signature?.some(
+                                (sign) => sign.signed_by === item?.email
+                              ) && (
+                                <img
+                                  crossOrigin="anonymous"
+                                  src={`https://annex.sofinish.co.uk/${
+                                    item?.signature?.find(
+                                      (sign) => sign.signed_by === item?.email
+                                    )?.signature_path || ""
+                                  }`}
+                                  alt="Signature"
+                                  className="w-30 h-10"
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </Box>
+                      </div>
+                      <div className="grid grid-cols-1 ">
+                        <Box className={`border p-4 `}>
+                          <h3 className="font-semibold">
+                            14. Signature upon receipt of the waste by the
+                            consignee:
+                          </h3>
+                          <div className="flex mt-2 justify-between">
+                            <div className="flex items-center justify-between w-full ">
+                              <div className="flex">
+                                <span className="text-black mr-1">Name:</span>
+                                <div className="border-b border-black w-28">
+                                  {item?.signature_exp_dis}
+                                </div>
+                              </div>
+                              <div className="flex">
+                                <span className="text-black mr-1">Date:</span>
+                                <div className="border-b border-black w-28">
+                                  {item?.signature_transit}
+                                </div>
+                              </div>
+                              <div className="flex">
+                                <span className="text-black mr-1">
+                                  Signature:
+                                </span>
+                                {/* <div className="border-b border-black w-28"></div> */}
+                              </div>
+                            </div>
+                            <div>
+                              {item?.signature?.some(
+                                (sign) => sign.signed_by === item?.email2
+                              ) && (
+                                <img
+                                  crossOrigin="anonymous"
+                                  src={`https://annex.sofinish.co.uk/${
+                                    item?.signature?.find(
+                                      (sign) => sign.signed_by === item?.email2
+                                    )?.signature_path || ""
+                                  }`}
+                                  alt="Signature"
+                                  className="w-30 h-10"
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </Box>
+                      </div>
+                      <div className="grid grid-cols-1 ">
+                        <Box className={`border p-4 `}>
+                          <h3 className="font-semibold text-center">
+                            TO BE COMPLETED BY THE RECOVERY FACILITY
+                          </h3>
+                          <h3 className="font-semibold mt-1">
+                            15. Shipment received at recovery facility. Quantity
+                            received: ____________________ Tonnes (Mg) m³
+                          </h3>
+                          <div className="flex mt-3  justify-between">
+                            <div className="w-full flex items-center  justify-between">
+                              <div className="flex">
+                                <span className="text-black mr-1">Name:</span>
+                                <div className="border-b border-black w-28">
+                                  {item?.shipment_facility_name}
+                                </div>
+                              </div>
+                              <div className="flex">
+                                <span className="text-black mr-1">Date:</span>
+                                <div className="border-b border-black w-28">
+                                  {item?.shipment_facility_date}
+                                </div>
+                              </div>
+                              <div className="flex">
+                                <span className="text-black mr-1">
+                                  Signature:
+                                </span>
+                                {/* <div className="border-b border-black w-28"></div> */}
+                              </div>
+                            </div>
+                            <div className="flex justify-end mt-auto">
+                              {item?.signature?.some(
+                                (sign) =>
+                                  sign.signed_by === data2?.recovery_email
+                              ) && (
+                                <img
+                                  src={`https://annex.sofinish.co.uk/${
+                                    item?.signature?.find(
+                                      (sign) =>
+                                        sign.signed_by === data2?.recovery_email
+                                    )?.signature_path || ""
+                                  }`}
+                                  alt="Signature"
+                                  className="w-30 h-10"
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </Box>
+                      </div>
                     </>
                   ))}
-
-                  <div className="grid grid-cols-1 ">
-                    <Box className="border  p-4">
-                      <h3 className="font-semibold">
-                        12. Countries/states concerned:
-                      </h3>
-                    </Box>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 ">
-                    <Box className="border  p-4">
-                      <p>{item?.countriesOrstates_exp_dis}</p>
-                    </Box>
-
-                    <Box className="border  p-4">
-                      <p>{item?.countriesOrstates_transit}</p>
-                    </Box>
-                    <Box className="border  p-4">
-                      <p>{item?.countriesOrstates_imprt_arr}</p>
-                    </Box>
-                  </div>
-                  <div className="grid grid-cols-1 ">
-                    <Box className={`border p-4 `}>
-                      <h3 className="font-semibold">
-                        13. Declaration of the person who arranges the shipment:
-                        I certify that the above information is complete and
-                        correct to the best of my knowledge.
-                      </h3>
-                      <div className="flex mt-2 justify-between">
-                        <div className="flex items-center justify-between w-full ">
-                          <p>
-                            <strong className="mr-2">Name:</strong>
-                            {item?.declaration_name}
-                          </p>
-                          <p>
-                            <strong className="mr-2">Date:</strong>
-                            {item?.declaration_date}
-                          </p>
-                          <p>
-                            <strong className="mr-2">Signature:</strong>
-                            (signed)
-                          </p>
-                        </div>
-                      </div>
-                    </Box>
-                  </div>
-                  <div className="grid grid-cols-1 ">
-                    <Box className={`border p-4 `}>
-                      <h3 className="font-semibold">
-                        14. Signature upon receipt of the waste by the
-                        consignee:
-                      </h3>
-                      <div className="flex mt-2 justify-between">
-                        <div className="flex items-center justify-between w-full ">
-                          <div className="flex">
-                            <span className="text-black mr-1">Name:</span>
-                            <div className="border-b border-black w-28">
-                              {item?.signature_exp_dis}
-                            </div>
-                          </div>
-                          <div className="flex">
-                            <span className="text-black mr-1">Date:</span>
-                            <div className="border-b border-black w-28">
-                              {item?.signature_transit}
-                            </div>
-                          </div>
-                          <div className="flex">
-                            <span className="text-black mr-1">Signature:</span>
-                            <div className="border-b border-black w-28"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </Box>
-                  </div>
-                  <div className="grid grid-cols-1 ">
-                    <Box className={`border p-4 `}>
-                      <h3 className="font-semibold text-center">
-                        TO BE COMPLETED BY THE RECOVERY FACILITY
-                      </h3>
-                      <h3 className="font-semibold mt-1">
-                        15. Shipment received at recovery facility. Quantity
-                        received: ____________________ Tonnes (Mg) m³
-                      </h3>
-                      <div className="flex mt-3  justify-between">
-                        <div className="w-full flex items-center  justify-between">
-                          <div className="flex">
-                            <span className="text-black mr-1">Name:</span>
-                            <div className="border-b border-black w-28">
-                              {item?.shipment_facility_name}
-                            </div>
-                          </div>
-                          <div className="flex">
-                            <span className="text-black mr-1">Date:</span>
-                            <div className="border-b border-black w-28">
-                              {item?.shipment_facility_date}
-                            </div>
-                          </div>
-                          <div className="flex">
-                            <span className="text-black mr-1">Signature:</span>
-                            <div className="border-b border-black w-28"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </Box>
-                  </div>
-
                   {/* bullet points */}
                   <div className="mt-2">
                     <ul className="list-disc pl-5 space-y-2">

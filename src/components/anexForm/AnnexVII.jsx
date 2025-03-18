@@ -138,9 +138,15 @@ const AnnexVII = () => {
         return;
     }
   };
+
   const userData = localStorage.getItem("user");
   const user = JSON.parse(userData);
   console.log(user);
+
+  const shipmentProgress = (total, emails) => {
+    const percentage = (emails / total) * 100;
+    return percentage;
+  };
 
   return (
     <div className="w-full flex flex-col p-6 min-h-screen ">
@@ -668,129 +674,213 @@ const AnnexVII = () => {
                                 </div>
                               </Box>
                             </div>
+
+                            <div className="grid grid-cols-1 ">
+                              <Box className="border  p-4">
+                                <h3 className="font-semibold">
+                                  12. Countries/states concerned:
+                                </h3>
+                              </Box>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 ">
+                              <Box className="border  p-4">
+                                <p>{item?.countriesOrstates_exp_dis}</p>
+                              </Box>
+
+                              <Box className="border  p-4">
+                                <p>{item?.countriesOrstates_transit}</p>
+                              </Box>
+                              <Box className="border  p-4">
+                                <p>{item?.countriesOrstates_imprt_arr}</p>
+                              </Box>
+                            </div>
+
+                            <div className="grid grid-cols-1 ">
+                              <Box className={`border p-4 ${getStatusColor()}`}>
+                                <h3 className="font-semibold">
+                                  13. Declaration of the person who arranges the
+                                  shipment: I certify that the above information
+                                  is complete and correct to the best of my
+                                  knowledge.
+                                </h3>
+                                <div className="flex mt-2 justify-between">
+                                  <div className="flex items-center justify-between w-full ">
+                                    <p>
+                                      <strong className="mr-2">Name:</strong>
+                                      {item?.declaration_name}
+                                    </p>
+                                    <p>
+                                      <strong className="mr-2">Date:</strong>
+                                      {item?.declaration_date}
+                                    </p>
+                                    <p>
+                                      <strong className="mr-2">
+                                        Signature:
+                                      </strong>
+                                      {/* (signed) */}
+                                    </p>
+                                  </div>
+
+                                  <div className="flex justify-end mt-auto">
+                                    <div className="flex  items-center space-y-1">
+                                      {item?.signature?.some(
+                                        (sign) => sign.signed_by === item?.email
+                                      ) && (
+                                        <img
+                                          src={`https://annex.sofinish.co.uk/${
+                                            item?.signature?.find(
+                                              (sign) =>
+                                                sign.signed_by === item?.email
+                                            )?.signature_path || ""
+                                          }`}
+                                          alt="Signature"
+                                          className="w-30 h-10"
+                                        />
+                                      )}
+                                      {getStatusIcon(
+                                        item?.signature?.some(
+                                          (sign) =>
+                                            sign.signed_by === item?.email
+                                        )
+                                          ? "completed"
+                                          : "pending"
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </Box>
+                            </div>
+                            <div className="grid grid-cols-1 ">
+                              <Box className={`border p-4 ${getStatusColor()}`}>
+                                <h3 className="font-semibold">
+                                  14. Signature upon receipt of the waste by the
+                                  consignee:
+                                </h3>
+                                <div className="flex mt-2 justify-between">
+                                  <div className="flex items-center justify-between w-full ">
+                                    <div className="flex">
+                                      <span className="text-black mr-1">
+                                        Name:
+                                      </span>
+                                      <div className="border-b border-black w-28">
+                                        {item?.signature_exp_dis}
+                                      </div>
+                                    </div>
+                                    <div className="flex">
+                                      <span className="text-black mr-1">
+                                        Date:
+                                      </span>
+                                      <div className="border-b border-black w-28">
+                                        {item?.signature_transit}
+                                      </div>
+                                    </div>
+                                    <div className="flex">
+                                      <span className="text-black mr-1">
+                                        Signature:
+                                      </span>
+                                      {/* <div className="border-b border-black w-28"></div> */}
+                                    </div>
+                                  </div>
+                                  <div className="flex justify-end mt-auto">
+                                    <div className="flex items-center space-y-1">
+                                      {item?.signature?.some(
+                                        (sign) =>
+                                          sign.signed_by === item?.email2
+                                      ) && (
+                                        <img
+                                          src={`https://annex.sofinish.co.uk/${
+                                            item?.signature?.find(
+                                              (sign) =>
+                                                sign.signed_by === item?.email2
+                                            )?.signature_path || ""
+                                          }`}
+                                          alt="Signature"
+                                          className="w-30 h-10"
+                                        />
+                                      )}
+                                      {getStatusIcon(
+                                        item?.signature?.some(
+                                          (sign) =>
+                                            sign.signed_by === item?.email2
+                                        )
+                                          ? "completed"
+                                          : "pending"
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </Box>
+                            </div>
+                            <div className="grid grid-cols-1 ">
+                              <Box className={`border p-4 ${getStatusColor()}`}>
+                                <h3 className="font-semibold text-center">
+                                  TO BE COMPLETED BY THE RECOVERY FACILITY
+                                </h3>
+                                <h3 className="font-semibold mt-1">
+                                  15. Shipment received at recovery facility.
+                                  Quantity received: ____________________ Tonnes
+                                  (Mg) m³
+                                </h3>
+                                <div className="flex mt-3  justify-between">
+                                  <div className="w-full flex items-center  justify-between">
+                                    <div className="flex">
+                                      <span className="text-black mr-1">
+                                        Name:
+                                      </span>
+                                      <div className="border-b border-black w-28">
+                                        {item?.shipment_facility_name}
+                                      </div>
+                                    </div>
+                                    <div className="flex">
+                                      <span className="text-black mr-1">
+                                        Date:
+                                      </span>
+                                      <div className="border-b border-black w-28">
+                                        {item?.shipment_facility_date}
+                                      </div>
+                                    </div>
+                                    <div className="flex">
+                                      <span className="text-black mr-1">
+                                        Signature:
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="flex justify-end mt-auto">
+                                    <div className="flex items-center space-y-1">
+                                      {item?.signature?.some(
+                                        (sign) =>
+                                          sign.signed_by ===
+                                          data2?.recovery_email
+                                      ) && (
+                                        <img
+                                          src={`https://annex.sofinish.co.uk/${
+                                            item?.signature?.find(
+                                              (sign) =>
+                                                sign.signed_by ===
+                                                data2?.recovery_email
+                                            )?.signature_path || ""
+                                          }`}
+                                          alt="Signature"
+                                          className="w-30 h-10"
+                                        />
+                                      )}
+                                      {getStatusIcon(
+                                        item?.signature?.some(
+                                          (sign) =>
+                                            sign.signed_by ===
+                                            data2?.recovery_email
+                                        )
+                                          ? "completed"
+                                          : "pending"
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </Box>
+                            </div>
                           </>
                         ))}
-                        <div className="grid grid-cols-1 ">
-                          <Box className="border  p-4">
-                            <h3 className="font-semibold">
-                              12. Countries/states concerned:
-                            </h3>
-                          </Box>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 ">
-                          <Box className="border  p-4">
-                            <p>{item?.countriesOrstates_exp_dis}</p>
-                          </Box>
-
-                          <Box className="border  p-4">
-                            <p>{item?.countriesOrstates_transit}</p>
-                          </Box>
-                          <Box className="border  p-4">
-                            <p>{item?.countriesOrstates_imprt_arr}</p>
-                          </Box>
-                        </div>
-
-                        <div className="grid grid-cols-1 ">
-                          <Box className={`border p-4 ${getStatusColor()}`}>
-                            <h3 className="font-semibold">
-                              13. Declaration of the person who arranges the
-                              shipment: I certify that the above information is
-                              complete and correct to the best of my knowledge.
-                            </h3>
-                            <div className="flex mt-2 justify-between">
-                              <div className="flex items-center justify-between w-full ">
-                                <p>
-                                  <strong className="mr-2">Name:</strong>
-                                  {item?.declaration_name}
-                                </p>
-                                <p>
-                                  <strong className="mr-2">Date:</strong>
-                                  {item?.declaration_date}
-                                </p>
-                                <p>
-                                  <strong className="mr-2">Signature:</strong>
-                                  (signed)
-                                </p>
-                              </div>
-
-                              <div className="flex justify-end mt-auto">
-                                {getStatusIcon()}
-                              </div>
-                            </div>
-                          </Box>
-                        </div>
-                        <div className="grid grid-cols-1 ">
-                          <Box className={`border p-4 ${getStatusColor()}`}>
-                            <h3 className="font-semibold">
-                              14. Signature upon receipt of the waste by the
-                              consignee:
-                            </h3>
-                            <div className="flex mt-2 justify-between">
-                              <div className="flex items-center justify-between w-full ">
-                                <div className="flex">
-                                  <span className="text-black mr-1">Name:</span>
-                                  <div className="border-b border-black w-28">
-                                    {item?.signature_exp_dis}
-                                  </div>
-                                </div>
-                                <div className="flex">
-                                  <span className="text-black mr-1">Date:</span>
-                                  <div className="border-b border-black w-28">
-                                    {item?.signature_transit}
-                                  </div>
-                                </div>
-                                <div className="flex">
-                                  <span className="text-black mr-1">
-                                    Signature:
-                                  </span>
-                                  <div className="border-b border-black w-28"></div>
-                                </div>
-                              </div>
-                              <div className="flex justify-end mt-auto">
-                                {getStatusIcon()}
-                              </div>
-                            </div>
-                          </Box>
-                        </div>
-                        <div className="grid grid-cols-1 ">
-                          <Box className={`border p-4 ${getStatusColor()}`}>
-                            <h3 className="font-semibold text-center">
-                              TO BE COMPLETED BY THE RECOVERY FACILITY
-                            </h3>
-                            <h3 className="font-semibold mt-1">
-                              15. Shipment received at recovery facility.
-                              Quantity received: ____________________ Tonnes
-                              (Mg) m³
-                            </h3>
-                            <div className="flex mt-3  justify-between">
-                              <div className="w-full flex items-center  justify-between">
-                                <div className="flex">
-                                  <span className="text-black mr-1">Name:</span>
-                                  <div className="border-b border-black w-28">
-                                    {item?.shipment_facility_name}
-                                  </div>
-                                </div>
-                                <div className="flex">
-                                  <span className="text-black mr-1">Date:</span>
-                                  <div className="border-b border-black w-28">
-                                    {item?.shipment_facility_date}
-                                  </div>
-                                </div>
-                                <div className="flex">
-                                  <span className="text-black mr-1">
-                                    Signature:
-                                  </span>
-                                  <div className="border-b border-black w-28"></div>
-                                </div>
-                              </div>
-                              <div className="flex justify-end mt-auto">
-                                {getStatusIcon()}
-                              </div>
-                            </div>
-                          </Box>
-                        </div>
-
                         {/* bullet points */}
                         <div className="mt-2">
                           <ul className="list-disc pl-5 space-y-2">
@@ -837,9 +927,14 @@ const AnnexVII = () => {
                       Shipment Progress
                     </h2>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-indigo-600 h-2 rounded-full w-2/5"></div>
+                      <div
+                        className="bg-indigo-600 h-2 rounded-full"
+                        style={{ width: `${shipmentProgress(7, 3)}%` }}
+                      ></div>
                     </div>
-                    <span className="text-sm text-gray-600">40%</span>
+                    <span className="text-sm text-gray-600">
+                      {shipmentProgress(7, 3).toFixed(2)}%
+                    </span>
                   </div>
 
                   {/* Steps List */}
@@ -848,7 +943,7 @@ const AnnexVII = () => {
                       {/* Left Side Content */}
                       <div className="space-y-2">
                         <h2 className="font-semibold">
-                          1. Consignment Information
+                          1. Person who arranges the shipment
                         </h2>
                         <div className="space-y-0.2">
                           <p>
@@ -1032,100 +1127,143 @@ const AnnexVII = () => {
                             )}
                           </div>
                         </div>
+
+                        {/* 6 */}
+
+                        <div className="flex w-full justify-between items-center border-b">
+                          {/* Left Side Content */}
+                          <div className="space-y-2">
+                            <h2 className="font-semibold">
+                              10. Waste identification (fill in relevant codes)
+                            </h2>
+                            <p>
+                              <strong>(i) Basel Annex IX:</strong>
+                              {item?.basel_annex_ix}
+                            </p>
+                            <p>
+                              <strong>(i) Basel Annex IX:</strong>
+                              {item?.basel_annex_ix}
+                            </p>
+                          </div>
+
+                          {/* Right Side Icons */}
+                          {/* <div className="flex space-x-2">
+                        {getStatusIcon("pending-email")}
+                        {getStatusIcon("pending")}
+                      </div> */}
+                        </div>
+                        {/* 7 */}
+                        <div className="flex w-full justify-between items-center border-b">
+                          {/* Left Side Content */}
+                          <div className="space-y-2">
+                            <h2 className="font-semibold">
+                              12. Declaration of the person who arranges the
+                              shipment
+                            </h2>
+                            <p>
+                              <strong>Name:</strong>
+                              {item?.declaration_name}
+                            </p>
+                            <p>
+                              <strong>Date:</strong>
+                              {item?.item?.declaration_date}
+                            </p>
+                          </div>
+
+                          {/* Right Side Icons */}
+                          <div className="flex space-x-2">
+                            {getStatusIcon(
+                              item?.signature?.some(
+                                (sign) => sign.signed_by === item?.email
+                              )
+                                ? "success-email"
+                                : "pending-email"
+                            )}
+                            {getStatusIcon(
+                              item?.signature?.some(
+                                (sign) => sign.signed_by === item?.email
+                              )
+                                ? "completed"
+                                : "pending"
+                            )}
+                          </div>
+                        </div>
+                        {/* 8 */}
+                        <div className="flex w-full justify-between items-center border-b">
+                          {/* Left Side Content */}
+                          <div className="space-y-2">
+                            <h2 className="font-semibold">
+                              13. Signature upon receipt of the waste by the
+                              consignee:
+                            </h2>
+                            <p>
+                              <strong>Name:</strong>
+                              {item?.signature_exp_dis}
+                            </p>
+                            <p>
+                              <strong>Phone:</strong>
+                              {item?.signature_transit}
+                            </p>
+                          </div>
+
+                          {/* Right Side Icons */}
+                          <div className="flex space-x-2">
+                            {getStatusIcon(
+                              item?.signature?.some(
+                                (sign) => sign.signed_by === item?.email2
+                              )
+                                ? "success-email"
+                                : "pending-email"
+                            )}
+                            {getStatusIcon(
+                              item?.signature?.some(
+                                (sign) => sign.signed_by === item?.email2
+                              )
+                                ? "completed"
+                                : "pending"
+                            )}
+                          </div>
+                        </div>
+
+                        {/* 9 */}
+                        <div className="flex w-full justify-between items-center border-b">
+                          {/* Left Side Content */}
+                          <div className="space-y-2">
+                            <h2 className="font-semibold">
+                              14. Shipment received at recovery facility
+                            </h2>
+                            <p>
+                              <strong>Name:</strong>
+                              {item?.shipment_facility_name}
+                            </p>
+                            <p>
+                              <strong>Phone:</strong>
+                              {item?.shipment_facility_date}
+                            </p>
+                          </div>
+
+                          {/* Right Side Icons */}
+                          <div className="flex space-x-2">
+                            {getStatusIcon(
+                              item?.signature?.some(
+                                (sign) =>
+                                  sign.signed_by === data2?.recovery_email
+                              )
+                                ? "success-email"
+                                : "pending-email"
+                            )}
+                            {getStatusIcon(
+                              item?.signature?.some(
+                                (sign) =>
+                                  sign.signed_by === data2?.recovery_email
+                              )
+                                ? "completed"
+                                : "pending"
+                            )}
+                          </div>
+                        </div>
                       </>
                     ))}
-                    {/* 6 */}
-
-                    <div className="flex w-full justify-between items-center border-b">
-                      {/* Left Side Content */}
-                      <div className="space-y-2">
-                        <h2 className="font-semibold">
-                          10. Waste identification (fill in relevant codes)
-                        </h2>
-                        <p>
-                          <strong>(i) Basel Annex IX:</strong>
-                          {item?.basel_annex_ix}
-                        </p>
-                        <p>
-                          <strong>(i) Basel Annex IX:</strong>
-                          {item?.basel_annex_ix}
-                        </p>
-                      </div>
-
-                      {/* Right Side Icons */}
-                      {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
-                    </div>
-                    {/* 7 */}
-                    <div className="flex w-full justify-between items-center border-b">
-                      {/* Left Side Content */}
-                      <div className="space-y-2">
-                        <h2 className="font-semibold">
-                          12. Declaration of the person who arranges the
-                          shipment
-                        </h2>
-                        <p>
-                          <strong>Name:</strong>
-                          {item?.declaration_name}
-                        </p>
-                        <p>
-                          <strong>Name:</strong>
-                          {item?.declaration_name}
-                        </p>
-                      </div>
-
-                      {/* Right Side Icons */}
-                      {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
-                    </div>
-                    {/* 8 */}
-                    <div className="flex w-full justify-between items-center border-b">
-                      {/* Left Side Content */}
-                      <div className="space-y-2">
-                        <h2 className="font-semibold">
-                          13. Signature upon receipt of the waste by the
-                          consignee:
-                        </h2>
-                        <p className="text-gray-700">
-                          <span className="font-semibold">Name:</span> static
-                        </p>
-                        <p className="text-gray-700">
-                          <span className="font-semibold">Phone:</span> static
-                        </p>
-                      </div>
-
-                      {/* Right Side Icons */}
-                      {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
-                    </div>
-
-                    {/* 9 */}
-                    <div className="flex w-full justify-between items-center border-b">
-                      {/* Left Side Content */}
-                      <div className="space-y-2">
-                        <h2 className="font-semibold">
-                          14. Shipment received at recovery facility
-                        </h2>
-                        <p className="text-gray-700">
-                          <span className="font-semibold">Name:</span>static
-                        </p>
-                        <p className="text-gray-700">
-                          <span className="font-semibold">Phone:</span> static
-                        </p>
-                      </div>
-
-                      {/* Right Side Icons */}
-                      {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -1187,6 +1325,11 @@ const Page = ({ item }) => {
         return;
     }
   };
+
+  const shipmentProgress = (total, emails) => {
+    const percentage = (emails / total) * 100;
+    return percentage;
+  };
   return (
     <>
       {/* ---------------Left-section ------------------------------*/}
@@ -1223,7 +1366,7 @@ const Page = ({ item }) => {
                 <div className={` grid grid-cols-1 md:grid-cols-2 `}>
                   <Box className={`border p-4 ${getStatusColor("pending")}`}>
                     <h3 className="font-semibold">
-                      1. Consignment Information
+                      1. Person who arranges the shipment
                     </h3>
                     <div className="flex  justify-between">
                       <div>
@@ -1239,7 +1382,16 @@ const Page = ({ item }) => {
                           {item?.contact_person}
                         </p>
                         <p>
-                          <strong>Email:</strong> {item?.email}
+                          <strong>Fax:</strong>
+                          {item?.fax}
+                        </p>
+                        <p>
+                          <strong>Email:</strong>
+                          {item?.email}
+                        </p>
+                        <p>
+                          <strong>Contact Number:</strong>
+                          {item?.contact_number}
                         </p>
                       </div>
                       <div className="flex justify-end mt-auto">
@@ -1262,7 +1414,16 @@ const Page = ({ item }) => {
                           <strong>Contact Person:</strong> {item?.contPerson}
                         </p>
                         <p>
-                          <strong>Email:</strong> {item?.email2}
+                          <strong>Fax:</strong>
+                          {item?.fax2}
+                        </p>
+                        <p>
+                          <strong>Email:</strong>
+                          {item?.email2}
+                        </p>
+                        <p>
+                          <strong>Contact Number:</strong>
+                          {item?.consignee_contact}
                         </p>
                       </div>
                       <div className="flex justify-end mt-auto">
@@ -1326,14 +1487,14 @@ const Page = ({ item }) => {
                             <strong>Email:</strong>
                             {data?.email}
                           </p>
-                          <p>
-                            <strong>Means of Transport:</strong>
-                            {data?.means_of_transport}
-                          </p>
-                          <p>
-                            <strong>Date of Transfer:</strong>
-                            {data?.date_of_transport}
-                          </p>
+                          {/* <p>
+                                      <strong>Means of Transport:</strong>
+                                      {data?.means_of_transport}
+                                    </p>
+                                    <p>
+                                      <strong>Date of Transfer:</strong>
+                                      {data?.date_of_transport}
+                                    </p> */}
                           <p>
                             <strong>Signature:</strong>
                             (signed)
@@ -1527,12 +1688,12 @@ const Page = ({ item }) => {
                         </p>
                         <p>
                           <strong className="mr-2">Signature:</strong>
-                          (signed)
+                          {/* (signed) */}
                         </p>
                       </div>
 
                       <div className="flex justify-end mt-auto">
-                        {getStatusIcon()}
+                        {getStatusIcon("pending")}
                       </div>
                     </div>
                   </Box>
@@ -1562,7 +1723,7 @@ const Page = ({ item }) => {
                         </div>
                       </div>
                       <div className="flex justify-end mt-auto">
-                        {getStatusIcon()}
+                        {getStatusIcon("pending")}
                       </div>
                     </div>
                   </Box>
@@ -1596,7 +1757,7 @@ const Page = ({ item }) => {
                         </div>
                       </div>
                       <div className="flex justify-end mt-auto">
-                        {getStatusIcon()}
+                        {getStatusIcon("pending")}
                       </div>
                     </div>
                   </Box>
@@ -1644,9 +1805,14 @@ const Page = ({ item }) => {
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-4">Shipment Progress</h2>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-indigo-600 h-2 rounded-full w-2/5"></div>
+              <div
+                className="bg-indigo-600 h-2 rounded-full"
+                style={{ width: `${shipmentProgress(7, 3)}%` }}
+              ></div>
             </div>
-            <span className="text-sm text-gray-600">40%</span>
+            <span className="text-sm text-gray-600">
+              {shipmentProgress(7, 3).toFixed(2)}%
+            </span>
           </div>
 
           {/* Steps List */}
@@ -1795,9 +1961,9 @@ const Page = ({ item }) => {
 
               {/* Right Side Icons */}
               {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
+                {getStatusIcon("pending-email")}
+                {getStatusIcon("pending")}
+              </div> */}
             </div>
             {/* 7 */}
             <div className="flex w-full justify-between items-center border-b">
@@ -1817,10 +1983,10 @@ const Page = ({ item }) => {
               </div>
 
               {/* Right Side Icons */}
-              {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
+              <div className="flex space-x-2">
+                {getStatusIcon("pending-email")}
+                {getStatusIcon("pending")}
+              </div>
             </div>
             {/* 8 */}
             <div className="flex w-full justify-between items-center border-b">
@@ -1840,10 +2006,10 @@ const Page = ({ item }) => {
               </div>
 
               {/* Right Side Icons */}
-              {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
+              <div className="flex space-x-2">
+                {getStatusIcon("pending-email")}
+                {getStatusIcon("pending")}
+              </div>
             </div>
 
             {/* 9 */}
@@ -1864,10 +2030,10 @@ const Page = ({ item }) => {
               </div>
 
               {/* Right Side Icons */}
-              {/* <div className="flex space-x-2">
-                        {getStatusIcon("pending-email")}
-                        {getStatusIcon("pending")}
-                      </div> */}
+              <div className="flex space-x-2">
+                {getStatusIcon("pending-email")}
+                {getStatusIcon("pending")}
+              </div>
             </div>
           </div>
         </div>
