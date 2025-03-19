@@ -406,7 +406,6 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                               }`}
                               alt="Signature"
                               className="w-30 h-10"
-                              crossOrigin="anonymous"
                             />
                           )}
                         </div>
@@ -564,7 +563,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                           </Box>
                           <Box className="border  p-4">
                             <h3 className="font-semibold">
-                              9. Usual description of the waste:
+                              10. Usual description of the waste:
                             </h3>
                             <p>{item?.usual_des_of_the_waste}</p>
                           </Box>
@@ -754,24 +753,23 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                                   Signature:
                                 </span>
                                 {/* <div className="border-b border-black w-28"></div> */}
+                                {item?.signature?.some(
+                                  (sign) => sign.signed_by === item?.email2
+                                ) && (
+                                  <img
+                                    src={`https://annex.sofinish.co.uk/${
+                                      item?.signature?.find(
+                                        (sign) =>
+                                          sign.signed_by === item?.email2
+                                      )?.signature_path || ""
+                                    }`}
+                                    alt="Signature"
+                                    className="w-30 h-10"
+                                  />
+                                )}
                               </div>
                             </div>
-                            <div>
-                              {item?.signature?.some(
-                                (sign) => sign.signed_by === item?.email2
-                              ) && (
-                                <img
-                                  crossOrigin="anonymous"
-                                  src={`https://annex.sofinish.co.uk/${
-                                    item?.signature?.find(
-                                      (sign) => sign.signed_by === item?.email2
-                                    )?.signature_path || ""
-                                  }`}
-                                  alt="Signature"
-                                  className="w-30 h-10"
-                                />
-                              )}
-                            </div>
+                            <div></div>
                           </div>
                         </Box>
                       </div>

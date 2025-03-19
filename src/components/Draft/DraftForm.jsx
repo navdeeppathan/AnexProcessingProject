@@ -290,7 +290,7 @@ const DraftForm = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setSuccess("form submited successfully!");
+        setSuccess("Form submited successfully!");
         Swal.fire({
           title: "Success!",
           text: data?.message,
