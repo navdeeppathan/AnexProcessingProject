@@ -17,24 +17,21 @@ const AnnexVII = () => {
     const companyId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.company_id;
-      return user_id || NULL ;
+      return user_id || NULL;
     };
-  
+
     const loginId = () => {
-        const user = localStorage.getItem("user");
-        const user_id = JSON.parse(user)?.login_id;
-        return user_id || NULL ;
+      const user = localStorage.getItem("user");
+      const user_id = JSON.parse(user)?.login_id;
+      return user_id || NULL;
     };
     setMessage("");
     try {
       const url = `https://annex.sofinish.co.uk/api/send-bulk-emails/${id}?action=SendMailtoAll&company_id=${companyId()}&login_id=${loginId()}`;
-      const response = await fetch(
-        url,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
 
       if (!response.ok)
         throw new Error(`Failed to send email: ${response.status}`);
@@ -65,27 +62,24 @@ const AnnexVII = () => {
       const companyId = () => {
         const user = localStorage.getItem("user");
         const user_id = JSON.parse(user)?.company_id;
-        return user_id || NULL ;
+        return user_id || NULL;
       };
-    
+
       const loginId = () => {
-          const user = localStorage.getItem("user");
-          const user_id = JSON.parse(user)?.login_id;
-          return user_id || NULL ;
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.login_id;
+        return user_id || NULL;
       };
       setLoading(true);
       setError("");
       try {
         const url = `https://annex.sofinish.co.uk/api/forms/${id}?action=GetAnnexForm&annex_id=${id}&company_id=${companyId()}&login_id=${loginId()}`;
-        const response = await fetch(
-          url,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -251,10 +245,10 @@ const AnnexVII = () => {
                                 : "pending"
                             )}`}
                           >
-                            <h3 className="font-semibold">
+                            <h3 className="font-bold">
                               1. Person who arranges the shipment
                             </h3>
-                            <div className="flex  justify-between">
+                            <div className="flex justify-between">
                               <div>
                                 <p>
                                   <strong>Name:</strong>
@@ -264,7 +258,7 @@ const AnnexVII = () => {
                                   <strong>Address:</strong> {item?.address}
                                 </p>
                                 <p>
-                                  <strong>Contact Person:</strong>{" "}
+                                  <strong>Contact Person:</strong>
                                   {item?.contact_person}
                                 </p>
                                 <p>
@@ -279,7 +273,6 @@ const AnnexVII = () => {
                                   <strong>Email:</strong>
                                   {item?.email}
                                 </p>
-                               
                               </div>
                               <div className="flex justify-end mt-auto">
                                 <div className="flex flex-col items-center space-y-2">
@@ -317,7 +310,7 @@ const AnnexVII = () => {
                                 : "pending"
                             )}`}
                           >
-                            <h3 className="font-semibold">2. Consignee</h3>
+                            <h3 className="font-bold">2. Consignee</h3>
                             <div className="flex  justify-between">
                               <div>
                                 <p>
@@ -325,7 +318,6 @@ const AnnexVII = () => {
                                 </p>
                                 <p>
                                   <strong>Address:</strong>{" "}
-                                  <strong>Name:</strong>{" "}
                                   {item?.consignee_address}
                                 </p>
                                 <p>
@@ -344,7 +336,6 @@ const AnnexVII = () => {
                                   <strong>Email:</strong>
                                   {item?.email2}
                                 </p>
-                                
                               </div>
                               <div className="flex justify-end mt-auto">
                                 <div className="flex flex-col items-center space-y-2">
@@ -376,22 +367,29 @@ const AnnexVII = () => {
                         </div>
 
                         {/* Additional Details */}
-                        <div className="grid grid-cols-1 md:grid-cols-3  ">
+                        <div className="grid grid-cols-1 md:grid-cols-2  ">
                           <Box className={`border p-4 `}>
-                            <h3 className="font-semibold">
-                              3. Actual Quantity
-                            </h3>
-                            <p> {item?.number_of_shipments}</p>
+                            <div className="flex">
+                              <h3 className="font-bold mr-1">
+                                3. Actual Quantity:
+                              </h3>
+                              <p>
+                                {item?.number_of_shipments}&nbsp;-&nbsp;
+                                <span className="font-semibold mr-1">
+                                  Tonnes(Mg) m3:
+                                </span>
+                                {item?.weight}
+                              </p>
+                            </div>
                           </Box>
-                          <Box className="border p-4">
-                            <h3 className="font-semibold">4.Tonnes(Mg) m3:</h3>
-                            <p> {item?.weight}</p>
-                          </Box>
+
                           <Box className={`border p-4 `}>
-                            <h3 className="font-semibold">
-                              5. Actual Date of Shipment
-                            </h3>
-                            <p>{item?.aShipdate}</p>
+                            <div className="flex">
+                              <h3 className="font-bold mr-1">
+                                4. Actual Date of Shipment:
+                              </h3>
+                              <p className="font-semibold">{item?.aShipdate}</p>
+                            </div>
                           </Box>
                         </div>
                         <div
@@ -418,8 +416,8 @@ const AnnexVII = () => {
                                   : "pending"
                               )}`}
                             >
-                              <h3 className="font-semibold">
-                                6.({String.fromCharCode(97 + index)}){" "}
+                              <h3 className="font-bold">
+                                5.({String.fromCharCode(97 + index)}){" "}
                                 {ordinalSuffix(index)} Carrier
                               </h3>
                               <div className="flex justify-between">
@@ -447,17 +445,21 @@ const AnnexVII = () => {
                                     <strong>Email:</strong>
                                     {data?.email}
                                   </p>
-                                  {/* <p>
-                                      <strong>Means of Transport:</strong>
-                                      {data?.means_of_transport}
-                                    </p>
-                                    <p>
-                                      <strong>Date of Transfer:</strong>
-                                      {data?.date_of_transport}
-                                    </p> */}
+                                  <p>
+                                    <strong>Means of Transport:</strong>
+                                    {data?.means_of_transport}
+                                  </p>
+                                  <p>
+                                    <strong>Date of Transfer:</strong>
+                                    {data?.date_of_transport}
+                                  </p>
                                   <p>
                                     <strong>Signature:</strong>
-                                    (signed)
+                                    {item?.signature?.some(
+                                      (sign) => sign.signed_by === data?.email
+                                    )
+                                      ? "(signed)"
+                                      : ""}
                                   </p>
                                 </div>
                                 <div className="flex justify-end mt-auto">
@@ -502,8 +504,8 @@ const AnnexVII = () => {
                                     : "pending"
                                 )}`}
                               >
-                                <h3 className="font-semibold">
-                                  7. Waste generator (Original producer/new
+                                <h3 className="font-bold">
+                                  6. Waste generator (Original producer/new
                                   producer/collector):
                                 </h3>
                                 <div className="flex  justify-between">
@@ -564,16 +566,16 @@ const AnnexVII = () => {
                                 <Box
                                   className={`border p-4 ${getStatusColor()}`}
                                 >
-                                  <h3 className="font-semibold">
-                                    9. Recovery operation (or if appropriate
+                                  <h3 className="font-bold mr-1">
+                                    8. Recovery operation (or if appropriate
                                     disposal operation in the case of waste
                                     referred to in Article 3(4)):
+                                    <span>{item?.recovery_operation_name}</span>
                                   </h3>
-                                  <p>{item?.recovery_operation_name}</p>
                                 </Box>
                                 <Box className="border  p-4">
-                                  <h3 className="font-semibold">
-                                    10. Usual description of the waste:
+                                  <h3 className="font-bold">
+                                    9. Usual description of the waste:
                                   </h3>
                                   <p>{item?.usual_des_of_the_waste}</p>
                                 </Box>
@@ -591,7 +593,7 @@ const AnnexVII = () => {
                                     : "pending"
                                 )}`}
                               >
-                                <h3 className="font-semibold">
+                                <h3 className="font-bold">
                                   7. Recovery facility:
                                 </h3>
                                 <div className="flex  justify-between">
@@ -657,8 +659,8 @@ const AnnexVII = () => {
                               </Box>
 
                               <Box className={`border p-4 ${getStatusColor()}`}>
-                                <h3 className="font-semibold">
-                                  11. Waste identification (fill in relevant
+                                <h3 className="font-bold">
+                                  10. Waste identification (fill in relevant
                                   codes):
                                 </h3>
                                 <div className="flex  justify-between">
@@ -669,16 +671,16 @@ const AnnexVII = () => {
                                     </p>
                                     <p className="mr-2">
                                       <strong>
-                                        (ii) OECD (if different from (i) )
+                                        (ii) OECD (if different from (i) ):
                                       </strong>
                                       {item?.oecd_ii}
                                     </p>
                                     <p className="mr-2">
-                                      <strong>(iii) Annex IIA(4)</strong>
+                                      <strong>(iii) Annex IIA(4):</strong>
                                       {item?.annex_iia4}
                                     </p>
                                     <p className="mr-2">
-                                      <strong>(iv) Annex IIIA(5)</strong>
+                                      <strong>(iv) Annex IIIA(5):</strong>
                                       {item?.annex_iia5}
                                     </p>
                                     <p className="mr-2">
@@ -690,10 +692,7 @@ const AnnexVII = () => {
                                       {item?.national_code}
                                     </p>
                                     <p className="mr-2">
-                                      <strong>
-                                        (vii) Other (specify): HS CODE:
-                                        26201900:
-                                      </strong>
+                                      <strong>(vii) Other (specify):</strong>
                                       {item?.other_specify}
                                     </p>
                                   </div>
@@ -706,45 +705,69 @@ const AnnexVII = () => {
 
                             <div className="grid grid-cols-1 ">
                               <Box className="border  p-4">
-                                <h3 className="font-semibold">
-                                  12. Countries/states concerned:
+                                <h3 className="font-bold">
+                                  11. Countries/states concerned:
                                 </h3>
                               </Box>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 ">
                               <Box className="border  p-4">
-                                <p>{item?.countriesOrstates_exp_dis}</p>
+                                <div className="text-center">
+                                  <h3 className="font-bold">
+                                    Export/dispatch:
+                                  </h3>
+                                  <p className="font-medium">
+                                    {item?.countriesOrstates_exp_dis}
+                                  </p>
+                                </div>
                               </Box>
 
                               <Box className="border  p-4">
-                                <p>{item?.countriesOrstates_transit}</p>
+                                <div className="text-center">
+                                  <h3 className="font-bold">Transit:</h3>
+                                  <p className="font-medium">
+                                    {item?.countriesOrstates_transit}
+                                  </p>
+                                </div>
                               </Box>
                               <Box className="border  p-4">
-                                <p>{item?.countriesOrstates_imprt_arr}</p>
+                                <div className="text-center">
+                                  <h3 className="font-bold">Import/arrival:</h3>
+                                  <p className="font-medium">
+                                    {item?.countriesOrstates_imprt_arr}
+                                  </p>
+                                </div>
                               </Box>
                             </div>
 
                             <div className="grid grid-cols-1 ">
                               <Box className={`border p-4 ${getStatusColor()}`}>
-                                <h3 className="font-semibold">
-                                  13. Declaration of the person who arranges the
-                                  shipment: I certify that the above information
-                                  is complete and correct to the best of my
-                                  knowledge.
+                                <h3 className="font-bold">
+                                  12. Declaration of the person who arranges the
+                                  shipment:
+                                  <span className="font-medium">
+                                    I certify that the above information is
+                                    complete and correct to the best of my
+                                    knowledge.
+                                  </span>
                                 </h3>
                                 <div className="flex mt-2 justify-between">
                                   <div className="flex items-center justify-between w-full ">
                                     <p>
-                                      <strong className="mr-2">Name:</strong>
+                                      <strong className="font-bold mr-2">
+                                        Name:
+                                      </strong>
                                       {item?.declaration_name}
                                     </p>
                                     <p>
-                                      <strong className="mr-2">Date:</strong>
+                                      <strong className="font-bold mr-2">
+                                        Date:
+                                      </strong>
                                       {item?.declaration_date}
                                     </p>
                                     <p>
-                                      <strong className="mr-2">
+                                      <strong className="font-bold mr-2">
                                         Signature:
                                       </strong>
                                       {/* (signed) */}
@@ -782,14 +805,14 @@ const AnnexVII = () => {
                             </div>
                             <div className="grid grid-cols-1 ">
                               <Box className={`border p-4 ${getStatusColor()}`}>
-                                <h3 className="font-semibold">
-                                  14. Signature upon receipt of the waste by the
+                                <h3 className="font-bold">
+                                  13. Signature upon receipt of the waste by the
                                   consignee:
                                 </h3>
                                 <div className="flex mt-2 justify-between">
                                   <div className="flex items-center justify-between w-full ">
                                     <div className="flex">
-                                      <span className="text-black mr-1">
+                                      <span className="text-black font-bold mr-1">
                                         Name:
                                       </span>
                                       <div className="border-b border-black w-28">
@@ -797,7 +820,7 @@ const AnnexVII = () => {
                                       </div>
                                     </div>
                                     <div className="flex">
-                                      <span className="text-black mr-1">
+                                      <span className="text-black font-bold mr-1">
                                         Date:
                                       </span>
                                       <div className="border-b border-black w-28">
@@ -805,7 +828,7 @@ const AnnexVII = () => {
                                       </div>
                                     </div>
                                     <div className="flex">
-                                      <span className="text-black mr-1">
+                                      <span className="text-black font-bold mr-1">
                                         Signature:
                                       </span>
                                       {/* <div className="border-b border-black w-28"></div> */}
@@ -843,18 +866,18 @@ const AnnexVII = () => {
                             </div>
                             <div className="grid grid-cols-1 ">
                               <Box className={`border p-4 ${getStatusColor()}`}>
-                                <h3 className="font-semibold text-center">
+                                <h3 className="font-bold text-center">
                                   TO BE COMPLETED BY THE RECOVERY FACILITY
                                 </h3>
-                                <h3 className="font-semibold mt-1">
-                                  15. Shipment received at recovery facility.
+                                <h3 className="font-bold mt-1">
+                                  14. Shipment received at recovery facility.
                                   Quantity received: ____________________ Tonnes
                                   (Mg) m³
                                 </h3>
                                 <div className="flex mt-3  justify-between">
                                   <div className="w-full flex items-center  justify-between">
                                     <div className="flex">
-                                      <span className="text-black mr-1">
+                                      <span className="text-black font-bold mr-1">
                                         Name:
                                       </span>
                                       <div className="border-b border-black w-28">
@@ -862,7 +885,7 @@ const AnnexVII = () => {
                                       </div>
                                     </div>
                                     <div className="flex">
-                                      <span className="text-black mr-1">
+                                      <span className="text-black font-bold mr-1">
                                         Date:
                                       </span>
                                       <div className="border-b border-black w-28">
@@ -870,7 +893,7 @@ const AnnexVII = () => {
                                       </div>
                                     </div>
                                     <div className="flex">
-                                      <span className="text-black mr-1">
+                                      <span className="text-black font-bold mr-1">
                                         Signature:
                                       </span>
                                     </div>
@@ -1406,9 +1429,14 @@ const Page = ({ item }) => {
                         <p>
                           <strong>Address:</strong> {item?.address}
                         </p>
+
                         <p>
                           <strong>Contact Person:</strong>{" "}
                           {item?.contact_person}
+                        </p>
+                        <p>
+                          <strong>Tel:</strong>
+                          {item?.contact_number}
                         </p>
                         <p>
                           <strong>Fax:</strong>
@@ -1417,10 +1445,6 @@ const Page = ({ item }) => {
                         <p>
                           <strong>Email:</strong>
                           {item?.email}
-                        </p>
-                        <p>
-                          <strong>Contact Number:</strong>
-                          {item?.contact_number}
                         </p>
                       </div>
                       <div className="flex justify-end mt-auto">
@@ -1443,16 +1467,16 @@ const Page = ({ item }) => {
                           <strong>Contact Person:</strong> {item?.contPerson}
                         </p>
                         <p>
+                          <strong>Tel:</strong>
+                          {item?.consignee_contact}
+                        </p>
+                        <p>
                           <strong>Fax:</strong>
                           {item?.fax2}
                         </p>
                         <p>
                           <strong>Email:</strong>
                           {item?.email2}
-                        </p>
-                        <p>
-                          <strong>Contact Number:</strong>
-                          {item?.consignee_contact}
                         </p>
                       </div>
                       <div className="flex justify-end mt-auto">

@@ -24,14 +24,14 @@ const Form = () => {
   const companyId = () => {
     const user = localStorage.getItem("user");
     const user_id = JSON.parse(user)?.company_id;
-    return user_id || NULL ;
+    return user_id || NULL;
   };
 
-const loginId = () => {
+  const loginId = () => {
     const user = localStorage.getItem("user");
     const user_id = JSON.parse(user)?.login_id;
-    return user_id || NULL ;
-};
+    return user_id || NULL;
+  };
   function generateRandomString() {
     const prefix = "CMAU";
     const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // 7-digit random number
@@ -459,7 +459,7 @@ const loginId = () => {
             email: "",
             means_of_transport: "",
             date_of_transport: "",
-            departure_date: "",
+            // departure_date: "",
           },
         ]);
       } else {
@@ -525,7 +525,7 @@ const loginId = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                1. Consignment Information:
+                1. Person who arranges the shipments:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -819,7 +819,7 @@ const loginId = () => {
                       <TextField
                         fullWidth
                         name="phone"
-                        label="Phone"
+                        label="Tel"
                         value={carrier.phone}
                         onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
@@ -850,7 +850,7 @@ const loginId = () => {
                         margin="normal"
                       />
                     </Grid>
-                    {/* <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
                         name="means_of_transport"
@@ -860,8 +860,8 @@ const loginId = () => {
                         variant="outlined"
                         margin="normal"
                       />
-                    </Grid> */}
-                    {/* <Grid item xs={12} sm={4}>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
                         name="date_of_transport"
@@ -872,7 +872,7 @@ const loginId = () => {
                         margin="normal"
                         InputLabelProps={{ shrink: true }}
                       />
-                    </Grid> */}
+                    </Grid>
                     {/* <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth

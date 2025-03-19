@@ -18,24 +18,27 @@ const AnnexForm = () => {
   const user = localStorage.getItem("user");
   const userId = JSON.parse(user);
   console.log(userId?.id);
- 
+
   useEffect(() => {
     const companyId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.company_id;
-      return user_id || NULL ;
+      return user_id || NULL;
     };
-  
+
     const loginId = () => {
-        const user = localStorage.getItem("user");
-        const user_id = JSON.parse(user)?.login_id;
-        return user_id || NULL ;
+      const user = localStorage.getItem("user");
+      const user_id = JSON.parse(user)?.login_id;
+      return user_id || NULL;
     };
     const fetchForms = async () => {
       try {
-        const url = `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}&action=FecthAnexxForm&company_id=${companyId()}&login_id=${loginId()}`;
+        const url = `https://annex.sofinish.co.uk/api/companyforms?id=${
+          userId?.company_id
+        }&action=FecthAnexxForm&company_id=${companyId()}&login_id=${loginId()}`;
 
-        const response = await fetch(url
+        const response = await fetch(
+          url
           // `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}`
         );
         if (!response.ok) {
@@ -166,20 +169,22 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     const companyId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.company_id;
-      return user_id || NULL ;
+      return user_id || NULL;
     };
-  
+
     const loginId = () => {
-        const user = localStorage.getItem("user");
-        const user_id = JSON.parse(user)?.login_id;
-        return user_id || NULL ;
+      const user = localStorage.getItem("user");
+      const user_id = JSON.parse(user)?.login_id;
+      return user_id || NULL;
     };
     console.log("id from fetch:-", id);
     setLoading(true);
     setError("");
     try {
-        const url = `https://annex.sofinish.co.uk/api/forms?id=${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
-        
+      const url = `https://annex.sofinish.co.uk/api/forms?id=${
+        userId?.company_id
+      }&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
+
       const response = await fetch(
         url,
         // `https://annex.sofinish.co.uk/api/forms/${id}`,
@@ -442,18 +447,22 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                   </div>
 
                   {/* Additional Details */}
-                  <div className="grid grid-cols-1 md:grid-cols-3  ">
+                  <div className="grid grid-cols-1 md:grid-cols-2  ">
                     <Box className={`border p-4 `}>
-                      <h3 className="font-semibold">3. Actual Quantity</h3>
-                      <p> {item?.number_of_shipments}</p>
-                    </Box>
-                    <Box className="border p-4">
-                      <h3 className="font-semibold">4. Weight</h3>
-                      <p> {item?.weight}</p>
+                      <div className="flex">
+                        <h3 className="font-bold mr-1">3. Actual Quantity:</h3>
+                        <p>
+                          {item?.number_of_shipments}&nbsp;-&nbsp;
+                          <span className="font-semibold mr-1">
+                            Tonnes(Mg) m3:
+                          </span>
+                          {item?.weight}
+                        </p>
+                      </div>
                     </Box>
                     <Box className={`border p-4 `}>
                       <h3 className="font-semibold">
-                        5. Actual Date of Shipment
+                        4. Actual Date of Shipment
                       </h3>
                       <p>{item?.aShipdate}</p>
                     </Box>
@@ -474,7 +483,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                     {item?.carriers.map((data, index) => (
                       <Box key={data?.id} className="border  p-4">
                         <h3 className="font-semibold">
-                          6.({String.fromCharCode(97 + index)}){" "}
+                          5.({String.fromCharCode(97 + index)}){" "}
                           {ordinalSuffix(index)} Carrier
                         </h3>
                         <div className="flex  justify-between">
@@ -502,17 +511,21 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                               <strong>Email:</strong>
                               {data?.email}
                             </p>
-                            {/* <p>
-                                      <strong>Means of Transport:</strong>
-                                      {data?.means_of_transport}
-                                    </p>
-                                    <p>
-                                      <strong>Date of Transfer:</strong>
-                                      {data?.date_of_transport}
-                                    </p> */}
+                            <p>
+                              <strong>Means of Transport:</strong>
+                              {data?.means_of_transport}
+                            </p>
+                            <p>
+                              <strong>Date of Transfer:</strong>
+                              {data?.date_of_transport}
+                            </p>
                             <p>
                               <strong>Signature:</strong>
-                              (signed)
+                              {item?.signature?.some(
+                                (sign) => sign.signed_by === data?.email
+                              )
+                                ? "(signed)"
+                                : ""}
                             </p>
                           </div>
                           <div>
@@ -539,7 +552,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                       <div className="grid grid-cols-1 md:grid-cols-2 ">
                         <Box className={`border p-4`}>
                           <h3 className="font-semibold">
-                            7. Waste generator (Original producer/new
+                            6. Waste generator (Original producer/new
                             producer/collector):
                           </h3>
                           <div className="flex justify-between">
@@ -586,16 +599,16 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                         </Box>
                         <div className="grid grid-cols-1 ">
                           <Box className={`border p-4 `}>
-                            <h3 className="font-semibold">
-                              9. Recovery operation (or if appropriate disposal
+                            <h3 className="font-bold mr-1">
+                              8. Recovery operation (or if appropriate disposal
                               operation in the case of waste referred to in
                               Article 3(4)):
+                              <span>{item?.recovery_operation_name}</span>
                             </h3>
-                            <p>{item?.recovery_operation_name}</p>
                           </Box>
                           <Box className="border  p-4">
                             <h3 className="font-semibold">
-                              10. Usual description of the waste:
+                              9. Usual description of the waste:
                             </h3>
                             <p>{item?.usual_des_of_the_waste}</p>
                           </Box>
@@ -605,7 +618,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                       <div className="grid grid-cols-1 md:grid-cols-2 ">
                         <Box className={`border p-4 `}>
                           <h3 className="font-semibold">
-                            8. Recovery facility:
+                            7. Recovery facility:
                           </h3>
                           <div className="flex  justify-between">
                             <div>
@@ -658,7 +671,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
 
                         <Box className={`border p-4 `}>
                           <h3 className="font-semibold">
-                            11. Waste identification (fill in relevant codes):
+                            10. Waste identification (fill in relevant codes):
                           </h3>
                           <div className="flex  justify-between">
                             <div>
@@ -668,16 +681,16 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                               </p>
                               <p className="mr-2">
                                 <strong>
-                                  (ii) OECD (if different from (i) )
+                                  (ii) OECD (if different from (i) ):
                                 </strong>
                                 {item?.oecd_ii}
                               </p>
                               <p className="mr-2">
-                                <strong>(iii) Annex IIA(4)</strong>
+                                <strong>(iii) Annex IIA(4):</strong>
                                 {item?.annex_iia4}
                               </p>
                               <p className="mr-2">
-                                <strong>(iv) Annex IIIA(5)</strong>
+                                <strong>(iv) Annex IIIA(5):</strong>
                                 {item?.annex_iia5}
                               </p>
                               <p className="mr-2">
@@ -689,9 +702,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                                 {item?.national_code}
                               </p>
                               <p className="mr-2">
-                                <strong>
-                                  (vii) Other (specify): HS CODE: 26201900:
-                                </strong>
+                                <strong>(vii) Other (specify):</strong>
                                 {item?.other_specify}
                               </p>
                             </div>
@@ -702,27 +713,42 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                       <div className="grid grid-cols-1 ">
                         <Box className="border  p-4">
                           <h3 className="font-semibold">
-                            12. Countries/states concerned:
+                            11. Countries/states concerned:
                           </h3>
                         </Box>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 ">
                         <Box className="border  p-4">
-                          <p>{item?.countriesOrstates_exp_dis}</p>
+                          <div className="text-center">
+                            <h3 className="font-bold">Export/dispatch:</h3>
+                            <p className="font-medium">
+                              {item?.countriesOrstates_exp_dis}
+                            </p>
+                          </div>
                         </Box>
 
                         <Box className="border  p-4">
-                          <p>{item?.countriesOrstates_transit}</p>
+                          <div className="text-center">
+                            <h3 className="font-bold">Transit:</h3>
+                            <p className="font-medium">
+                              {item?.countriesOrstates_transit}
+                            </p>
+                          </div>
                         </Box>
                         <Box className="border  p-4">
-                          <p>{item?.countriesOrstates_imprt_arr}</p>
+                          <div className="text-center">
+                            <h3 className="font-bold">Import/arrival:</h3>
+                            <p className="font-medium">
+                              {item?.countriesOrstates_imprt_arr}
+                            </p>
+                          </div>
                         </Box>
                       </div>
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
                           <h3 className="font-semibold">
-                            13. Declaration of the person who arranges the
+                            12. Declaration of the person who arranges the
                             shipment: I certify that the above information is
                             complete and correct to the best of my knowledge.
                           </h3>
@@ -763,7 +789,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
                           <h3 className="font-semibold">
-                            14. Signature upon receipt of the waste by the
+                            13. Signature upon receipt of the waste by the
                             consignee:
                           </h3>
                           <div className="flex mt-2 justify-between">
@@ -811,7 +837,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                             TO BE COMPLETED BY THE RECOVERY FACILITY
                           </h3>
                           <h3 className="font-semibold mt-1">
-                            15. Shipment received at recovery facility. Quantity
+                            14. Shipment received at recovery facility. Quantity
                             received: ____________________ Tonnes (Mg) m³
                           </h3>
                           <div className="flex mt-3  justify-between">
