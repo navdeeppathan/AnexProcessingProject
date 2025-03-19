@@ -189,34 +189,20 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     const pdfContainer = formRef.current;
     if (!pdfContainer) return;
 
-    pdfContainer.style.position = "fixed";
+    // pdfContainer.style.position = "fixed";
+    // pdfContainer.style.opacity = "1";
+    // pdfContainer.style.width = "auto";
+    // pdfContainer.style.height = "full";
+    pdfContainer.style.position = "relative";
     pdfContainer.style.opacity = "1";
-    pdfContainer.style.width = "auto";
+    pdfContainer.style.width = "100%";
     pdfContainer.style.height = "auto";
 
     await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for rendering
 
-    // try {
-    //   const canvas = await html2canvas(pdfContainer, {
-    //     scale: window.devicePixelRatio || 2, // Increase resolution
-    //     useCORS: true, // Handle cross-origin images
-    //     logging: false,
-    //   });
-
-    //   const imgData = canvas.toDataURL("image/png");
-    //   const pdf = new jsPDF("p", "mm", "a4");
-    //   const imgWidth = 210; // A4 width in mm
-    //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    //   pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-    //   pdf.save(`Annex-${id}.pdf`);
-    //   setLoadingpdf(false);
-    // } catch (error) {
-    //   console.error("Error generating PDF:", error);
-    // }
     try {
       const canvas = await html2canvas(pdfContainer, {
-        scale: window.devicePixelRatio || 2,
+        scale: window.devicePixelRatio || 3,
         useCORS: true,
         logging: false,
       });
@@ -225,18 +211,31 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
       const pdf = new jsPDF("p", "mm", "a4");
       const imgWidth = 210;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      if (imgHeight > 297) {
+        // A4 height in mm
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, 297);
+        // pdf.addPage(); // Add new page if content overflows
+        // pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight - 297);
+      } else {
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      }
+      // pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
       pdf.save(`Annex-${id}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {
       setLoadingpdf(false); // Always reset loading state
     }
-    pdfContainer.style.position = "fixed";
-    pdfContainer.style.opacity = "0";
-    pdfContainer.style.width = "0";
-    pdfContainer.style.height = "0";
+    setTimeout(() => {
+      pdfContainer.style.position = "fixed";
+      pdfContainer.style.opacity = "0";
+      pdfContainer.style.width = "0";
+      pdfContainer.style.height = "0";
+    }, 500);
+    // pdfContainer.style.position = "fixed";
+    // pdfContainer.style.opacity = "0";
+    // pdfContainer.style.width = "0";
+    // pdfContainer.style.height = "0";
   };
 
   // const handleDownloadPDF = async () => {
