@@ -69,9 +69,44 @@ const DigitalSignature = () => {
   };
 
   // API Call to Save Signature
+  // const handleFileUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     if (file.size > 512000) {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "File Too Large",
+  //         text: "Please upload an image smaller than 500KB.",
+  //       });
+  //       return;
+  //     }
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       const base64Image = e.target.result;
+  //       setSignatureData(base64Image);
+  //       localStorage.setItem("savedSignature", base64Image);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  //   setTimeout(() => {
+  //     navigate(-1);
+  //   }, 2000);
+  //   setSignatureData(null);
+  // };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
+
     if (file) {
+      // Corrected file size check (500KB = 500 * 1024 bytes)
+      if (file.size > 500 * 1024) {
+        Swal.fire({
+          icon: "error",
+          title: "File Too Large",
+          text: "Please upload an image smaller than 500KB.",
+        });
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = (e) => {
         const base64Image = e.target.result;
@@ -79,11 +114,10 @@ const DigitalSignature = () => {
         localStorage.setItem("savedSignature", base64Image);
       };
       reader.readAsDataURL(file);
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
     }
-    setTimeout(() => {
-      navigate(-1);
-    }, 2000);
-    setSignatureData(null);
   };
 
   return (

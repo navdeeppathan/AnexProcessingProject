@@ -135,13 +135,13 @@ const PDFMakerOrgnl = () => {
   };
   console.log(formId);
 
-  // if (loading)
-  //   return (
-  //     <p className="flex flex-col items-center justify-center h-screen">
-  //       <CircularProgress />
-  //       <p className="text-black font-medium text-xl">Loading...</p>
-  //     </p>
-  //   );
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <CircularProgress />
+        <p className="text-black font-medium text-xl">Submitting...</p>
+      </div>
+    );
 
   return (
     <div>
@@ -166,7 +166,8 @@ const PDFMakerOrgnl = () => {
                 </p>
               </div>
               <h5 className="text-sm md:text-base text-center font-semibold">
-                CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105
+                {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
+                {item.annex_id}
               </h5>
             </div>
 
@@ -265,12 +266,16 @@ const PDFMakerOrgnl = () => {
                 </Box>
               </div>
               <div
-                className={`grid grid-cols-1   ${
-                  item?.carriers?.length && item?.carriers?.length === 1
+                className={`grid grid-cols-1  ${
+                  item?.carriers?.length === 1
                     ? "md:grid-cols-1"
-                    : item.carriers.length > 4
-                    ? "md:grid-cols-3"
-                    : "md:grid-cols-2"
+                    : item.carriers.length === 2
+                    ? "md:grid-cols-2"
+                    : item.carriers.length === 4
+                    ? "md:grid-cols-2"
+                    : item.carriers.length === 5
+                    ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
+                    : "md:grid-cols-3"
                 }`}
               >
                 {item?.carriers.map((data, index) => (

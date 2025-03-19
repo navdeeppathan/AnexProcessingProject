@@ -195,14 +195,19 @@ const Form = () => {
       const data = await response.json();
       console.log("dataform submit:", data);
       if (response.ok) {
+        if (data?.message) {
+          Swal.fire({
+            title: "Success!",
+            text: data?.message,
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }
         setSuccess(data?.message);
-        Swal.fire({
-          title: "Success!",
-          text: data?.message,
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
+        setTimeout(() => {
+          setSuccess("");
+        }, 10000);
         setFormData({
           company_name: "",
           address: "",
@@ -302,11 +307,18 @@ const Form = () => {
           },
         ]);
       } else {
-        setError(data.message || "Failed to create company");
+        setError(data.message || "Failed to create form");
       }
     } catch (error) {
       // console.log("eroor:-", error);
       setError("Network error. Please try again.");
+      Swal.fire({
+        title: "Error!",
+        text: error?.message || "Network error. Please try again.",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } finally {
       setLoading(false);
     }
@@ -495,7 +507,11 @@ const Form = () => {
           </div>
           <div>
             {error && <p className="error-message">{error}</p>}
-            {success && <p className="success-message">{success}</p>}
+            {success && (
+              <p className="text-green-500 font-semibold text-2xl ">
+                {success}
+              </p>
+            )}
           </div>
 
           {/* Section: Consignment Information */}
