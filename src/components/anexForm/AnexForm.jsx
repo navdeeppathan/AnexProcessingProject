@@ -309,7 +309,8 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                     </p>
                   </div>
                   <h5 className="text-sm md:text-base text-center font-semibold">
-                    CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105
+                    {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
+                    {item?.annex_id}
                   </h5>
                 </div>
 
@@ -431,11 +432,15 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                   </div>
                   <div
                     className={`grid grid-cols-1 ${
-                      item?.carriers?.length && item?.carriers?.length === 1
+                      item?.carriers?.length === 1
                         ? "md:grid-cols-1"
-                        : item.carriers.length > 4
-                        ? "md:grid-cols-3"
-                        : "md:grid-cols-2"
+                        : item.carriers.length === 2
+                        ? "md:grid-cols-2"
+                        : item.carriers.length === 4
+                        ? "md:grid-cols-2"
+                        : item.carriers.length === 5
+                        ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
+                        : "md:grid-cols-3"
                     }`}
                   >
                     {item?.carriers.map((data, index) => (

@@ -370,12 +370,15 @@ const AnnexVII = () => {
                         </div>
                         <div
                           className={`grid grid-cols-1 ${
-                            item?.carriers?.length &&
                             item?.carriers?.length === 1
                               ? "md:grid-cols-1"
-                              : item.carriers.length > 4
-                              ? "md:grid-cols-3"
-                              : "md:grid-cols-2"
+                              : item.carriers.length === 2
+                              ? "md:grid-cols-2"
+                              : item.carriers.length === 4
+                              ? "md:grid-cols-2"
+                              : item.carriers.length === 5
+                              ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
+                              : "md:grid-cols-3"
                           }`}
                         >
                           {item?.carriers.map((data, index) => (
@@ -393,7 +396,7 @@ const AnnexVII = () => {
                                 6.({String.fromCharCode(97 + index)}){" "}
                                 {ordinalSuffix(index)} Carrier
                               </h3>
-                              <div className="flex  justify-between">
+                              <div className="flex justify-between">
                                 <div>
                                   <p>
                                     <strong>Name:</strong> {data?.name}
@@ -1451,7 +1454,17 @@ const Page = ({ item }) => {
                   </Box>
                 </div>
                 <div
-                  className={`grid grid-cols-1 md:grid-cols-${item?.carriers?.length}`}
+                  className={`grid grid-cols-1 ${
+                    item?.carriers?.length === 1
+                      ? "md:grid-cols-1"
+                      : item.carriers.length === 2
+                      ? "md:grid-cols-2"
+                      : item.carriers.length === 4
+                      ? "md:grid-cols-2"
+                      : item.carriers.length === 5
+                      ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
+                      : "md:grid-cols-3"
+                  }`}
                 >
                   {item?.carriers.map((data, index) => (
                     <Box
