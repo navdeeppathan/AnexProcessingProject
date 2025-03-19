@@ -104,6 +104,7 @@ const App = () => {
             // </AuthWrapper>
           }
         />
+        
       </Routes>
     </Router>
   );

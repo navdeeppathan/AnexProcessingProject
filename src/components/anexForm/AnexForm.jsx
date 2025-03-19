@@ -189,34 +189,20 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     const pdfContainer = formRef.current;
     if (!pdfContainer) return;
 
-    pdfContainer.style.position = "fixed";
+    // pdfContainer.style.position = "fixed";
+    // pdfContainer.style.opacity = "1";
+    // pdfContainer.style.width = "auto";
+    // pdfContainer.style.height = "full";
+    pdfContainer.style.position = "relative";
     pdfContainer.style.opacity = "1";
-    pdfContainer.style.width = "auto";
+    pdfContainer.style.width = "100%";
     pdfContainer.style.height = "auto";
 
     await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for rendering
 
-    // try {
-    //   const canvas = await html2canvas(pdfContainer, {
-    //     scale: window.devicePixelRatio || 2, // Increase resolution
-    //     useCORS: true, // Handle cross-origin images
-    //     logging: false,
-    //   });
-
-    //   const imgData = canvas.toDataURL("image/png");
-    //   const pdf = new jsPDF("p", "mm", "a4");
-    //   const imgWidth = 210; // A4 width in mm
-    //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    //   pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-    //   pdf.save(`Annex-${id}.pdf`);
-    //   setLoadingpdf(false);
-    // } catch (error) {
-    //   console.error("Error generating PDF:", error);
-    // }
     try {
       const canvas = await html2canvas(pdfContainer, {
-        scale: window.devicePixelRatio || 2,
+        scale: window.devicePixelRatio || 3,
         useCORS: true,
         logging: false,
       });
@@ -225,18 +211,31 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
       const pdf = new jsPDF("p", "mm", "a4");
       const imgWidth = 210;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      if (imgHeight > 297) {
+        // A4 height in mm
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, 297);
+        // pdf.addPage(); // Add new page if content overflows
+        // pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight - 297);
+      } else {
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      }
+      // pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
       pdf.save(`Annex-${id}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {
       setLoadingpdf(false); // Always reset loading state
     }
-    pdfContainer.style.position = "fixed";
-    pdfContainer.style.opacity = "0";
-    pdfContainer.style.width = "0";
-    pdfContainer.style.height = "0";
+    setTimeout(() => {
+      pdfContainer.style.position = "fixed";
+      pdfContainer.style.opacity = "0";
+      pdfContainer.style.width = "0";
+      pdfContainer.style.height = "0";
+    }, 500);
+    // pdfContainer.style.position = "fixed";
+    // pdfContainer.style.opacity = "0";
+    // pdfContainer.style.width = "0";
+    // pdfContainer.style.height = "0";
   };
 
   // const handleDownloadPDF = async () => {
@@ -406,7 +405,6 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                               }`}
                               alt="Signature"
                               className="w-30 h-10"
-                              crossOrigin="anonymous"
                             />
                           )}
                         </div>
@@ -564,7 +562,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                           </Box>
                           <Box className="border  p-4">
                             <h3 className="font-semibold">
-                              9. Usual description of the waste:
+                              10. Usual description of the waste:
                             </h3>
                             <p>{item?.usual_des_of_the_waste}</p>
                           </Box>
@@ -754,24 +752,23 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                                   Signature:
                                 </span>
                                 {/* <div className="border-b border-black w-28"></div> */}
+                                {item?.signature?.some(
+                                  (sign) => sign.signed_by === item?.email2
+                                ) && (
+                                  <img
+                                    src={`https://annex.sofinish.co.uk/${
+                                      item?.signature?.find(
+                                        (sign) =>
+                                          sign.signed_by === item?.email2
+                                      )?.signature_path || ""
+                                    }`}
+                                    alt="Signature"
+                                    className="w-30 h-10"
+                                  />
+                                )}
                               </div>
                             </div>
-                            <div>
-                              {item?.signature?.some(
-                                (sign) => sign.signed_by === item?.email2
-                              ) && (
-                                <img
-                                  crossOrigin="anonymous"
-                                  src={`https://annex.sofinish.co.uk/${
-                                    item?.signature?.find(
-                                      (sign) => sign.signed_by === item?.email2
-                                    )?.signature_path || ""
-                                  }`}
-                                  alt="Signature"
-                                  className="w-30 h-10"
-                                />
-                              )}
-                            </div>
+                            <div></div>
                           </div>
                         </Box>
                       </div>

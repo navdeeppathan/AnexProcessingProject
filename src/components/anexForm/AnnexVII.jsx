@@ -544,7 +544,7 @@ const AnnexVII = () => {
                                 </Box>
                                 <Box className="border  p-4">
                                   <h3 className="font-semibold">
-                                    9. Usual description of the waste:
+                                    10. Usual description of the waste:
                                   </h3>
                                   <p>{item?.usual_des_of_the_waste}</p>
                                 </Box>
@@ -563,7 +563,7 @@ const AnnexVII = () => {
                                 )}`}
                               >
                                 <h3 className="font-semibold">
-                                  8. Recovery facility:
+                                  7. Recovery facility:
                                 </h3>
                                 <div className="flex  justify-between">
                                   <div>
