@@ -14,10 +14,22 @@ const AnnexVII = () => {
   const [message, setMessage] = useState("");
 
   const sendReminderEmail = async () => {
+    const companyId = () => {
+      const user = localStorage.getItem("user");
+      const user_id = JSON.parse(user)?.company_id;
+      return user_id || NULL ;
+    };
+  
+    const loginId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.login_id;
+        return user_id || NULL ;
+    };
     setMessage("");
     try {
+      const url = `https://annex.sofinish.co.uk/api/send-bulk-emails/${id}?action=SendMailtoAll&company_id=${companyId()}&login_id=${loginId()}`;
       const response = await fetch(
-        `https://annex.sofinish.co.uk/api/send-bulk-emails/${id}`,
+        url,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -50,11 +62,23 @@ const AnnexVII = () => {
 
   useEffect(() => {
     const fetchFormData = async () => {
+      const companyId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.company_id;
+        return user_id || NULL ;
+      };
+    
+      const loginId = () => {
+          const user = localStorage.getItem("user");
+          const user_id = JSON.parse(user)?.login_id;
+          return user_id || NULL ;
+      };
       setLoading(true);
       setError("");
       try {
+        const url = `https://annex.sofinish.co.uk/api/forms/${id}?action=GetAnnexForm&annex_id=${id}&company_id=${companyId()}&login_id=${loginId()}`;
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/forms/${id}`,
+          url,
           {
             method: "GET",
             headers: {
@@ -244,6 +268,10 @@ const AnnexVII = () => {
                                   {item?.contact_person}
                                 </p>
                                 <p>
+                                  <strong>Tel:</strong>
+                                  {item?.contact_number}
+                                </p>
+                                <p>
                                   <strong>Fax:</strong>
                                   {item?.fax}
                                 </p>
@@ -251,10 +279,7 @@ const AnnexVII = () => {
                                   <strong>Email:</strong>
                                   {item?.email}
                                 </p>
-                                <p>
-                                  <strong>Contact Number:</strong>
-                                  {item?.contact_number}
-                                </p>
+                               
                               </div>
                               <div className="flex justify-end mt-auto">
                                 <div className="flex flex-col items-center space-y-2">
@@ -308,6 +333,10 @@ const AnnexVII = () => {
                                   {item?.contPerson}
                                 </p>
                                 <p>
+                                  <strong>Tel:</strong>
+                                  {item?.consignee_contact}
+                                </p>
+                                <p>
                                   <strong>Fax:</strong>
                                   {item?.fax2}
                                 </p>
@@ -315,10 +344,7 @@ const AnnexVII = () => {
                                   <strong>Email:</strong>
                                   {item?.email2}
                                 </p>
-                                <p>
-                                  <strong>Contact Number:</strong>
-                                  {item?.consignee_contact}
-                                </p>
+                                
                               </div>
                               <div className="flex justify-end mt-auto">
                                 <div className="flex flex-col items-center space-y-2">
@@ -358,7 +384,7 @@ const AnnexVII = () => {
                             <p> {item?.number_of_shipments}</p>
                           </Box>
                           <Box className="border p-4">
-                            <h3 className="font-semibold">4. Weight</h3>
+                            <h3 className="font-semibold">4.Tonnes(Mg) m3:</h3>
                             <p> {item?.weight}</p>
                           </Box>
                           <Box className={`border p-4 `}>

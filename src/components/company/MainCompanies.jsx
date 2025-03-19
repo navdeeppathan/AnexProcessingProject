@@ -195,7 +195,7 @@ const CompanyDetailsModal = ({
   const [companyData, setCompanyData] = useState({
     company_name: "",
     email: "",
-    registration_number: "",
+    registrationGITnumber: "",
     city: "",
     country: "",
     address: "",

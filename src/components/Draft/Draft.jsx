@@ -29,10 +29,22 @@ const Draft = () => {
         setLoading(false);
         return;
       }
+      const companyId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.company_id;
+        return user_id || NULL ;
+      };
+    
+      const loginId = () => {
+          const user = localStorage.getItem("user");
+          const user_id = JSON.parse(user)?.login_id;
+          return user_id || NULL ;
+      };
 
       try {
+        const url = `https://annex.sofinish.co.uk/api/draftforms?id=${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/draftforms/${userId.company_id}`,
+          url,
           {
             method: "GET",
             headers: {

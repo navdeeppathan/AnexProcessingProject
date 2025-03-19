@@ -22,20 +22,20 @@ const Sidebar = () => {
         </svg>
       ),
     },
-    {
-      path: "/dashboard/annex-form2",
-      name: "Annex Forms",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="white"
-          className="w-6 h-6"
-        >
-          <path d="M3 22v-2h18v2H3Zm2-4v-9h3v9H5Zm5 0V4h4v14h-4Zm6 0v-7h3v7h-3ZM6 9h1V8H6v1Zm0 2h1v-1H6v1Zm0 2h1v-1H6v1Zm10-2h1v-1h-1v1Zm0 2h1v-1h-1v1Z" />
-        </svg>
-      ),
-    },
+    // {
+    //   path: "/dashboard/annex-form2",
+    //   name: "Annex Forms",
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       viewBox="0 0 24 24"
+    //       fill="white"
+    //       className="w-6 h-6"
+    //     >
+    //       <path d="M3 22v-2h18v2H3Zm2-4v-9h3v9H5Zm5 0V4h4v14h-4Zm6 0v-7h3v7h-3ZM6 9h1V8H6v1Zm0 2h1v-1H6v1Zm0 2h1v-1H6v1Zm10-2h1v-1h-1v1Zm0 2h1v-1h-1v1Z" />
+    //     </svg>
+    //   ),
+    // },
     {
       path: "/dashboard/profile",
       name: "My Profile",

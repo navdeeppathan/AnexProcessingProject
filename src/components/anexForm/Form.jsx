@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   Box,
   Grid,
@@ -20,7 +21,17 @@ const Form = () => {
     const user_id = JSON.parse(user)?.company_id;
     return user_id;
   };
+  const companyId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.company_id;
+    return user_id || NULL ;
+  };
 
+const loginId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.login_id;
+    return user_id || NULL ;
+};
   function generateRandomString() {
     const prefix = "CMAU";
     const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // 7-digit random number
@@ -30,9 +41,11 @@ const Form = () => {
   // console.log("asjd:---", annexid);
 
   const [formData, setFormData] = useState({
-    user_id: generateId(),
+    login_id: loginId(),
     annex_id: generateRandomString(),
-
+    company_id: companyId(),
+    action: "Create Annex Form ",
+    user_id: generateId(),
     company_name: "",
     address: "",
     contact_number: "",
@@ -177,12 +190,6 @@ const Form = () => {
       formDataToSend.append(key, formData[key]);
     });
     formDataToSend.append("carriers", JSON.stringify(carriers));
-
-    // console.log("Form Data Entries:");
-    // for (let pair of formDataToSend.entries()) {
-    //   console.log(pair[0], pair[1]);
-    // }
-
     try {
       const response = await fetch(
         "https://annex.sofinish.co.uk/api/submit-form",

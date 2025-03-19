@@ -18,11 +18,25 @@ const AnnexForm = () => {
   const user = localStorage.getItem("user");
   const userId = JSON.parse(user);
   console.log(userId?.id);
+ 
   useEffect(() => {
+    const companyId = () => {
+      const user = localStorage.getItem("user");
+      const user_id = JSON.parse(user)?.company_id;
+      return user_id || NULL ;
+    };
+  
+    const loginId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.login_id;
+        return user_id || NULL ;
+    };
     const fetchForms = async () => {
       try {
-        const response = await fetch(
-          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}`
+        const url = `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}&action=FecthAnexxForm&company_id=${companyId()}&login_id=${loginId()}`;
+
+        const response = await fetch(url
+          // `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch forms");
@@ -149,12 +163,26 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
   console.log("formdata:-", id);
 
   const fetchFormData = async (id) => {
+    const companyId = () => {
+      const user = localStorage.getItem("user");
+      const user_id = JSON.parse(user)?.company_id;
+      return user_id || NULL ;
+    };
+  
+    const loginId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.login_id;
+        return user_id || NULL ;
+    };
     console.log("id from fetch:-", id);
     setLoading(true);
     setError("");
     try {
+        const url = `https://annex.sofinish.co.uk/api/forms?id=${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
+        
       const response = await fetch(
-        `https://annex.sofinish.co.uk/api/forms/${id}`,
+        url,
+        // `https://annex.sofinish.co.uk/api/forms/${id}`,
         {
           method: "GET",
           headers: {

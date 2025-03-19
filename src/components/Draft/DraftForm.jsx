@@ -89,11 +89,26 @@ const DraftForm = () => {
   // Fetch form data from API
   useEffect(() => {
     const fetchFormData = async () => {
+
+      const companyId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.company_id;
+        return user_id || NULL ;
+      };
+    
+      const loginId = () => {
+          const user = localStorage.getItem("user");
+          const user_id = JSON.parse(user)?.login_id;
+          return user_id || NULL ;
+      };
       setLoading(true);
       setError("");
       try {
+        const url = `https://annex.sofinish.co.uk/api/forms?id=${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/forms/${id}`
+          url,
+        // const response = await fetch(
+        //   `https://annex.sofinish.co.uk/api/forms/${id}`
         );
         if (!response.ok)
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -110,6 +125,9 @@ const DraftForm = () => {
             ...prev,
             user_id: formDataFromApi.user_id || prev.user_id,
             annex_id: formDataFromApi.annex_id || prev.annex_id,
+            login_id: loginId(),
+            company_id: companyId(),
+            action: 'Save Draft Annex Form',
             company_name: formDataFromApi.company_name || "",
             address: formDataFromApi.address || "",
             contact_number: formDataFromApi.contact_number || "",
@@ -280,6 +298,7 @@ const DraftForm = () => {
     // }
 
     try {
+      
       const response = await fetch(
         "https://annex.sofinish.co.uk/api/submit-form",
         {

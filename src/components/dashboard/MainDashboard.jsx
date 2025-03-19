@@ -29,22 +29,30 @@ const MainDashboard = () => {
 
   const user = localStorage.getItem("user");
   const userId = JSON.parse(user);
-  console.log(userId);
-  console.log(userId.role_id);
 
   //total
   const totaldata = localStorage.getItem("totaldata");
   const totaldatas = JSON.parse(totaldata);
-  // console.log("total data:-", totaldatas);
-  //  console.log(userId.role_id);
+
   useEffect(() => {
     const fetchFormData = async () => {
       setLoading(true);
       setError("");
-
+      const companyId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.company_id;
+        return user_id || NULL ;
+      };
+    
+    const loginId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.login_id;
+        return user_id || NULL ;
+    };
       try {
-        const response = await fetch(
-          `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}`,
+        const url = `https://annex.sofinish.co.uk/api/companyforms?id=${userId?.company_id}&action=companydashboard&company_id=${companyId()}&login_id=${loginId()}`;
+
+        const response = await fetch(url,
           {
             method: "GET",
             headers: {
@@ -57,14 +65,12 @@ const MainDashboard = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        console.log(response);
-
         const data = await response.json();
-        console.log("data:-", data);
         setFormData(data.applications);
         setSignature(data.total_done_signatures);
         setTotalEmail(data.total_emails);
         setTotalForm(data.total_forms);
+      
       } catch (err) {
         setError(err.message);
       } finally {
@@ -224,6 +230,18 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const formRef = useRef(null);
+  const companyId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.company_id;
+    return user_id || NULL ;
+  };
+
+  const loginId = () => {
+      const user = localStorage.getItem("user");
+      const user_id = JSON.parse(user)?.login_id;
+      return user_id || NULL ;
+  };
+  
 
   console.log("formdata:-", id);
 
@@ -232,8 +250,10 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     setLoading(true);
     setError("");
     try {
+      const url = `https://annex.sofinish.co.uk/api/forms/${id}?action=DownloadPdf&company_id=${companyId()}&login_id=${loginId()}`;
+
       const response = await fetch(
-        ` https://annex.sofinish.co.uk/api/forms/${id}`,
+        url,
         {
           method: "GET",
           headers: {
