@@ -108,11 +108,10 @@ const Login = () => {
               Request new password
             </div>
             <button type="submit" className="login-button">
-              {loading ? (
+              {/* {loading ? (
                 <CircularProgress size={24} color="inherit" />
-              ) : (
-                "Login"
-              )}
+              ) : ( */}
+              Login
             </button>
           </form>
         </div>

@@ -37,7 +37,6 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-
         {/* Protected Routes */}
         <Route
           path="/admin/dashboard/*"
