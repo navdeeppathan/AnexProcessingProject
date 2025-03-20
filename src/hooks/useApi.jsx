@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API_BASE_URL = "https://annex.sofinish.co.uk/api"; // Change this to your API URL
+const API_BASE_URL = "https://annex.sofinish.co.uk/api"; 
 
 const useApi = () => {
   const [loading, setLoading] = useState(false);
