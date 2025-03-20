@@ -12,6 +12,7 @@ import Sidebar from "../utils/Sidebar";
 import Draft from "../Draft/Draft";
 import User from "../auth/user/User";
 import DraftForm from "../Draft/DraftForm";
+import CompanyActions from "../Admin/actions/CompanyActions";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Dashboard = () => {
             <Route path="/draft" element={<Draft />} />
             <Route path="/users" element={<User />} />
             <Route path="/draftForm/:id" element={<DraftForm />} />
+            <Route path="/company-actions" element={<CompanyActions />} />
           </Routes>
         </div>
       </div>

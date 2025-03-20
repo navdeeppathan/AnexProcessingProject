@@ -25,9 +25,8 @@ const AdminDashboard = () => {
           <Routes>
             <Route path="/" element={<DashboardTemplate />} />
             <Route path="/companies" element={<MainCompanies />} />
-
             <Route path="/profile" element={<Profile />} />
-            <Route path="/actions" element={<Actions />} />
+            <Route path="/action/:id" element={<Actions />} />
           </Routes>
         </div>
       </div>

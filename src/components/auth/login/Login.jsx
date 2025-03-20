@@ -1,50 +1,59 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import "./Login.css";
-import useApi from "../../../hooks/useApi"; 
+import useApi from "../../../hooks/useApi";
 
-  const Login = () => {
-    const { sendRequest, loading } = useApi();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [activeTab, setActiveTab] = useState("admin");
+const Login = () => {
+  const { sendRequest, loading } = useApi();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [activeTab, setActiveTab] = useState("admin");
 
-        const data = await sendRequest("login", "POST", { email, password,action: "login" });
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-        if (data && data.status === 200) {
-            // Check the role_id and redirect accordingly. 1 for admin, 2 for company.
-            const { role_id } = data.data;
-            if ((role_id == 1 && activeTab === "admin") || (role_id >= 2 && activeTab === "company")) {
-                Swal.fire({
-                    title: "Success!",
-                    text: "Login Successful",
-                    icon: "success",
-                    timer: 2000,
-                    showConfirmButton: false,
-                }).then(() => {
-                    localStorage.setItem("user", JSON.stringify(data.data));
-                    localStorage.setItem("totaldata", JSON.stringify(data));
-                    localStorage.setItem("role_id", JSON.stringify(role_id));
-                    window.location.href = role_id == 1 ? "/admin/dashboard/" : "/dashboard";
-                });
-            } else {
-                Swal.fire({
-                    title: "Error",
-                    text: "Invalid Role. Please select the correct login type.",
-                    icon: "error",
-                });
-            }
-        } else {
-            Swal.fire({
-                title: "Login Failed",
-                text: data?.message || "Please check your credentials.",
-                icon: "error",
-            });
-        }
-    };
+    const data = await sendRequest("login", "POST", {
+      email,
+      password,
+      action: "login",
+    });
+
+    if (data && data.status === 200) {
+      // Check the role_id and redirect accordingly. 1 for admin, 2 for company.
+      const { role_id } = data.data;
+      if (
+        (role_id == 1 && activeTab === "admin") ||
+        (role_id >= 2 && activeTab === "company")
+      ) {
+        Swal.fire({
+          title: "Success!",
+          text: "Login Successful",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        }).then(() => {
+          localStorage.setItem("user", JSON.stringify(data.data));
+          localStorage.setItem("totaldata", JSON.stringify(data));
+          localStorage.setItem("role_id", JSON.stringify(role_id));
+          window.location.href =
+            role_id == 1 ? "/admin/dashboard/" : "/dashboard";
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Invalid Role. Please select the correct login type.",
+          icon: "error",
+        });
+      }
+    } else {
+      Swal.fire({
+        title: "Login Failed",
+        text: data?.message || "Please check your credentials.",
+        icon: "error",
+      });
+    }
+  };
 
   return (
     <div className="main-div">
@@ -99,7 +108,11 @@ import useApi from "../../../hooks/useApi";
               Request new password
             </div>
             <button type="submit" className="login-button">
-              Login
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Login"
+              )}
             </button>
           </form>
         </div>

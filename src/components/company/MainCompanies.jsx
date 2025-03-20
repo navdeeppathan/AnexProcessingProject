@@ -127,7 +127,7 @@ const MainCompanies = () => {
                   <th>Email</th>
                   <th>Status</th>
                   {/* <th>Operation</th> */}
-                  <th>View</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,18 +153,29 @@ const MainCompanies = () => {
                       </span>
                     </td>
                     <td>
-                      <button
-                        className="view-profile"
-                        onClick={() =>
-                          handleShowCompanyDetails(
-                            company.phone_number,
-                            company.company_name,
-                            company.email
-                          )
-                        }
-                      >
-                        View
-                      </button>
+                      <div className="flex items-center">
+                        <button
+                          className="view-profile"
+                          onClick={() =>
+                            handleShowCompanyDetails(
+                              company.phone_number,
+                              company.company_name,
+                              company.email
+                            )
+                          }
+                        >
+                          View
+                        </button>
+                        &nbsp;
+                        <button
+                          className="view-profile"
+                          onClick={() =>
+                            navigate(`/admin/dashboard/action/${company.id}`)
+                          }
+                        >
+                          Audit Logs
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

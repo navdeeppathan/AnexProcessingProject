@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 
-const Actions = () => {
+const CompanyActions = () => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const { id } = useParams();
+  const companyId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.company_id;
+    return user_id || NULL;
+  };
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -18,7 +22,7 @@ const Actions = () => {
 
       try {
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/companylogs/${id}?page=${currentPage}`
+          `https://annex.sofinish.co.uk/api/companylogs/${companyId()}?page=${currentPage}`
         );
         const result = await response.json(); // API response
 
@@ -121,4 +125,4 @@ const Actions = () => {
   );
 };
 
-export default Actions;
+export default CompanyActions;
