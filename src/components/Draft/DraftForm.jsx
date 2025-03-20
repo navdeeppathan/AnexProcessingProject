@@ -102,8 +102,9 @@ const DraftForm = () => {
       };
       setLoading(true);
       setError("");
+      console.log("beforeId:---", id);
       try {
-        const url = `https://annex.sofinish.co.uk/api/forms?id=${id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
+        const url = `https://annex.sofinish.co.uk/api/forms/${id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
         const response = await fetch(
           url
           // const response = await fetch(
@@ -113,11 +114,12 @@ const DraftForm = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
-        console.log("Fetched Data:", data); // Log the fetched data
+        console.log("Fetched Datajdfgnds----:", data); // Log the fetched data
 
         // Check if data is an array and get the first element
         if (Array.isArray(data) && data.length > 0) {
           const formDataFromApi = data[0]; // Access the first object in the array
+          console.log("Fetched Datsdgdsaggs---a:", formDataFromApi);
 
           // Set form data with values from API
           setFormData((prev) => ({
@@ -212,6 +214,8 @@ const DraftForm = () => {
                 phone: carrier.phone || "",
                 fax: carrier.fax || "",
                 email: carrier.email || "",
+                means_of_transport: carrier.means_of_transport,
+                date_of_transport: carrier.date_of_transport,
               }))
             );
           }
@@ -256,6 +260,8 @@ const DraftForm = () => {
           phone: "",
           fax: "",
           email: "",
+          means_of_transport: "",
+          date_of_transport: "",
         },
       ]);
     }
@@ -371,6 +377,8 @@ const DraftForm = () => {
             phone: "",
             fax: "",
             email: "",
+            date_of_transport: "",
+            means_of_transport: "",
           },
         ]);
       } else {
@@ -541,7 +549,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                1. Consignment Information:
+                1.Person who arranges the shipments:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -701,7 +709,7 @@ const DraftForm = () => {
                 </Typography>
 
                 <TextField
-                  label="49 DRUMS – Tonnes (Mg) m³:"
+                  label="49 DRUMS:"
                   fullWidth
                   name="number_of_shipments"
                   value={formData.number_of_shipments}
@@ -712,11 +720,11 @@ const DraftForm = () => {
 
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
-                  4. Actual Weight:
+                  Actual Weight:
                 </Typography>
 
                 <TextField
-                  label="Weight"
+                  label="Tonnes (Mg) m³:"
                   fullWidth
                   name="weight"
                   value={formData.weight}
@@ -728,7 +736,7 @@ const DraftForm = () => {
               {/* Actual Date of Shipment */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
-                  5. Actual Date of Shipment:
+                  4. Actual Date of Shipment:
                 </Typography>
 
                 <TextField
@@ -742,9 +750,9 @@ const DraftForm = () => {
               </Grid>
 
               {/*policy agency */}
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
-                  6. Public Agency:
+                  5. Public Agency:
                 </Typography>
 
                 <TextField
@@ -755,7 +763,7 @@ const DraftForm = () => {
                   fullWidth
                   variant="outlined"
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
 
@@ -764,7 +772,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                Carriers Information
+                5.Carriers Information
               </Typography>
 
               {carriers.map((carrier, index) => (
@@ -866,7 +874,7 @@ const DraftForm = () => {
                         margin="normal"
                       />
                     </Grid>
-                    {/* <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
                         name="means_of_transport"
@@ -876,8 +884,8 @@ const DraftForm = () => {
                         variant="outlined"
                         margin="normal"
                       />
-                    </Grid> */}
-                    {/* <Grid item xs={12} sm={4}>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
                         name="date_of_transport"
@@ -888,7 +896,7 @@ const DraftForm = () => {
                         margin="normal"
                         InputLabelProps={{ shrink: true }}
                       />
-                    </Grid> */}
+                    </Grid>
                     {/* <Grid item xs={12} sm={4}>
                       <TextField
                         fullWidth
@@ -927,7 +935,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                7.Waste generator (Original producer/new producer/collector):
+                6.Waste generator (Original producer/new producer/collector):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -991,7 +999,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                8. Recovery facility:
+                7. Recovery facility:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1069,7 +1077,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                9. Recovery operation (or if appropriate disposal operation in
+                8. Recovery operation (or if appropriate disposal operation in
                 the case of waste referred to in Article 3(4)):
               </Typography>
               <Grid container spacing={2}>
@@ -1091,7 +1099,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                10. Usual description of the waste:
+                9. Usual description of the waste:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1112,7 +1120,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                11. Waste identification (fill in relevant codes):
+                10. Waste identification (fill in relevant codes):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3}>
@@ -1192,7 +1200,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                12. Countries/states concerned:
+                11. Countries/states concerned:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1235,7 +1243,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                13. Declaration of the person who arranges the shipment:
+                12. Declaration of the person who arranges the shipment:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1265,7 +1273,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                14. Signature upon receipt of the waste by the consignee:
+                13. Signature upon receipt of the waste by the consignee:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1295,7 +1303,7 @@ const DraftForm = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                15. Shipment received at recovery facility:
+                14. Shipment received at recovery facility:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>

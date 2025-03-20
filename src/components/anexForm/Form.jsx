@@ -685,7 +685,7 @@ const Form = () => {
                 </Typography>
 
                 <TextField
-                  label="49 DRUMS – Tonnes (Mg) m³:"
+                  label="49 DRUMS:"
                   fullWidth
                   name="number_of_shipments"
                   value={formData.number_of_shipments}
@@ -696,11 +696,11 @@ const Form = () => {
 
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
-                  4. Actual Weight:
+                  Actual Weight:
                 </Typography>
 
                 <TextField
-                  label="Weight"
+                  label="Tonnes (Mg) m³:"
                   fullWidth
                   name="weight"
                   value={formData.weight}
@@ -712,7 +712,7 @@ const Form = () => {
               {/* Actual Date of Shipment */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
-                  5. Actual Date of Shipment:
+                  4. Actual Date of Shipment:
                 </Typography>
 
                 <TextField
@@ -726,7 +726,7 @@ const Form = () => {
               </Grid>
 
               {/*policy agency */}
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <Typography variant="h6" fontWeight="bold">
                   6. Public Agency:
                 </Typography>
@@ -739,7 +739,7 @@ const Form = () => {
                   fullWidth
                   variant="outlined"
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
 
@@ -748,7 +748,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                Carriers Information
+                5.Carriers Information
               </Typography>
 
               {carriers.map((carrier, index) => (
@@ -953,7 +953,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                7.Waste generator (Original producer/new producer/collector):
+                6.Waste generator (Original producer/new producer/collector):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1046,7 +1046,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                8. Recovery facility:
+                7. Recovery facility:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1124,7 +1124,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                9. Recovery operation (or if appropriate disposal operation in
+                8. Recovery operation (or if appropriate disposal operation in
                 the case of waste referred to in Article 3(4)):
               </Typography>
               <Grid container spacing={2}>
@@ -1146,7 +1146,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                10. Usual description of the waste:
+                9. Usual description of the waste:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1167,7 +1167,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="#F8F9FA">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                11. Waste identification (fill in relevant codes):
+                10. Waste identification (fill in relevant codes):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3}>
@@ -1247,7 +1247,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                12. Countries/states concerned:
+                11. Countries/states concerned:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1290,7 +1290,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                13. Declaration of the person who arranges the shipment:
+                12. Declaration of the person who arranges the shipment:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1320,7 +1320,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                14. Signature upon receipt of the waste by the consignee:
+                13. Signature upon receipt of the waste by the consignee:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -1350,7 +1350,7 @@ const Form = () => {
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                15. Shipment received at recovery facility:
+                14. Shipment received at recovery facility:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>

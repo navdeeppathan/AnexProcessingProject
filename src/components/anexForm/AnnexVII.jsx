@@ -775,7 +775,7 @@ const AnnexVII = () => {
                                   </div>
 
                                   <div className="flex justify-end mt-auto">
-                                    <div className="flex  items-center space-y-1">
+                                    <div className="flex flex-col items-center space-y-1">
                                       {item?.signature?.some(
                                         (sign) => sign.signed_by === item?.email
                                       ) && (
@@ -835,7 +835,7 @@ const AnnexVII = () => {
                                     </div>
                                   </div>
                                   <div className="flex justify-end mt-auto">
-                                    <div className="flex items-center space-y-1">
+                                    <div className="flex flex-col items-center space-y-1">
                                       {item?.signature?.some(
                                         (sign) =>
                                           sign.signed_by === item?.email2

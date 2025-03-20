@@ -42,7 +42,6 @@ const Draft = () => {
       };
 
       try {
-<<<<<<< HEAD
         const url = `https://annex.sofinish.co.uk/api/draftforms/${
           userId?.company_id
         }&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
@@ -52,18 +51,6 @@ const Draft = () => {
             "Content-Type": "application/json",
           },
         });
-=======
-        const url = `https://annex.sofinish.co.uk/api/draftforms/${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
-        const response = await fetch(
-          url,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
->>>>>>> 1f9b4e6889c90aab00deca35fc0757e9eab2b6ed
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
