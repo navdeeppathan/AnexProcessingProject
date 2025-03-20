@@ -42,7 +42,7 @@ const Draft = () => {
       };
 
       try {
-        const url = `https://annex.sofinish.co.uk/api/draftforms?id=${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
+        const url = `https://annex.sofinish.co.uk/api/draftforms/${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
         const response = await fetch(
           url,
           {
