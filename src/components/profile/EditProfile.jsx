@@ -18,7 +18,22 @@ const EditProfile = () => {
   const user = JSON.parse(userData);
   console.log(user);
 
+  const companyId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.company_id;
+    return user_id || NULL;
+  };
+
+  const loginId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.login_id;
+    return user_id || NULL;
+  };
+
   const [formData, setFormData] = useState({
+    login_id: loginId(),
+    company_id: companyId(),
+    action: "Update Profile",
     id: user?.id,
     company_name: user?.company_name,
     email: user?.email,
@@ -80,7 +95,7 @@ const EditProfile = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess("Company created successfully!");
+        setSuccess("Company updated successfully!");
         localStorage.setItem("user", JSON.stringify(data?.data));
         setSuccess("");
         window.location.reload();
@@ -101,7 +116,7 @@ const EditProfile = () => {
           annex_price: "",
         });
       } else {
-        setError(data.message || "Failed to create company.");
+        setError(data.message || "Failed to update company.");
         setTimeout(() => {
           setError("");
         }, 2000);

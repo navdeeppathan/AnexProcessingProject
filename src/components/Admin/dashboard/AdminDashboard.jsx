@@ -9,6 +9,7 @@ import DashboardHeader from "../../utils/DashboardHeader";
 
 import MainCompanies from "../../company/MainCompanies";
 import AdminSidebar from "../../utils/AdminSidebar";
+import Actions from "../actions/Actions";
 
 const AdminDashboard = () => {
   return (
@@ -26,7 +27,7 @@ const AdminDashboard = () => {
             <Route path="/companies" element={<MainCompanies />} />
 
             <Route path="/profile" element={<Profile />} />
-            {/* <Route path="/edit-profile" element={<EditProfile />} /> */}
+            <Route path="/actions" element={<Actions />} />
           </Routes>
         </div>
       </div>

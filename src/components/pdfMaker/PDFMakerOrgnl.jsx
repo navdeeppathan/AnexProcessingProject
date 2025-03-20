@@ -88,6 +88,18 @@ const PDFMakerOrgnl = () => {
   // const file2 = base64ToFile(uploadImg, "uploadImg.png");
   // console.log("uploaded file:-", file2);
 
+  const companyId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.company_id;
+    return user_id || NULL;
+  };
+
+  const loginId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.login_id;
+    return user_id || NULL;
+  };
+
   const handleForm = async (id) => {
     // setFormId(id);
 
@@ -100,6 +112,9 @@ const PDFMakerOrgnl = () => {
     formData2.append("form_id", id);
     formData2.append("signed_by", emailData);
     formData2.append("signature", file);
+    formData2.append("login_id", loginId());
+    formData2.append("company_id", companyId());
+    formData2.append("action", "Send Signature");
 
     // console.log(formData2);
     setLoading(true);

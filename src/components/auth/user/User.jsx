@@ -17,10 +17,23 @@ const User = () => {
     const fetchFormData = async () => {
       setLoading(true);
       setError("");
+      const companyId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.company_id;
+        return user_id || NULL;
+      };
+
+      const loginId = () => {
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.login_id;
+        return user_id || NULL;
+      };
 
       try {
         const response = await fetch(
-          `https://annex.sofinish.co.uk/api/userlist?id=${userId?.company_id}`,
+          `https://annex.sofinish.co.uk/api/userlist?id=${
+            userId?.company_id
+          }&action=FecthUserList&company_id=${companyId()}&login_id=${loginId()}`,
           {
             method: "GET",
             headers: {

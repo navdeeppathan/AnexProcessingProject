@@ -181,9 +181,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     setLoading(true);
     setError("");
     try {
-      const url = `https://annex.sofinish.co.uk/api/forms?id=${
-        userId?.company_id
-      }&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
+      const url = `https://annex.sofinish.co.uk/api/forms?id=${id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
 
       const response = await fetch(
         url,

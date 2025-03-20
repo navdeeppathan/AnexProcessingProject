@@ -32,32 +32,32 @@ const Draft = () => {
       const companyId = () => {
         const user = localStorage.getItem("user");
         const user_id = JSON.parse(user)?.company_id;
-        return user_id || NULL ;
+        return user_id || NULL;
       };
-    
+
       const loginId = () => {
-          const user = localStorage.getItem("user");
-          const user_id = JSON.parse(user)?.login_id;
-          return user_id || NULL ;
+        const user = localStorage.getItem("user");
+        const user_id = JSON.parse(user)?.login_id;
+        return user_id || NULL;
       };
 
       try {
-        const url = `https://annex.sofinish.co.uk/api/draftforms?id=${userId?.company_id}&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
-        const response = await fetch(
-          url,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const url = `https://annex.sofinish.co.uk/api/draftforms/${
+          userId?.company_id
+        }&action=Getdraftforms&company_id=${companyId()}&login_id=${loginId()}`;
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
+        // console.log(data)
         setFormData(data);
         console.log("draftFormdata:-", data);
       } catch (err) {

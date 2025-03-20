@@ -63,12 +63,36 @@ const OTPVerification = () => {
     }
   };
 
+  const companyId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.company_id;
+    return user_id || NULL;
+  };
+
+  const loginId = () => {
+    const user = localStorage.getItem("user");
+    const user_id = JSON.parse(user)?.login_id;
+    return user_id || NULL;
+  };
+
   // Send OTP API
   const sendOTP = async (email) => {
     if (!email) {
       setMessage("Invalid email.");
       return;
     }
+
+    // const companyId = () => {
+    //   const user = localStorage.getItem("user");
+    //   const user_id = JSON.parse(user)?.company_id;
+    //   return user_id || NULL;
+    // };
+
+    // const loginId = () => {
+    //   const user = localStorage.getItem("user");
+    //   const user_id = JSON.parse(user)?.login_id;
+    //   return user_id || NULL;
+    // };
 
     setLoading(true);
     setMessage("");
@@ -112,10 +136,14 @@ const OTPVerification = () => {
     try {
       const response = await fetch(
         `https://annex.sofinish.co.uk/api/verify-otp`,
+        // `https://annex.sofinish.co.uk/api/verify-otp&action=VerifyOTP=${companyId()}&login_id=${loginId()}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            login_id: loginId(),
+            company_id: companyId(),
+            action: "VerifyOtp",
             email: decodedEmail,
             otp: otpCode,
             id: decodeId,

@@ -127,7 +127,7 @@ const MainCompanies = () => {
                   <th>Email</th>
                   <th>Status</th>
                   {/* <th>Operation</th> */}
-                  <th>View Profile</th>
+                  <th>View</th>
                 </tr>
               </thead>
               <tbody>
