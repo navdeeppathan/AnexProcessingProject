@@ -41,13 +41,13 @@ const MainDashboard = () => {
       const companyId = () => {
         const user = localStorage.getItem("user");
         const user_id = JSON.parse(user)?.company_id;
-        return user_id || NULL;
+        return user_id || null;
       };
 
       const loginId = () => {
         const user = localStorage.getItem("user");
         const user_id = JSON.parse(user)?.login_id;
-        return user_id || NULL;
+        return user_id || null;
       };
       try {
         const url = `https://annex.sofinish.co.uk/api/companyforms?id=${
@@ -232,13 +232,13 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
   const companyId = () => {
     const user = localStorage.getItem("user");
     const user_id = JSON.parse(user)?.company_id;
-    return user_id || NULL;
+    return user_id || null;
   };
 
   const loginId = () => {
     const user = localStorage.getItem("user");
     const user_id = JSON.parse(user)?.login_id;
-    return user_id || NULL;
+    return user_id || null;
   };
 
   console.log("formdata:-", id);

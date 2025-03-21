@@ -21,15 +21,19 @@ const EditProfile = () => {
   const companyId = () => {
     const user = localStorage.getItem("user");
     const user_id = JSON.parse(user)?.company_id;
-    return user_id || NULL;
+    return user_id || null;
   };
 
   const loginId = () => {
     const user = localStorage.getItem("user");
+    // console.log("loginId:-", user);
+    // const user_id = JSON.parse(user);
     const user_id = JSON.parse(user)?.login_id;
-    return user_id || NULL;
+    // console.log("userid loginId-", user_id);
+    return user_id || null;
   };
 
+  // console.log("getloginId:-", loginId());
   const [formData, setFormData] = useState({
     login_id: loginId(),
     company_id: companyId(),
@@ -93,6 +97,7 @@ const EditProfile = () => {
       );
 
       const data = await response.json();
+      console.log("data");
 
       if (response.ok) {
         setSuccess("Company updated successfully!");

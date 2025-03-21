@@ -63,17 +63,17 @@ const OTPVerification = () => {
     }
   };
 
-  const companyId = () => {
-    const user = localStorage.getItem("user");
-    const user_id = JSON.parse(user)?.company_id;
-    return user_id || NULL;
-  };
+  // const companyId = () => {
+  //   const user = localStorage.getItem("user");
+  //   const user_id = JSON.parse(user)?.company_id;
+  //   return user_id || null;
+  // };
 
-  const loginId = () => {
-    const user = localStorage.getItem("user");
-    const user_id = JSON.parse(user)?.login_id;
-    return user_id || NULL;
-  };
+  // const loginId = () => {
+  //   const user = localStorage.getItem("user");
+  //   const user_id = JSON.parse(user)?.login_id;
+  //   return user_id || null;
+  // };
 
   // Send OTP API
   const sendOTP = async (email) => {
@@ -85,13 +85,13 @@ const OTPVerification = () => {
     // const companyId = () => {
     //   const user = localStorage.getItem("user");
     //   const user_id = JSON.parse(user)?.company_id;
-    //   return user_id || NULL;
+    //   return user_id || null;
     // };
 
     // const loginId = () => {
     //   const user = localStorage.getItem("user");
     //   const user_id = JSON.parse(user)?.login_id;
-    //   return user_id || NULL;
+    //   return user_id || null;
     // };
 
     setLoading(true);
@@ -141,9 +141,6 @@ const OTPVerification = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            login_id: loginId(),
-            company_id: companyId(),
-            action: "VerifyOtp",
             email: decodedEmail,
             otp: otpCode,
             id: decodeId,

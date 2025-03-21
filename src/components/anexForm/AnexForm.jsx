@@ -23,13 +23,13 @@ const AnnexForm = () => {
     const companyId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.company_id;
-      return user_id || NULL;
+      return user_id || null;
     };
 
     const loginId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.login_id;
-      return user_id || NULL;
+      return user_id || null;
     };
     const fetchForms = async () => {
       try {
@@ -169,13 +169,13 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
     const companyId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.company_id;
-      return user_id || NULL;
+      return user_id || null;
     };
 
     const loginId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.login_id;
-      return user_id || NULL;
+      return user_id || null;
     };
     console.log("id from fetch:-", id);
     setLoading(true);

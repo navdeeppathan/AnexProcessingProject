@@ -22,7 +22,7 @@ const MainCompanies = () => {
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState(null);
-  const [selectedCompanyId, setSelectedCompanyId] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const navigate = useNavigate();
 
@@ -80,8 +80,8 @@ const MainCompanies = () => {
   };
 
   // Handle show company details
-  const handleShowCompanyDetails = (id) => {
-    setSelectedCompanyId(id);
+  const handleShowCompanyDetails = (company) => {
+    setSelectedCompany(company);
     setShowDetailsModal(true);
   };
 
@@ -156,13 +156,7 @@ const MainCompanies = () => {
                       <div className="flex items-center">
                         <button
                           className="view-profile"
-                          onClick={() =>
-                            handleShowCompanyDetails(
-                              company.phone_number,
-                              company.company_name,
-                              company.email
-                            )
-                          }
+                          onClick={() => handleShowCompanyDetails(company)}
                         >
                           View
                         </button>
@@ -173,7 +167,7 @@ const MainCompanies = () => {
                             navigate(`/admin/dashboard/action/${company.id}`)
                           }
                         >
-                          Audit Logs
+                          Audit
                         </button>
                       </div>
                     </td>
@@ -186,42 +180,158 @@ const MainCompanies = () => {
       </div>
 
       {/* Company Details Modal */}
-      <CompanyDetailsModal
-        open={showDetailsModal}
-        onClose={() => setShowDetailsModal(false)}
-        companyId={selectedCompanyId}
-      />
+      {selectedCompany && (
+        <CompanyDetailsModal
+          open={showDetailsModal}
+          onClose={() => setShowDetailsModal(false)}
+          company={selectedCompany}
+        />
+      )}
     </div>
   );
 };
 
 // Separate component for company details modal
-const CompanyDetailsModal = ({
-  open,
-  onClose,
-  companyph,
-  companyName,
-  companyemail,
-}) => {
-  const [companyData, setCompanyData] = useState({
-    company_name: "",
-    email: "",
-    registrationGITnumber: "",
-    city: "",
-    country: "",
-    address: "",
-    company_head: "",
-    phone_number: "",
-    annex_price: "",
-    password: "",
-    logo: null,
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+// const CompanyDetailsModal = ({
+//   open,
+//   onClose,
+//   companyId
+// }) => {
+//   const [companyData, setCompanyData] = useState({
+//     company_name: "",
+//     email: "",
+//     registrationGITnumber: "",
+//     city: "",
+//     country: "",
+//     address: "",
+//     company_head: "",
+//     phone_number: "",
+//     annex_price: "",
+//     password: "",
+//     logo: null,
+//   });
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState("");
 
-  // Fetch company details when modal opens
-  // yy
+//   // Fetch company details when modal opens
+//   // yy
 
+//   return (
+//     <Modal open={open} onClose={onClose}>
+//       <Box
+//         sx={{
+//           position: "absolute",
+//           top: "50%",
+//           left: "50%",
+//           transform: "translate(-50%, -50%)",
+//           width: "50%",
+//           bgcolor: "background.paper",
+//           boxShadow: 24,
+//           p: 4,
+//           borderRadius: 2,
+//           maxHeight: "90vh",
+//           overflowY: "auto",
+//         }}
+//       >
+//         {/* Header */}
+//         <Box display="flex" justifyContent="space-between" alignItems="center">
+//           <Typography variant="h5" sx={{ fontWeight: 600 }}>
+//             Company Details
+//           </Typography>
+//           <IconButton onClick={onClose}>
+//             <CloseIcon />
+//           </IconButton>
+//         </Box>
+
+//         {/* Content */}
+//         {loading ? (
+//           <Box display="flex" justifyContent="center" my={4}>
+//             <CircularProgress />
+//           </Box>
+//         ) : error ? (
+//           <Typography color="error" mt={2}>
+//             {error}
+//           </Typography>
+//         ) : (
+//           <Box mt={2} display="grid" gap={2} gridTemplateColumns="1fr 1fr">
+//             <TextField
+//               label="Company Name"
+//               name="company_name"
+//               value={companyData.company_name || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="Email"
+//               name="email"
+//               value={companyData.email || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="Registration Number"
+//               name="registration_number"
+//               value={companyData.registration_number || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="City"
+//               name="city"
+//               value={companyData.city || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="Country"
+//               name="country"
+//               value={companyData.country || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="Address"
+//               name="address"
+//               value={companyData.address || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="Company Head"
+//               name="company_head"
+//               value={companyData.company_head || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="Phone Number"
+//               name="phone_number"
+//               value={companyData.phone_number || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//             <TextField
+//               label="Annex Price"
+//               name="annex_price"
+//               value={companyData.annex_price || ""}
+//               fullWidth
+//               InputProps={{ readOnly: true }}
+//             />
+//           </Box>
+//         )}
+
+//         {/* Footer */}
+//         <Box mt={3} display="flex" justifyContent="flex-end">
+//           <Button variant="contained" onClick={onClose}>
+//             Close
+//           </Button>
+//         </Box>
+//       </Box>
+//     </Modal>
+//   );
+// };
+// Separate component for company details modal
+const CompanyDetailsModal = ({ open, onClose, company }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -250,81 +360,50 @@ const CompanyDetailsModal = ({
         </Box>
 
         {/* Content */}
-        {loading ? (
-          <Box display="flex" justifyContent="center" my={4}>
-            <CircularProgress />
-          </Box>
-        ) : error ? (
-          <Typography color="error" mt={2}>
-            {error}
-          </Typography>
-        ) : (
-          <Box mt={2} display="grid" gap={2} gridTemplateColumns="1fr 1fr">
-            <TextField
-              label="Company Name"
-              name="company_name"
-              value={companyData.company_name || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="Email"
-              name="email"
-              value={companyData.email || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="Registration Number"
-              name="registration_number"
-              value={companyData.registration_number || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="City"
-              name="city"
-              value={companyData.city || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="Country"
-              name="country"
-              value={companyData.country || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="Address"
-              name="address"
-              value={companyData.address || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="Company Head"
-              name="company_head"
-              value={companyData.company_head || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="Phone Number"
-              name="phone_number"
-              value={companyData.phone_number || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-            <TextField
-              label="Annex Price"
-              name="annex_price"
-              value={companyData.annex_price || ""}
-              fullWidth
-              InputProps={{ readOnly: true }}
-            />
-          </Box>
-        )}
+        <Box mt={2} display="grid" gap={2} gridTemplateColumns="1fr 1fr">
+          <TextField
+            label="Company Name"
+            value={company.company_name}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label="Email"
+            value={company.email}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label="Phone Number"
+            value={company.phone_number}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label="City"
+            value={company.city}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label="Country"
+            value={company.country}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label="Address"
+            value={company.address}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            label="Company Head"
+            value={company.company_head}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+        </Box>
 
         {/* Footer */}
         <Box mt={3} display="flex" justifyContent="flex-end">
@@ -336,5 +415,4 @@ const CompanyDetailsModal = ({
     </Modal>
   );
 };
-
 export default MainCompanies;
