@@ -96,7 +96,7 @@ const Sidebar = () => {
     },
     {
       path: "/dashboard/company-actions",
-      name: "Audit Logs",
+      name: "Audit",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
