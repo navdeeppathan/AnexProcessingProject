@@ -16,6 +16,7 @@ import OTPVerification2 from "./components/auth/login/otpverify";
 import PdfDownload from "./components/auth/createCompany/PdfDownload";
 import ThankyouPage from "./components/Thankyou/ThankyouPage";
 import Test from "./components/auth/createCompany/Test";
+import Test2 from "./components/auth/createCompany/Test2";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -103,7 +104,14 @@ const App = () => {
             // </AuthWrapper>
           }
         />
-        
+        {/* <Route
+          path="/test3"
+          element={
+            // <AuthWrapper>
+            <Test2 />
+            // </AuthWrapper>
+          }
+        /> */}
       </Routes>
     </Router>
   );

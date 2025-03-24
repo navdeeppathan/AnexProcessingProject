@@ -13,10 +13,8 @@ const PDFMakerOrgnl = () => {
   // const [error, setError] = useState("");
   const navigate = useNavigate();
   const formRef = useRef();
-
   const [formId, setFormId] = useState(null);
   // console.log("formdata", formData);
-
   // useEffect(() => {
   const storedData = localStorage.getItem("formData");
   const item = JSON.parse(storedData);
@@ -52,6 +50,7 @@ const PDFMakerOrgnl = () => {
   //       </p>
   //     </p>
   //   );
+
   const ordinalSuffix = (num) => {
     const suffixes = [
       "First",
@@ -136,14 +135,20 @@ const PDFMakerOrgnl = () => {
         localStorage.removeItem("savedSignature");
         navigate("/thankyou");
       } else {
-        Swal.fire(
-          "Error",
-          result.message || "Failed to upload signature",
-          "error"
-        );
+        Swal.fire({
+          title: "Error",
+          text:
+            result.message ||
+            "Invalid Role. Please select the correct login type.",
+          icon: "error",
+        });
       }
     } catch (error) {
-      Swal.fire(error);
+      Swal.fire({
+        title: "Error",
+        text: error || "Invalid Role. Please select the correct login type.",
+        icon: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -182,7 +187,7 @@ const PDFMakerOrgnl = () => {
               </div>
               <h5 className="text-sm md:text-base text-center font-semibold">
                 {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
-                {item.annex_id}
+                {item?.annex_id}
               </h5>
             </div>
 
@@ -294,11 +299,11 @@ const PDFMakerOrgnl = () => {
                 className={`grid grid-cols-1  ${
                   item?.carriers?.length === 1
                     ? "md:grid-cols-1"
-                    : item.carriers.length === 2
+                    : item?.carriers.length === 2
                     ? "md:grid-cols-2"
-                    : item.carriers.length === 4
+                    : item?.carriers.length === 4
                     ? "md:grid-cols-2"
-                    : item.carriers.length === 5
+                    : item?.carriers.length === 5
                     ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
                     : "md:grid-cols-3"
                 }`}

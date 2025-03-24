@@ -51,33 +51,33 @@ const MainCompanies = () => {
   }, [open]);
 
   // Handle Delete Company
-  const deleteCompany = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this company?"))
-      return;
+  // const deleteCompany = async (id) => {
+  //   if (!window.confirm("Are you sure you want to delete this company?"))
+  //     return;
 
-    try {
-      const response = await fetch(
-        `https://annex.sofinish.co.uk/api/companies/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+  //   try {
+  //     const response = await fetch(
+  //       `https://annex.sofinish.co.uk/api/companies/${id}`,
+  //       {
+  //         method: "DELETE",
+  //       }
+  //     );
 
-      if (response.ok) {
-        setCompanies(companies.filter((company) => company.id !== id));
-      } else {
-        alert("Failed to delete company.");
-      }
-    } catch (err) {
-      alert("Network error. Please try again.");
-    }
-  };
+  //     if (response.ok) {
+  //       setCompanies(companies.filter((company) => company.id !== id));
+  //     } else {
+  //       alert("Failed to delete company.");
+  //     }
+  //   } catch (err) {
+  //     alert("Network error. Please try again.");
+  //   }
+  // };
 
   // Handle Edit Company
-  const editCompany = (company) => {
-    setEditingCompany(company);
-    setOpen(true);
-  };
+  // const editCompany = (company) => {
+  //   setEditingCompany(company);
+  //   setOpen(true);
+  // };
 
   // Handle show company details
   const handleShowCompanyDetails = (company) => {
