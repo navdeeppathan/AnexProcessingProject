@@ -39,19 +39,6 @@ const Form = () => {
   }
   // const annexid = generateRandomString();
   // console.log("asjd:---", annexid);
-  const [carriers, setCarriers] = useState([
-    {
-      name: "",
-      address: "",
-      contact_person: "",
-      phone: "",
-      fax: "",
-      email: "",
-      means_of_transport: "",
-      date_of_transport: "",
-      departure_date: "",
-    },
-  ]);
 
   const [formData, setFormData] = useState({
     login_id: loginId(),
@@ -134,126 +121,22 @@ const Form = () => {
     waste_transport_status: "",
     shipment_received_at_facility: "",
   });
-
-  
-
-  useEffect(() => {
-    carriers.forEach((carrier, index) => {
-      if (carrier.name.length >= 4) {
-        fetchCompanyData(carrier.name, "carrier", index);
-      }
-    });
-  }, [carriers]);
-
-  useEffect(() => {
-    if (formData.company_name.length >= 4) {
-      fetchCompanyData(formData.company_name, "company");
-    }
-  }, [formData.company_name]);
-
-  useEffect(() => {
-    if (formData.consignee_name.length >= 4) {
-      fetchCompanyData(formData.consignee_name, "consignee");
-    }
-  }, [formData.consignee_name]);
-
-  useEffect(() => {
-    if (formData.waste_processor_name && formData.waste_processor_name.length >= 4) {
-      fetchCompanyData(formData.waste_processor_name, "waste_processor");
-    }
-  }, [formData.waste_processor_name]);
-
-  useEffect(() => {
-    if (formData.processing_facility_name && formData.processing_facility_name.length >= 4) {
-      fetchCompanyData(formData.processing_facility_name, "processing_facility");
-    }
-  }, [formData.processing_facility_name]);
-
-  const handleChangee = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const fetchCompanyData = async (value, searchType, index = null) => {
-    const url = "https://annex.sofinish.co.uk/api/formdata";
-    let type;
-    if (searchType === "company") type = 1;
-    else if (searchType === "consignee") type = 2;
-    else if (searchType === "carrier") type = 5;
-    else if (searchType === "waste_processor") type = 6;
-    else if (searchType === "processing_facility") type = 7; 
-    const form = new FormData();
-    form.append("search", value);
-    form.append("id", companyId());
-    form.append("type", type);
-    form.append("action", 'formdata');
-  
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: form,
-      });
-  
-      const data = await response.json();
-  
-      if (data.data) {
-        if (searchType === "company") {
-          setFormData((prevData) => ({
-            ...prevData,
-            ...data.data,
-          }));
-        } else if (searchType === "consignee") {
-          setFormData((prevData) => ({
-            ...prevData,
-            consignee_name: data.data.consignee_name,
-            consignee_address: data.data.consignee_address,
-            consignee_contact: data.data.consignee_contact,
-            contPerson: data.data.contPerson,
-            fax2: data.data.fax2,
-            email2: data.data.email2,
-          }));
-        } else if (searchType === "carrier" && index !== null) {
-          // Update carriers array correctly
-          setCarriers((prevCarriers) =>
-            prevCarriers.map((carrier, i) =>
-              i === index
-                ? { ...carrier, ...data.data }
-                : carrier
-            )
-          );
-        } else if (searchType === "waste_processor") {
-          setFormData((prevData) => ({
-            ...prevData,
-            waste_processor_name: data.data.name,
-            waste_processor_address: data.data.address,
-            waste_processor_contact_person: data.data.contact_person,
-            waste_processor_tel: data.data.mobile,
-            waste_processor_email: data.data.email,
-          }));
-        } else if (searchType === "processing_facility") {
-          setFormData((prevData) => ({
-            ...prevData,
-            processing_facility_name: data.data.recovery_name,
-            processing_facility_address: data.data.recovery_address,
-            processing_facility_contact_per: data.data.recovery_contact,
-            processing_facility_tel: data.data.recovery_tel,
-            processing_facility_fax: data.data.recovery_fax,
-            processing_facility_email: data.data.recovery_email,
-          }));
-        }
-      }
-    } catch (error) {
-      console.error(`Error fetching ${searchType} data:`, error);
-    }
-  };
-
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const [carriers, setCarriers] = useState([
+    {
+      name: "",
+      address: "",
+      contact_person: "",
+      phone: "",
+      fax: "",
+      email: "",
+      means_of_transport: "",
+      date_of_transport: "",
+      departure_date: "",
+    },
+  ]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -261,7 +144,6 @@ const Form = () => {
       [name]: value,
     }));
   };
-
   const handleCarrierChange = (index, event) => {
     const { name, value } = event.target;
     const updatedCarriers = [...carriers];
@@ -652,7 +534,7 @@ const Form = () => {
                     label="Name"
                     name="company_name"
                     value={formData.company_name}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     variant="outlined"
                   />
                 </Grid>
@@ -661,7 +543,7 @@ const Form = () => {
                     fullWidth
                     name="address"
                     value={formData.address}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     label="Address"
                     variant="outlined"
                   />
@@ -670,28 +552,30 @@ const Form = () => {
                   <TextField
                     name="contact_person"
                     value={formData.contact_person}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     fullWidth
                     label="Contact Person"
                     variant="outlined"
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={4}>
                   <TextField
                     name="contact_number"
                     value={formData.contact_number}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     fullWidth
                     label="Tel"
                     inputProps={{ maxLength: 10 }}
                     variant="outlined"
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={4}>
                   <TextField
                     name="fax"
                     value={formData.fax}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     fullWidth
                     label="Fax"
                     variant="outlined"
@@ -702,7 +586,7 @@ const Form = () => {
                     name="email"
                     type="email"
                     value={formData.email}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     fullWidth
                     label="Email"
                     variant="outlined"
@@ -714,7 +598,7 @@ const Form = () => {
 
           {/* Section: Consignee */}
           <div>
-            <Box p={2} borderRadius={2} bgcolor="white" mt={3}>
+            <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
                 2. Consignee:
               </Typography>
@@ -724,9 +608,10 @@ const Form = () => {
                     fullWidth
                     name="consignee_name"
                     value={formData.consignee_name}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     label="Name"
                     variant="outlined"
+                    defaultValue="Lorem Ipsum"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -734,9 +619,10 @@ const Form = () => {
                     fullWidth
                     name="consignee_address"
                     value={formData.consignee_address}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     label="Address"
                     variant="outlined"
+                    defaultValue="Lorem ipsum dolor sit mate"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -744,9 +630,10 @@ const Form = () => {
                     fullWidth
                     name="contPerson"
                     value={formData.contPerson}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     label="Contact Person"
                     variant="outlined"
+                    defaultValue="Lorem ipsum"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -754,10 +641,11 @@ const Form = () => {
                     fullWidth
                     name="consignee_contact"
                     value={formData.consignee_contact}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     label="Tel"
                     inputProps={{ maxLength: 10 }}
                     variant="outlined"
+                    defaultValue="01234567890"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -765,9 +653,10 @@ const Form = () => {
                     fullWidth
                     name="fax2"
                     value={formData.fax2}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     label="Fax"
                     variant="outlined"
+                    defaultValue="01234567890"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -776,9 +665,10 @@ const Form = () => {
                     name="email2"
                     type="email"
                     value={formData.email2}
-                    onChange={handleChangee}
+                    onChange={handleChange}
                     label="Email"
                     variant="outlined"
+                    defaultValue="info@loremipsum.co.uk"
                   />
                 </Grid>
               </Grid>
@@ -856,151 +746,210 @@ const Form = () => {
           {/* Section: Consignee */}
 
           <div>
-          <Box p={2} borderRadius={2} bgcolor="white">
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
-              5. Carriers Information
-            </Typography>
+            <Box p={2} borderRadius={2} bgcolor="white">
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                5.Carriers Information
+              </Typography>
 
-            {carriers.map((carrier, index) => (
-              <Box
-                key={index}
-                sx={{
-                  border: "1px solid #E0E0E0",
-                  borderRadius: 2,
-                  p: 2,
-                  mb: 2,
-                  position: "relative",
-                }}
-              >
-                <Typography variant="subtitle1" fontWeight="medium" gutterBottom>
-                  Carrier {index + 1}
-                </Typography>
-
-                {carriers.length > 1 && (
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    onClick={() => removeCarrier(index)}
-                    sx={{ position: "absolute", top: 8, right: 8 }}
+              {carriers.map((carrier, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    border: "1px solid #E0E0E0",
+                    borderRadius: 2,
+                    p: 2,
+                    mb: 2,
+                    position: "relative",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="medium"
+                    gutterBottom
                   >
-                    <DeleteIcon />
-                  </IconButton>
-                )}
+                    Carrier {index + 1}
+                  </Typography>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="name"
-                      label="Name"
-                      value={carrier.name}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
+                  {carriers.length > 1 && (
+                    <IconButton
+                      aria-label="delete"
+                      size="small"
+                      onClick={() => removeCarrier(index)}
+                      sx={{ position: "absolute", top: 8, right: 8 }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="name"
+                        label="Name"
+                        value={carrier.name}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                      <TextField
+                        fullWidth
+                        name="address"
+                        label="Address"
+                        value={carrier.address}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="contact_person"
+                        label="Contact Person"
+                        value={carrier.contact_person}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="phone"
+                        label="Tel"
+                        value={carrier.phone}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        inputProps={{ maxLength: 10 }}
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="fax"
+                        label="Fax"
+                        value={carrier.fax}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="email"
+                        label="Email"
+                        type="email"
+                        value={carrier.email}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="means_of_transport"
+                        label="Means of Transport"
+                        value={carrier.means_of_transport}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="date_of_transport"
+                        type="date"
+                        value={carrier.date_of_transport}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid>
+                    {/* <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="departure_date"
+                        type="date"
+                        value={carrier.departure_date}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid> */}
                   </Grid>
-                  <Grid item xs={12} sm={8}>
-                    <TextField
-                      fullWidth
-                      name="address"
-                      label="Address"
-                      value={carrier.address}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="contact_person"
-                      label="Contact Person"
-                      value={carrier.contact_person}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="phone"
-                      label="Tel"
-                      value={carrier.phone}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      inputProps={{ maxLength: 10 }}
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="fax"
-                      label="Fax"
-                      value={carrier.fax}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="email"
-                      label="Email"
-                      type="email"
-                      value={carrier.email}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="means_of_transport"
-                      label="Means of Transport"
-                      value={carrier.means_of_transport}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="date_of_transport"
-                      type="date"
-                      value={carrier.date_of_transport}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </Grid>
-                </Grid>
+                </Box>
+              ))}
+
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button
+                  disabled={carriers.length === 5}
+                  variant="outlined"
+                  onClick={addCarrier}
+                  startIcon={<AddIcon />}
+                  sx={{
+                    color: "#5C5C5C",
+                    border: "1px solid #A8A8A8",
+                    borderRadius: "8px",
+                    textTransform: "none",
+                  }}
+                >
+                  Add Carrier
+                </Button>
               </Box>
-            ))}
-
-            <Box display="flex" justifyContent="center" mt={2}>
-              <Button
-                disabled={carriers.length === 5}
-                variant="outlined"
-                onClick={addCarrier}
-                startIcon={<AddIcon />}
-                sx={{
-                  color: "#5C5C5C",
-                  border: "1px solid #A8A8A8",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                }}
-              >
-                Add Carrier
-              </Button>
             </Box>
-          </Box>
           </div>
+          {/* <div>
+            <Box p={2} borderRadius={2} bgcolor="white">
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                5. Preferred Carrier:
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    name="preferred_carrier_name"
+                    value={formData.preferred_carrier_name}
+                    onChange={handleChange}
+                    label="Name"
+                    variant="outlined"
+                    defaultValue="Lorem Ipsum"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    name="preferred_carrier_arrival_date"
+                    value={formData.preferred_carrier_arrival_date}
+                    onChange={handleChange}
+                    variant="outlined"
+                    defaultValue="Lorem ipsum dolor sit mate"
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    name="preferred_carrier_departure_date"
+                    value={formData.preferred_carrier_departure_date}
+                    onChange={handleChange}
+                    variant="outlined"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </div> */}
+
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -1048,6 +997,16 @@ const Form = () => {
                     variant="outlined"
                   />
                 </Grid>
+                {/* <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    name="waste_processor_fax"
+                    value={formData.waste_processor_fax}
+                    onChange={handleChange}
+                    label="Fax"
+                    variant="outlined"
+                  />
+                </Grid> */}
                 <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
@@ -1059,11 +1018,31 @@ const Form = () => {
                     variant="outlined"
                   />
                 </Grid>
+                {/* <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    name="waste_processor_meansof_trans"
+                    value={formData.waste_processor_meansof_trans}
+                    onChange={handleChange}
+                    label="Means of transport"
+                    variant="outlined"
+                  />
+                </Grid> */}
+                {/* <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    name="waste_processor_dateof_trans"
+                    value={formData.waste_processor_dateof_trans}
+                    onChange={handleChange}
+                    variant="outlined"
+                  />
+                </Grid> */}
               </Grid>
             </Box>
           </div>
 
-          {/* Section: Recovery facility */}
+          {/* Section: Consignee */}
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
