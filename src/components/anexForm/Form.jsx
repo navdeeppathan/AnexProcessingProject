@@ -722,10 +722,10 @@ const Form = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="address" value={formData.address} label="Address" variant="outlined" />
+                  <TextField fullWidth name="address"  onChange={handleChangee} value={formData.address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="contact_person" value={formData.contact_person} label="Contact Person" variant="outlined" />
+                  <TextField fullWidth name="contact_person"   onChange={handleChangee} value={formData.contact_person} label="Contact Person" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -784,7 +784,7 @@ const Form = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="consignee_address" value={formData.consignee_address} label="Address" variant="outlined" />
+                  <TextField fullWidth name="consignee_address"   onChange={handleChangee} value={formData.consignee_address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -1073,7 +1073,7 @@ const Form = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="waste_processor_address" value={formData.waste_processor_address} label="Address" variant="outlined" />
+                  <TextField fullWidth name="waste_processor_address"  onChange={handleChange} value={formData.waste_processor_address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -1133,7 +1133,7 @@ const Form = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="processing_facility_address" value={formData.processing_facility_address} label="Address" variant="outlined" />
+                  <TextField fullWidth name="processing_facility_address"  onChange={handleChange} value={formData.processing_facility_address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
