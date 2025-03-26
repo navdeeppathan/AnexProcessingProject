@@ -23,7 +23,7 @@ const CompanyActions = () => {
 
     try {
       const response = await fetch(
-        'https://annex.sofinish.co.uk/api/companylogs/${companyId()}?page=${currentPage}&from=${fromDate}&to=${toDate}&search=${searchUser}'
+        `https://annex.sofinish.co.uk/api/companylogs/${companyId()}?page=${currentPage}&from=${fromDate}&to=${toDate}&search=${searchUser}`
       );
       const result = await response.json();
 
@@ -42,7 +42,6 @@ const CompanyActions = () => {
     }
   };
 
-  // Fetch data when page, fromDate, toDate, or searchUser changes
   useEffect(() => {
     fetchCompanies();
   }, [currentPage, fromDate, toDate, searchUser]);
@@ -111,7 +110,13 @@ const CompanyActions = () => {
                 <td>{company.api_name || "N/A"}</td>
                 <td>{company.annex_id || "N/A"}</td>
                 <td>{company.ip || "N/A"}</td>
-                <td>{company.created_at || "N/A"}</td>
+                <td>
+                    {new Date(company?.created_at).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                </td>
               </tr>
             ))
           ) : (

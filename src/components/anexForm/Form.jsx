@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   CircularProgress,
+  Autocomplete,
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -32,13 +33,13 @@ const Form = () => {
     const user_id = JSON.parse(user)?.login_id;
     return user_id || null;
   };
+  
   function generateRandomString() {
     const prefix = "CMAU";
     const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // 7-digit random number
     return prefix + randomNumber;
   }
-  // const annexid = generateRandomString();
-  // console.log("asjd:---", annexid);
+
   const [carriers, setCarriers] = useState([
     {
       name: "",
@@ -175,84 +176,68 @@ const Form = () => {
       [e.target.name]: e.target.value,
     }));
   };
+  const [suggestions, setSuggestions] = useState([]);
+  const fetchCompanyData = async (value, searchType) => {
+    if (!value || value.length < 3) return; // Fetch only after 3+ characters
+    setLoading(true);
 
-  const fetchCompanyData = async (value, searchType, index = null) => {
-    const url = "https://annex.sofinish.co.uk/api/formdata";
     let type;
     if (searchType === "company") type = 1;
     else if (searchType === "consignee") type = 2;
     else if (searchType === "carrier") type = 5;
     else if (searchType === "waste_processor") type = 6;
-    else if (searchType === "processing_facility") type = 7; 
+    else if (searchType === "processing_facility") type = 7;
+
     const form = new FormData();
     form.append("search", value);
     form.append("id", companyId());
     form.append("type", type);
-    form.append("action", 'formdata');
-  
+    form.append("action", "formdata");
+
     try {
-      const response = await fetch(url, {
+      const response = await fetch("https://annex.sofinish.co.uk/api/formdata", {
         method: "POST",
         body: form,
       });
-  
+
       const data = await response.json();
-  
       if (data.data) {
-        if (searchType === "company") {
-          setFormData((prevData) => ({
-            ...prevData,
-            ...data.data,
-          }));
-        } else if (searchType === "consignee") {
-          setFormData((prevData) => ({
-            ...prevData,
-            consignee_name: data.data.consignee_name,
-            consignee_address: data.data.consignee_address,
-            consignee_contact: data.data.consignee_contact,
-            contPerson: data.data.contPerson,
-            fax2: data.data.fax2,
-            email2: data.data.email2,
-          }));
-        } else if (searchType === "carrier" && index !== null) {
-          // Update carriers array correctly
-          setCarriers((prevCarriers) =>
-            prevCarriers.map((carrier, i) =>
-              i === index
-                ? { ...carrier, ...data.data }
-                : carrier
-            )
-          );
-        } else if (searchType === "waste_processor") {
-          setFormData((prevData) => ({
-            ...prevData,
-            waste_processor_name: data.data.name,
-            waste_processor_address: data.data.address,
-            waste_processor_contact_person: data.data.contact_person,
-            waste_processor_tel: data.data.mobile,
-            waste_processor_email: data.data.email,
-          }));
-        } else if (searchType === "processing_facility") {
-          setFormData((prevData) => ({
-            ...prevData,
-            processing_facility_name: data.data.recovery_name,
-            processing_facility_address: data.data.recovery_address,
-            processing_facility_contact_per: data.data.recovery_contact,
-            processing_facility_tel: data.data.recovery_tel,
-            processing_facility_fax: data.data.recovery_fax,
-            processing_facility_email: data.data.recovery_email,
-          }));
-        }
+        setSuggestions(data.data);
+      } else {
+        setSuggestions([]);
       }
     } catch (error) {
       console.error(`Error fetching ${searchType} data:`, error);
+      setSuggestions([]);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Handle input changes and trigger API call
+  const handleInputChange = (event, value, reason, field) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (reason === "input") fetchCompanyData(value, field);
+  };
+  const handleSelect = (event, selectedCompany, field) => {
+    if (!selectedCompany) return;
+    const fieldMapping = {
+      company_name: ["company_name", "address", "contact_person", "contact_number", "fax", "email"],
+      consignee_name: ["consignee_name", "consignee_address", "contPerson", "consignee_contact", "fax2", "email2"],
+      waste_processor_name: ["waste_processor_name", "waste_processor_address", "waste_processor_contact_person", "waste_processor_tel", "waste_processor_email"],
+      processing_facility_name: ["processing_facility_name", "processing_facility_address", "processing_facility_contact_per", "processing_facility_tel", "processing_facility_fax", "processing_facility_email"],
+    };
+
+    setFormData((prev) => ({
+      ...prev,
+      ...Object.fromEntries(fieldMapping[field].map((key) => [key, selectedCompany[key] || ""])),
+    }));
+  };
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [carrierSuggestions, setCarrierSuggestions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -334,6 +319,7 @@ const Form = () => {
           setSuccess("");
         }, 10000);
         setFormData({
+          ref_name:"",
           company_name: "",
           address: "",
           contact_number: "",
@@ -591,6 +577,64 @@ const Form = () => {
     }
   };
 
+  const fetchCarrierData = async (value, index) => {
+    if (!value || value.length < 3) return; // Fetch only after 3+ characters
+    setLoading(true);
+  
+    const form = new FormData();
+    form.append("search", value);
+    form.append("id", companyId());
+    form.append("type", 5); // Carrier Type
+    form.append("action", "formdata");
+  
+    try {
+      const response = await fetch("https://annex.sofinish.co.uk/api/formdata", {
+        method: "POST",
+        body: form,
+      });
+  
+      const data = await response.json();
+    
+      setCarrierSuggestions(Array.isArray(data.data) ? data.data : []);
+    } catch (error) {
+      console.error("Error fetching carrier data:", error);
+      setCarrierSuggestions([]); // Set empty array on error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCarrierSelect = (index, selectedCarrier) => {
+    if (!selectedCarrier) return;
+  
+    setCarriers((prevCarriers) =>
+      prevCarriers.map((carrier, i) =>
+        i === index
+          ? {
+              ...carrier,
+              name: selectedCarrier.name || "",
+              address: selectedCarrier.address || "",
+              contact_person: selectedCarrier.contact_person || "",
+              phone: selectedCarrier.phone || "",
+              fax: selectedCarrier.fax || "",
+              email: selectedCarrier.email || "",
+              means_of_transport: selectedCarrier.means_of_transport || "",
+              date_of_transport: selectedCarrier.date_of_transport || "",
+            }
+          : carrier
+      )
+    );
+  };
+
+  const handleCarrierInputChange = (index, value, reason) => {
+    setCarriers((prevCarriers) =>
+      prevCarriers.map((carrier, i) =>
+        i === index ? { ...carrier, name: value } : carrier
+      )
+    );
+    if (reason === "input") fetchCarrierData(value, index);
+  };
+
   if (loading) {
     <p className="flex flex-col items-center justify-center h-screen">
       <CircularProgress />
@@ -602,8 +646,6 @@ const Form = () => {
     <div className="bg-[#F8F9FA]">
       <form onSubmit={handleSubmit}>
         <Box p={3} display="flex" flexDirection="column" gap={3}>
-          {/* Form Title */}
-
           <div
             style={{
               display: "flex",
@@ -639,6 +681,26 @@ const Form = () => {
             )}
           </div>
 
+          <Box p={2} borderRadius={2} bgcolor="white">
+            <Grid container spacing={2}>
+              {/*ref_name*/}
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6" fontWeight="bold">
+                  Refrence Name:
+                </Typography>
+
+                <TextField
+                  label=""
+                  fullWidth
+                  name="ref_name"
+                  value={formData.ref_name}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
+          </Box>
+
           {/* Section: Consignment Information */}
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
@@ -647,34 +709,23 @@ const Form = () => {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    label="Name"
-                    name="company_name"
-                    value={formData.company_name}
-                    onChange={handleChangee}
-                    variant="outlined"
+                  <Autocomplete
+                     freeSolo
+                    options={suggestions}
+                    getOptionLabel={(option) => option.company_name}
+                    loading={loading}
+                    onChange={(event, newValue) => handleSelect(event, newValue, "company_name")}
+                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "company_name")}
+                    renderInput={(params) => (
+                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChangee}
-                    label="Address"
-                    variant="outlined"
-                  />
+                  <TextField fullWidth name="address" value={formData.address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    name="contact_person"
-                    value={formData.contact_person}
-                    onChange={handleChangee}
-                    fullWidth
-                    label="Contact Person"
-                    variant="outlined"
-                  />
+                  <TextField fullWidth name="contact_person" value={formData.contact_person} label="Contact Person" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -720,24 +771,20 @@ const Form = () => {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="consignee_name"
-                    value={formData.consignee_name}
-                    onChange={handleChangee}
-                    label="Name"
-                    variant="outlined"
+                  <Autocomplete
+                    freeSolo
+                    options={suggestions}
+                    getOptionLabel={(option) => option.consignee_name}
+                    loading={loading}
+                    onChange={(event, newValue) => handleSelect(event, newValue, "consignee_name")}
+                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "consignee_name")}
+                    renderInput={(params) => (
+                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="consignee_address"
-                    value={formData.consignee_address}
-                    onChange={handleChangee}
-                    label="Address"
-                    variant="outlined"
-                  />
+                  <TextField fullWidth name="consignee_address" value={formData.consignee_address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -795,7 +842,7 @@ const Form = () => {
                 </Typography>
 
                 <TextField
-                  label="49 DRUMS:"
+                  label=""  
                   fullWidth
                   name="number_of_shipments"
                   value={formData.number_of_shipments}
@@ -889,14 +936,18 @@ const Form = () => {
 
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="name"
-                      label="Name"
-                      value={carrier.name}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
+                    <Autocomplete
+                      freeSolo
+                      options={carrierSuggestions}
+                      getOptionLabel={(option) => option.name || ""}
+                      loading={loading}
+                      onChange={(event, newValue) => handleCarrierSelect(index, newValue)}
+                      onInputChange={(event, newInputValue, reason) =>
+                        handleCarrierInputChange(index, newInputValue, reason)
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} fullWidth label="Name" variant="outlined" />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={8}>
@@ -1001,31 +1052,28 @@ const Form = () => {
             </Box>
           </Box>
           </div>
+
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                6.Waste generator (Original producer/new producer/collector):
+                6. Waste generator (Original producer/new producer/collector):
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="waste_processor_name"
-                    value={formData.waste_processor_name}
-                    onChange={handleChange}
-                    label="Name"
-                    variant="outlined"
+                  <Autocomplete
+                    freeSolo
+                    options={suggestions}
+                    getOptionLabel={(option) => option.waste_processor_name || ""}
+                    loading={loading}
+                    onChange={(event, newValue) => handleSelect(event, newValue, "waste_processor_name")}
+                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "waste_processor_name")}
+                    renderInput={(params) => (
+                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="waste_processor_address"
-                    value={formData.waste_processor_address}
-                    onChange={handleChange}
-                    label="Address"
-                    variant="outlined"
-                  />
+                  <TextField fullWidth name="waste_processor_address" value={formData.waste_processor_address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -1061,36 +1109,31 @@ const Form = () => {
                 </Grid>
               </Grid>
             </Box>
+
           </div>
 
           {/* Section: Recovery facility */}
           <div>
             <Box p={2} borderRadius={2} bgcolor="white">
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                7. Recovery facility:
+                7. Recovery Facility:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="processing_facility_name"
-                    value={formData.processing_facility_name}
-                    onChange={handleChange}
-                    label="Name"
-                    variant="outlined"
-                    defaultValue="Lorem Ipsum"
+                  <Autocomplete
+                    freeSolo
+                    options={suggestions}
+                    getOptionLabel={(option) => option.processing_facility_name || ""}
+                    loading={loading}
+                    onChange={(event, newValue) => handleSelect(event, newValue, "processing_facility_name")}
+                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "processing_facility_name")}
+                    renderInput={(params) => (
+                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
-                    name="processing_facility_address"
-                    value={formData.processing_facility_address}
-                    onChange={handleChange}
-                    label="Address"
-                    variant="outlined"
-                    defaultValue="Lorem ipsum dolor sit mate"
-                  />
+                  <TextField fullWidth name="processing_facility_address" value={formData.processing_facility_address} label="Address" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -1100,7 +1143,6 @@ const Form = () => {
                     onChange={handleChange}
                     label="Contact Person"
                     variant="outlined"
-                    defaultValue="Lorem ipsum"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -1112,7 +1154,6 @@ const Form = () => {
                     label="Tel"
                     inputProps={{ maxLength: 10 }}
                     variant="outlined"
-                    defaultValue="01234567890"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -1123,7 +1164,6 @@ const Form = () => {
                     onChange={handleChange}
                     label="Fax"
                     variant="outlined"
-                    defaultValue="01234567890"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -1135,7 +1175,6 @@ const Form = () => {
                     label="Email"
                     type="email"
                     variant="outlined"
-                    defaultValue="info@loremipsum.co.uk"
                   />
                 </Grid>
               </Grid>
