@@ -108,7 +108,7 @@ const Complete = () => {
               InputLabelProps={{ shrink: true }}
               value={fromDate}
               onChange={(e) => setFromDate(e.target.value)}
-              className="w-90"
+              className="w-100"
             />
             <TextField
               type="date"
@@ -116,7 +116,7 @@ const Complete = () => {
               InputLabelProps={{ shrink: true }}
               value={toDate}
               onChange={(e) => setToDate(e.target.value)}
-              className="w-90"
+              className="w-100"
             />
             <TextField
               type="text"
@@ -124,11 +124,11 @@ const Complete = () => {
               variant="outlined"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-90"
+              className="w-100"
             />
-            <Button variant="contained" onClick={fetchFormData}>
+            {/* <Button variant="contained" onClick={fetchFormData}>
               Apply Filters
-            </Button>
+            </Button> */}
           </div>
           
           {/* Data Table */}
@@ -152,38 +152,38 @@ const Complete = () => {
                     .filter((company) => company?.email_count - company?.signature_count == 0) 
                     .map((company) => (
                         <tr key={company?.id}>
-                        <td>{company?.annex_id}</td>
-                        <td>{company?.ref_name}</td>
-                        <td><span className="total">{company?.email_count}</span></td>
-                        <td><span className="pending">{company?.email_count - company?.signature_count}</span></td>
-                        <td><span className="complete">{company?.signature_count}</span></td>
-                        
-                        <td><span className="status active">Active</span></td>
-                        <td>
-                            <span className="complete">
-                            {new Date(company?.created_at).toLocaleDateString("en-GB", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                            })}
-                            </span>
-                        </td>
-                        <td colSpan="2">
-                            <Button
-                            variant="contained"
-                            sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
-                            onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
-                            >
-                            View
-                            </Button>
-                            <Button
-                            variant="contained"
-                            sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
-                            onClick={() => handleSettingsClick(company?.id)}
-                            >
-                            Download
-                            </Button>
-                        </td>
+                            <td>{company?.annex_id}</td>
+                            <td>{company?.ref_name}</td>
+                            <td><span className="total">{company?.email_count}</span></td>
+                            <td><span className="pending">{company?.email_count - company?.signature_count}</span></td>
+                            <td><span className="complete">{company?.signature_count}</span></td>
+                            
+                            <td><span className="status active">Signed</span></td>
+                            <td>
+                                <span className="complete">
+                                {new Date(company?.created_at).toLocaleDateString("en-GB", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                })}
+                                </span>
+                            </td>
+                            <td colSpan="2" style={{ display: "flex", gap: "8px" }}>
+                                <Button
+                                variant="contained"
+                                sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
+                                onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
+                                >
+                                View
+                                </Button>
+                                <Button
+                                variant="contained"
+                                sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
+                                onClick={() => handleSettingsClick(company?.id)}
+                                >
+                                Download
+                                </Button>
+                            </td>
                         </tr>
                     ))
                 ) : (

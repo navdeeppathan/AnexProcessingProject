@@ -107,7 +107,7 @@ const MainDashboard = () => {
               InputLabelProps={{ shrink: true }}
               value={fromDate}
               onChange={(e) => setFromDate(e.target.value)}
-              className="w-90"
+              className="w-100"
             />
             <TextField
               type="date"
@@ -115,7 +115,7 @@ const MainDashboard = () => {
               InputLabelProps={{ shrink: true }}
               value={toDate}
               onChange={(e) => setToDate(e.target.value)}
-              className="w-90"
+              className="w-100"
             />
             <TextField
               type="text"
@@ -123,11 +123,11 @@ const MainDashboard = () => {
               variant="outlined"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-90"
+              className="w-100"
             />
-            <Button variant="contained" onClick={fetchFormData}>
+            {/* <Button variant="contained" onClick={fetchFormData}>
               Apply Filters
-            </Button>
+            </Button> */}
           </div>
           
           {/* Data Table */}
@@ -165,22 +165,22 @@ const MainDashboard = () => {
                           })}
                         </span>
                       </td>
-                    <td colSpan="2">
-                      <Button
-                        variant="contained"
-                        sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
-                        onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
-                      >
-                        View
-                      </Button>
-                      <Button
-                        variant="contained"
-                        sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
-                        onClick={() => handleSettingsClick(company?.id)}
-                      >
-                        Download
-                      </Button>
-                    </td>
+                      <td colSpan="2" style={{ display: "flex", gap: "8px" }}>
+                        <Button
+                          variant="contained"
+                          sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
+                          onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          variant="contained"
+                          sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
+                          onClick={() => handleSettingsClick(company?.id)}
+                        >
+                          Download
+                        </Button>
+                      </td>
                     
                   </tr>
                 ))
