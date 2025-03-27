@@ -59,8 +59,7 @@ const Login = () => {
     <div className="main-div">
       {/* Left Side */}
       <div className="main-div-left-section">
-        <h1 className="annex-text">ANNEX</h1>
-        <p>Lorem ipsum dolor sit amet consectetur...</p>
+        <img src="/a-logo2.png" alt="Annex Logo" style={{ width: "34rem", height: "19rem" }}/>
         <img src="vite.png" alt="Vite Logo" className="vite-image" />
       </div>
 

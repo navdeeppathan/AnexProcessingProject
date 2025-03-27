@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const MainDashboard = () => {
+const Complete = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -46,6 +46,7 @@ const MainDashboard = () => {
       setFormData(data.applications);
       setSignature(data.total_done_signatures);
       setTotalEmail(data.total_emails);
+
       setTotalForm(data.total_forms);
     } catch (err) {
       setError(err.message);
@@ -146,49 +147,50 @@ const MainDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {formData && formData.length > 0 ? (
-                formData.filter((company) => company?.email_count - company?.signature_count != 0) .map((company) => (
-                  <tr key={company?.id}>
-                    <td>{company?.annex_id}</td>
-                    <td>{company?.ref_name}</td>
-                    <td><span className="total">{company?.email_count}</span></td>
-                    <td><span className="pending">{company?.email_count - company?.signature_count}</span></td>
-                    <td><span className="complete">{company?.signature_count}</span></td>
-                    
-                    <td><span className="status active">Active</span></td>
-                    <td>
-                        <span className="complete">
-                          {new Date(company?.created_at).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </td>
-                    <td colSpan="2">
-                      <Button
-                        variant="contained"
-                        sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
-                        onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
-                      >
-                        View
-                      </Button>
-                      <Button
-                        variant="contained"
-                        sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
-                        onClick={() => handleSettingsClick(company?.id)}
-                      >
-                        Download
-                      </Button>
-                    </td>
-                    
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className="text-center">No data available</td>
-                </tr>
-              )}
+                {formData && formData.length > 0 ? (
+                    formData
+                    .filter((company) => company?.email_count - company?.signature_count == 0) 
+                    .map((company) => (
+                        <tr key={company?.id}>
+                        <td>{company?.annex_id}</td>
+                        <td>{company?.ref_name}</td>
+                        <td><span className="total">{company?.email_count}</span></td>
+                        <td><span className="pending">{company?.email_count - company?.signature_count}</span></td>
+                        <td><span className="complete">{company?.signature_count}</span></td>
+                        
+                        <td><span className="status active">Active</span></td>
+                        <td>
+                            <span className="complete">
+                            {new Date(company?.created_at).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                            })}
+                            </span>
+                        </td>
+                        <td colSpan="2">
+                            <Button
+                            variant="contained"
+                            sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
+                            onClick={() => navigate(`/dashboard/anexV/${company?.id}`)}
+                            >
+                            View
+                            </Button>
+                            <Button
+                            variant="contained"
+                            sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
+                            onClick={() => handleSettingsClick(company?.id)}
+                            >
+                            Download
+                            </Button>
+                        </td>
+                        </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="7" className="text-center">No data available</td>
+                    </tr>
+                )}
             </tbody>
           </table>
         </main>
@@ -197,4 +199,4 @@ const MainDashboard = () => {
   );
 };
 
-export default MainDashboard;
+export default Complete;

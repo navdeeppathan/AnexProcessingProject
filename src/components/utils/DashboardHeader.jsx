@@ -24,7 +24,11 @@ const DashboardHeader = () => {
 
   return (
     <div className="flex justify-between items-center bg-[#514392] text-white px-10 py-3 relative">
-      <h1 className="text-lg font-bold">ANNEX</h1>
+      {/* <h1 className="text-lg font-bold">ANNEX</h1> */}
+      {/* <img src="/a-logo2.png" alt="Annex Logo" style={"width: 12rem;"
+    "height: 5rem"}/> */}
+    <img src="/a-logo2.png" alt="Annex Logo" style={{ width: "12rem", height: "5rem" }}/>
+
 
       {user && (
         <div className="relative">

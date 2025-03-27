@@ -22,6 +22,34 @@ const Sidebar = () => {
         </svg>
       ),
     },
+    {
+      path: "/dashboard/completed",
+      name: "Completed Annex",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="white"
+          className="w-6 h-6"
+        >
+          <path d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-18v6h8V3h-8z" />
+        </svg>
+      ),
+    },
+    {
+      path: "/dashboard/draft",
+      name: "Draft Annex",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="white"
+          className="w-6 h-6"
+        >
+          <path d="M6 4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h4c.72 0 1.39.39 1.73 1h.54c.34-.61 1.01-1 1.73-1h4c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2h-4c-1.1 0-2 .9-2 2 0-1.1-.9-2-2-2H6m0 2h4v12H6V6m8 0h4v12h-4V6z" />
+        </svg>
+      ),
+    },
     // {
     //   path: "/dashboard/annex-form2",
     //   name: "Annex Forms",
@@ -66,20 +94,7 @@ const Sidebar = () => {
     //     </svg>
     //   ),
     // },
-    {
-      path: "/dashboard/draft",
-      name: "Draft Forms",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="white"
-          className="w-6 h-6"
-        >
-          <path d="M6 4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h4c.72 0 1.39.39 1.73 1h.54c.34-.61 1.01-1 1.73-1h4c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2h-4c-1.1 0-2 .9-2 2 0-1.1-.9-2-2-2H6m0 2h4v12H6V6m8 0h4v12h-4V6z" />
-        </svg>
-      ),
-    },
+   
     {
       path: "/dashboard/users",
       name: "Users",

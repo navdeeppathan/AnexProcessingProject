@@ -55,6 +55,7 @@ const Form = () => {
   ]);
 
   const [formData, setFormData] = useState({
+    ref_name:"",
     login_id: loginId(),
     annex_id: generateRandomString(),
     company_id: companyId(),
@@ -219,6 +220,7 @@ const Form = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (reason === "input") fetchCompanyData(value, field);
   };
+
   const handleSelect = (event, selectedCompany, field) => {
     if (!selectedCompany) return;
     const fieldMapping = {
@@ -598,7 +600,7 @@ const Form = () => {
       setCarrierSuggestions(Array.isArray(data.data) ? data.data : []);
     } catch (error) {
       console.error("Error fetching carrier data:", error);
-      setCarrierSuggestions([]); // Set empty array on error
+      setCarrierSuggestions([]);
     } finally {
       setLoading(false);
     }

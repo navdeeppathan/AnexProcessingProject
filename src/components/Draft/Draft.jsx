@@ -68,9 +68,7 @@ const Draft = () => {
     };
 
     fetchFormData();
-  }, [userId?.company_id]); // Added dependency for re-fetching if user changes
-
-  // ✅ Proper Loading State
+  }, [userId?.company_id]); 
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
@@ -91,9 +89,11 @@ const Draft = () => {
         <table className="shadow-lg cursor-pointer">
           <thead>
             <tr>
-              <th colSpan="2">
+              <th colSpan="4">
                 <div className="flex justify-between items-center w-full">
                   <span>Annex</span>
+                  <span>Reference Name</span>
+                  <span>Created At</span>
                   <span>View Profile</span>
                 </div>
               </th>
@@ -103,9 +103,11 @@ const Draft = () => {
             {formData && Array.isArray(formData) && formData.length > 0 ? (
               formData.map((company) => (
                 <tr key={company?.id}>
-                  <td colSpan="2">
+                  <td colSpan="4">
                     <div className="flex justify-between items-center w-full">
                       <span>{company?.annex_id}</span>
+                      <span>{company?.ref_name}</span>
+                      <span>{company?.created_at}</span>
                       <Button
                         variant="contained"
                         sx={{
