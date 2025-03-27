@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import MainDashboard from "./MainDashboard";
 import Complete from "./Complete";
+import Report from "./ReportDashboard";
+import ReportDashboard from './ReportDashboard';
 import OTP from "../auth/login/otp";
 import DashboardHeader from "../utils/DashboardHeader";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -42,6 +44,7 @@ const Dashboard = () => {
             <Route path="/annex-form" element={<Form />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/completed" element={<Complete />} />
+            <Route path="/report" element={<ReportDashboard />} />
             <Route path="/edit-profile" element={<EditProfile />} />
             <Route path="/anexV/:id" element={<AnnexVII />} />
             <Route path="/annex-form2" element={<AnnexForm />} />

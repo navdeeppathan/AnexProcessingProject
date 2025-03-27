@@ -136,9 +136,7 @@ const MainDashboard = () => {
               <tr>
                 <th>Annex</th>
                 <th>Reference Name</th>
-                <th>Total Requests</th>
-                <th>Pending Requests</th>
-                <th>Complete Requests</th>
+                <th colSpan="3">Request - Pending - Signed</th>
                 <th>Status</th>
                 <th>Created Date</th>
                 <th colSpan="2">Action</th>
@@ -151,10 +149,11 @@ const MainDashboard = () => {
                   <tr key={company?.id}>
                     <td>{company?.annex_id}</td>
                     <td>{company?.ref_name}</td>
-                    <td><span className="total">{company?.email_count}</span></td>
-                    <td><span className="pending">{company?.email_count - company?.signature_count}</span></td>
-                    <td><span className="complete">{company?.signature_count}</span></td>
-                    
+                    <td colSpan="3" >
+                          <span className="total" style={{ gap: "10px" }}>{company?.email_count}</span>-
+                          <span className="pending" style={{ gap: "10px" }}>{company?.email_count - company?.signature_count}</span>-
+                          <span className="complete" style={{ gap: "10px" }}>{company?.signature_count}</span>
+                    </td>
                     <td><span className="status active">Active</span></td>
                     <td>
                         <span className="complete">
@@ -164,8 +163,8 @@ const MainDashboard = () => {
                             year: "numeric",
                           })}
                         </span>
-                      </td>
-                      <td colSpan="2" style={{ display: "flex", gap: "8px" }}>
+                    </td>
+                    <td colSpan="2" style={{ display: "flex", gap: "8px" }}>
                         <Button
                           variant="contained"
                           sx={{ bgcolor: "#6b46c1", fontSize: "15px", textTransform: "none" }}
@@ -180,7 +179,7 @@ const MainDashboard = () => {
                         >
                           Download
                         </Button>
-                      </td>
+                    </td>
                     
                   </tr>
                 ))
