@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-const ReportDashboard = () => {
-  // Get company ID from localStorage
-  const getCompanyId = () => {
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user)?.company_id : null;
-  };
-
-  const [selectedCompany] = useState(getCompanyId()); // Set the company from localStorage
+const Report = () => {
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState("All");
   const [companyStatus, setCompanyStatus] = useState("");
   const [filter, setFilter] = useState("weekly");
   const [reports, setReports] = useState(null);
@@ -16,7 +11,22 @@ const ReportDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // Fetch reports when filter or status changes
+  // Fetch all companies on mount
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch("https://annex.sofinish.co.uk/api/companies");
+        if (!response.ok) throw new Error("Failed to fetch companies");
+        const data = await response.json();
+        setCompanies(data);
+      } catch (error) {
+        console.error("Error fetching companies:", error);
+      }
+    };
+    fetchCompanies();
+  }, []);
+
+  // Fetch reports when company, filter, or status changes
   useEffect(() => {
     if (!selectedCompany || !filter) return;
 
@@ -41,6 +51,23 @@ const ReportDashboard = () => {
     fetchReports();
   }, [selectedCompany, companyStatus, filter]);
 
+  // Handle company selection
+  const handleCompanyChange = (companyId) => {
+    setSelectedCompany(companyId);
+    setFilter("weekly"); // Reset filter to default
+    setReports(null);
+    setCurrentPage(1); // Reset pagination
+
+    if (companyId === "All") {
+      setCompanyStatus("");
+    } else {
+      const selectedCompanyData = companies.find((company) => String(company.id) === String(companyId));
+      if (selectedCompanyData) {
+        setCompanyStatus(selectedCompanyData.status === 1 ? "completed" : "pending");
+      }
+    }
+  };
+
   // Pagination functions
   const getPaginatedData = (data) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -53,19 +80,35 @@ const ReportDashboard = () => {
   return (
     <div className="p-4 w-full min-h-screen">
       <div className="flex gap-4 mb-4">
-        {/* Filter Selection */}
+        {/* Company Selection */}
         <select
           className="border p-2 rounded w-1/2"
-          value={filter}
-          onChange={(e) => {
-            setFilter(e.target.value);
-            setCurrentPage(1);
-          }}
+          value={selectedCompany}
+          onChange={(e) => handleCompanyChange(e.target.value)}
         >
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
+          <option value="All">All Companies</option>
+          {companies.map((company) => (
+            <option key={company.id} value={company.id}>
+              {company.company}
+            </option>
+          ))}
         </select>
+
+        {/* Filter Selection */}
+        {selectedCompany && (
+          <select
+            className="border p-2 rounded w-1/2"
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              setCurrentPage(1);
+            }}
+          >
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        )}
       </div>
 
       {/* Table */}
@@ -85,7 +128,8 @@ const ReportDashboard = () => {
                 getPaginatedData(reports.weeks || []).map((week, index) => (
                   <tr key={index} className="text-center">
                     <td className="border border-gray-300 p-2">
-                      Week {week.week_number} ({week.start_date} - {week.end_date})
+                       {/* {week.week_number}  */}
+                       Week ({week.start_date} - {week.end_date})
                     </td>
                     <td className="border border-gray-300 p-2">
                       {week.applications?.total_forms ?? 0}
@@ -167,4 +211,4 @@ const ReportDashboard = () => {
   );
 };
 
-export default ReportDashboard;
+export default Report;

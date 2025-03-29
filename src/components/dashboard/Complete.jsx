@@ -13,7 +13,8 @@ const Complete = () => {
   const [totalForms, setTotalForm] = useState(0);
   const [totalEmails, setTotalEmail] = useState(0);
   const [doneSignatures, setSignature] = useState(0);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const companyId = () => {
     const user = localStorage.getItem("user");
     return JSON.parse(user)?.company_id || null;
@@ -25,7 +26,7 @@ const Complete = () => {
   };
 
   const fetchFormData = async () => {
-    setLoading(true);
+    // setLoading(true);
     setError("");
 
     try {
@@ -55,6 +56,13 @@ const Complete = () => {
     }
   };
 
+  const getPaginatedData = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return formData.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  const nextPage = () => setCurrentPage((prevPage) => prevPage + 1);
+  const prevPage = () => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   useEffect(() => {
     fetchFormData();
   }, [fromDate, toDate, searchQuery]);
@@ -120,7 +128,7 @@ const Complete = () => {
             />
             <TextField
               type="text"
-              label="Search by Annex ID"
+              label="Search by Annex number"
               variant="outlined"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -147,8 +155,8 @@ const Complete = () => {
               </tr>
             </thead>
             <tbody>
-                {formData && formData.length > 0 ? (
-                    formData
+            {getPaginatedData().length > 0 ? (
+              getPaginatedData()
                     .filter((company) => company?.email_count - company?.signature_count == 0) 
                     .map((company) => (
                         <tr key={company?.id}>

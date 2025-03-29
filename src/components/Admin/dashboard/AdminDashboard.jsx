@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import DashboardTemplate from "./DashboardTemplate";
 import Profile from "../../profile/Profile";
+import Report from "../../reports/Report";
 import EditProfile from "../../profile/EditProfile";
 
 import DashboardHeader from "../../utils/DashboardHeader";
@@ -26,6 +27,7 @@ const AdminDashboard = () => {
             <Route path="/" element={<DashboardTemplate />} />
             <Route path="/companies" element={<MainCompanies />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/report" element={<Report />} />
             <Route path="/action/:id" element={<Actions />} />
           </Routes>
         </div>

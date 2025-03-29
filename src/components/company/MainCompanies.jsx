@@ -37,7 +37,7 @@ const MainCompanies = () => {
         );
         const data = await response.json();
         if (response.ok) {
-          setCompanies(data.companies || []);
+          setCompanies(data || []);
         } else {
           setError("Failed to fetch companies.");
         }
@@ -124,7 +124,7 @@ const MainCompanies = () => {
                   <th>Photo</th>
                   <th>Company Name</th>
                   <th>Phone no</th>
-                  <th>Email</th>
+                  {/* <th>Email</th> */}
                   <th>Status</th>
                   {/* <th>Operation</th> */}
                   <th>Action</th>
@@ -142,7 +142,7 @@ const MainCompanies = () => {
                     </td>
                     <td>{company.company_name}</td>
                     <td>{company.phone_number || "Unavailable"}</td>
-                    <td>{company.email || "Unavailable"}</td>
+                    {/* <td>{company.email || "Unavailable"}</td> */}
                     <td>
                       <span
                         className={`status ${

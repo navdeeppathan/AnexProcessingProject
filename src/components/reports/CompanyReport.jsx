@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ReportDashboard = () => {
+const CompanyReport = () => {
   // Get company ID from localStorage
   const getCompanyId = () => {
     const user = localStorage.getItem("user");
@@ -167,4 +167,4 @@ const ReportDashboard = () => {
   );
 };
 
-export default ReportDashboard;
+export default CompanyReport;
