@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import "./Login.css";
+import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 import useApi from "../../../hooks/useApi";
+import "./Login.css";
 
 const Login = () => {
   const { sendRequest, loading } = useApi();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeTab, setActiveTab] = useState("admin");
+  const [activeTab, setActiveTab] = useState("company");
+  const [cookiesAccepted, setCookiesAccepted] = useState(false);
+
+  useEffect(() => {
+    // Check if cookies are already accepted
+    const consent = Cookies.get("user_cookie_consent");
+    if (consent === "accepted") {
+      setCookiesAccepted(true);
+    }
+  }, []);
+
+  const handleAcceptCookies = () => {
+    Cookies.set("user_cookie_consent", "accepted", { expires: 30 });
+    setCookiesAccepted(true);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +36,6 @@ const Login = () => {
     });
 
     if (data && data.status === 200) {
-      // Check the role_id and redirect accordingly. 1 for admin, 2 for company.
       const { role_id } = data.data;
       if (
         (role_id == 1 && activeTab === "admin") ||
@@ -107,14 +122,50 @@ const Login = () => {
               Request new password
             </div>
             <button type="submit" className="login-button">
-              {/* {loading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : ( */}
               Login
             </button>
           </form>
         </div>
+
+        {/* Footer */}
+        <footer className="py-1 flex items-center text-xs font-semibold justify-end">
+          <Link
+            to="/privacy"
+            className="text-gray-600 text-xs font-semibold hover:text-blue-600 mx-2"
+          >
+            Privacy Policy
+          </Link>
+          |
+          <Link
+            to="/terms"
+            className="text-gray-600 text-xs font-semibold hover:text-blue-600 mx-2"
+          >
+            Terms & Conditions
+          </Link>
+        </footer>
       </div>
+
+      {/* Cookie Consent Popup */}
+      {!cookiesAccepted && (
+        <div className="fixed inset-0 flex items-center justify-center ">
+          <div className="bg-white p-2 rounded-lg shadow-lg text-center" style={{ marginTop: "36rem" }}>
+          <h2 className="text-xl font-bold text-gray-800">We Use Cookies</h2>
+            <p className="mt-2 text-gray-600">
+              We use cookies to enhance your experience. By clicking "Accept", you
+              agree to our <Link to="/cookie" className="text-blue-500 underline">Cookie Policy</Link>.
+            </p>
+            <div className="mt-4 flex justify-center space-x-4">
+              <button
+                onClick={handleAcceptCookies}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+              >
+                Accept Cookies
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

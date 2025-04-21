@@ -18,35 +18,15 @@ const DigitalSignature = () => {
   const sigPad = useRef(null);
   const [uploadedSignature, setUploadedSignature] = useState(null);
   const [signatureData, setSignatureData] = useState(null);
+  const [nameForSignature, setNameForSignature] = useState("");
 
-  // Load signature from localStorage on mount
   useEffect(() => {
     const storedSignature = localStorage.getItem("savedSignature");
     if (storedSignature) {
       setSignatureData(storedSignature);
     }
-
-    // const storedUploadedSignature = localStorage.getItem("uploadedSignature");
-    // if (storedUploadedSignature) {
-    //   setUploadedSignature(storedUploadedSignature);
-    // }
   }, []);
-  // const base64ToFile = (base64String, fileName) => {
-  //   const arr = base64String.split(",");
-  //   const mime = arr[0].match(/:(.*?);/)[1];
-  //   const bstr = atob(arr[1]);
-  //   let n = bstr.length;
-  //   const u8arr = new Uint8Array(n);
-  //   while (n--) {
-  //     u8arr[n] = bstr.charCodeAt(n);
-  //   }
-  //   return new File([u8arr], fileName, { type: mime });
-  // };
 
-  // const file2 = base64ToFile(uploadedSignature, "uploadImg.png");
-  // console.log("uploaded file:-", file2.name);
-
-  // Capture Digital Signature and Save to localStorage
   const handleSaveSignature = async () => {
     if (sigPad.current) {
       const signature = sigPad.current.toDataURL();
@@ -57,47 +37,18 @@ const DigitalSignature = () => {
     setSignatureData(null);
   };
 
-  // Clear Signature Pad
   const handleClearSignature = () => {
     if (sigPad.current) {
       sigPad.current.clear();
     }
     setSignatureData(null);
-    // setUploadedSignature(null);
     localStorage.removeItem("savedSignature");
-    // localStorage.removeItem("uploadedSignature");
   };
 
-  // API Call to Save Signature
-  // const handleFileUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     if (file.size > 512000) {
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "File Too Large",
-  //         text: "Please upload an image smaller than 500KB.",
-  //       });
-  //       return;
-  //     }
-  //     const reader = new FileReader();
-  //     reader.onload = (e) => {
-  //       const base64Image = e.target.result;
-  //       setSignatureData(base64Image);
-  //       localStorage.setItem("savedSignature", base64Image);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  //   setTimeout(() => {
-  //     navigate(-1);
-  //   }, 2000);
-  //   setSignatureData(null);
-  // };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
 
     if (file) {
-      // Corrected file size check (500KB = 500 * 1024 bytes)
       if (file.size > 500 * 1024) {
         Swal.fire({
           icon: "error",
@@ -120,6 +71,29 @@ const DigitalSignature = () => {
     }
   };
 
+  const handleNameToSignature = () => {
+    if (!nameForSignature.trim()) return;
+  
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+  
+    canvas.width = 400;
+    canvas.height = 100;
+  
+    ctx.font = "40px 'Great Vibes', cursive";
+    ctx.fillStyle = "black";
+    ctx.fillText(nameForSignature, 10, 60);
+  
+    const dataUrl = canvas.toDataURL();
+    if (sigPad.current) {
+      sigPad.current.clear();
+      sigPad.current.fromDataURL(dataUrl);
+    }
+  
+    setSignatureData(dataUrl);
+    localStorage.setItem("savedSignature", dataUrl);
+  };
+
   return (
     <div className="bg-gray-100">
       <SimpleHeader />
@@ -135,6 +109,20 @@ const DigitalSignature = () => {
         }}
       >
         <div>
+          {/* Name Input for Signature */}
+          <div className="my-5">
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={nameForSignature}
+              onChange={(e) => setNameForSignature(e.target.value)}
+              className="border p-2 rounded mr-4"
+            />
+            <Button variant="outlined" onClick={handleNameToSignature}>
+              Convert to Signature
+            </Button>
+          </div>
+
           <div className="relative rounded-lg p-4">
             {/* Corner Borders */}
             <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-gray-400"></div>
@@ -174,7 +162,6 @@ const DigitalSignature = () => {
           </div>
 
           {/* Signature Preview */}
-          {/* Signature Preview */}
           <div className="my-6">
             <h2 className="text-lg font-bold mt-6">Signature Preview</h2>
             <div
@@ -191,17 +178,6 @@ const DigitalSignature = () => {
               )}
             </div>
           </div>
-
-          {/* Upload to API Button */}
-          {/* <div>
-            <Button
-              variant="contained"
-              fullWidth
-              // onClick={handleUploadSignature}
-            >
-              Upload Signature
-            </Button>
-          </div> */}
         </div>
       </Box>
     </div>

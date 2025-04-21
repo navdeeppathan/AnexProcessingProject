@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,6 +17,10 @@ import PdfDownload from "./components/auth/createCompany/PdfDownload";
 import ThankyouPage from "./components/Thankyou/ThankyouPage";
 import Test from "./components/auth/createCompany/Test";
 import Test2 from "./components/auth/createCompany/Test2";
+import Cookie from "./components/terms/Cookie";
+import PrivacyPolicy from "./components/terms/PrivacyPolicy";
+import TermsAndConditions  from "./components/terms/Terms&Condition";
+import Cookies from "js-cookie";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -33,10 +37,27 @@ const AuthWrapper = ({ children }) => {
   return children;
 };
 
+
 const App = () => {
+//   const [cookiesAccepted, setCookiesAccepted] = useState(false);
+
+//   useEffect(() => {
+//     const consent = Cookies.get("user_cookie_consent");
+//     if (consent === "accepted") {
+//       setCookiesAccepted(true);
+//     }
+//   }, []);
+
+//   if (!cookiesAccepted) {
+//     return <Cookie onAccept={() => setCookiesAccepted(true)} />;
+//   }
   return (
+    
     <Router>
       <Routes>
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
+      <Route path="/cookie" element={<Cookie/>} />
         <Route path="/" element={<Login />} />
         {/* Protected Routes */}
         <Route

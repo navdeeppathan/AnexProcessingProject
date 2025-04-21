@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 
 const ReportDashboard = () => {
-  // Get company ID from localStorage
+
   const getCompanyId = () => {
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user)?.company_id : null;
   };
 
-  const [selectedCompany] = useState(getCompanyId()); // Set the company from localStorage
+  const [selectedCompany] = useState(getCompanyId()); 
   const [companyStatus, setCompanyStatus] = useState("");
   const [filter, setFilter] = useState("weekly");
   const [reports, setReports] = useState(null);
 
-  // Pagination state
+  
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // Fetch reports when filter or status changes
   useEffect(() => {
     if (!selectedCompany || !filter) return;
 
@@ -52,23 +51,21 @@ const ReportDashboard = () => {
 
   return (
     <div className="p-4 w-full min-h-screen">
-      <div className="flex gap-4 mb-4">
-        {/* Filter Selection */}
-        <select
-          className="border p-2 rounded w-1/2"
-          value={filter}
-          onChange={(e) => {
-            setFilter(e.target.value);
-            setCurrentPage(1);
-          }}
-        >
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-        </select>
-      </div>
+        <div className="relative w-1/2">
+          <select
+            className="w-full border border-gray-300 p-2 pr-10 rounded-md appearance-none bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              setCurrentPage(1);
+            }}
+          >
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
 
-      {/* Table */}
       {reports && (
         <div>
           <table className="w-full border-collapse border border-gray-300 shadow-lg">

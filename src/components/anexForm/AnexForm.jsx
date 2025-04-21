@@ -263,42 +263,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
       pdfContainer.style.width = "0";
       pdfContainer.style.height = "0";
     }, 500);
-    // pdfContainer.style.position = "fixed";
-    // pdfContainer.style.opacity = "0";
-    // pdfContainer.style.width = "0";
-    // pdfContainer.style.height = "0";
   };
-
-  // const handleDownloadPDF = async () => {
-  //   setLoadingPDF(true);
-  //   const pdfContainer = formRef.current;
-  //   if (!pdfContainer) return;
-
-  //   try {
-  //     const pdf = new jsPDF("p", "pt", "a4");
-  //     pdf.text(20, 20, "This is a PDF with an uploaded image");
-
-  //     // Select the first image inside pdfContainer
-  //     const imgElement = pdfContainer.querySelector("img");
-
-  //     if (imgElement) {
-  //       const imageObj = new Image();
-  //       imageObj.crossOrigin = "Anonymous"; // Handle CORS issues
-  //       imageObj.src = imgElement.src;
-
-  //       // Load image before adding it to PDF
-  //       imageObj.onload = function () {
-  //         pdf.addImage(imageObj, "PNG", 20, 50, 150, 150);
-  //         pdf.save("image.pdf");
-  //       };
-  //     } else {
-  //       pdf.save("image.pdf"); // Save without image if not found
-  //     }
-  //   } catch (error) {
-  //     console.error("Error generating PDF:", error);
-  //     setLoadingPDF(false);
-  //   }
-  // };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -316,13 +281,12 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
       "Ninth",
       "Tenth",
     ];
-    return suffixes[num] || `${num + 1}th`; // Fallback for large numbers
+    return suffixes[num] || `${num + 1}th`; 
   };
   return (
     <div>
       {formData?.map(
         (item) => (
-          // item?.signature && item.signature.length > 0 ? (
           <Card className="p-8">
             <div className="bg-white p-6 shadow-lg">
               <div ref={formRef}>

@@ -79,37 +79,41 @@ const Report = () => {
 
   return (
     <div className="p-4 w-full min-h-screen">
-      <div className="flex gap-4 mb-4">
-        {/* Company Selection */}
-        <select
-          className="border p-2 rounded w-1/2"
-          value={selectedCompany}
-          onChange={(e) => handleCompanyChange(e.target.value)}
-        >
-          <option value="All">All Companies</option>
-          {companies.map((company) => (
-            <option key={company.id} value={company.id}>
-              {company.company}
-            </option>
-          ))}
-        </select>
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+          {/* Company Selection */}
+          <div className="relative w-full sm:w-1/2">
+            <select
+              className="w-full border border-gray-300 p-2 pr-10 rounded-md appearance-none bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={selectedCompany}
+              onChange={(e) => handleCompanyChange(e.target.value)}
+            >
+              <option value="All">All Companies</option>
+              {companies.map((company) => (
+                <option key={company.id} value={company.id}>
+                  {company.company}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Filter Selection */}
-        {selectedCompany && (
-          <select
-            className="border p-2 rounded w-1/2"
-            value={filter}
-            onChange={(e) => {
-              setFilter(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-          </select>
-        )}
-      </div>
+          {/* Filter Selection */}
+          {selectedCompany && (
+            <div className="relative w-full sm:w-1/2">
+              <select
+                className="w-full border border-gray-300 p-2 pr-10 rounded-md appearance-none bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={filter}
+                onChange={(e) => {
+                  setFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+          )}
+        </div>
 
       {/* Table */}
       {reports && (

@@ -8,7 +8,6 @@ const Draft = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Safely get userId from localStorage
   const user = localStorage.getItem("user");
   let userId = null;
   try {
@@ -22,8 +21,6 @@ const Draft = () => {
     const fetchFormData = async () => {
       setLoading(true);
       setError("");
-
-      // Validate userId before making API call
       if (!userId?.company_id) {
         setError("Invalid user data. Please log in again.");
         setLoading(false);
@@ -57,7 +54,6 @@ const Draft = () => {
         }
 
         const data = await response.json();
-        // console.log(data)
         setFormData(data);
         console.log("draftFormdata:-", data);
       } catch (err) {
@@ -107,7 +103,7 @@ const Draft = () => {
                     <div className="flex justify-between items-center w-full">
                       <span>{company?.annex_id}</span>
                       <span>{company?.ref_name}</span>
-                      <span>{company?.created_at}</span>
+                      <span>  {new Date(company?.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })}</span>
                       <Button
                         variant="contained"
                         sx={{

@@ -7,7 +7,7 @@ const CompanyReport = () => {
     return user ? JSON.parse(user)?.company_id : null;
   };
 
-  const [selectedCompany] = useState(getCompanyId()); // Set the company from localStorage
+  const [selectedCompany] = useState(getCompanyId()); 
   const [companyStatus, setCompanyStatus] = useState("");
   const [filter, setFilter] = useState("weekly");
   const [reports, setReports] = useState(null);
@@ -16,7 +16,6 @@ const CompanyReport = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // Fetch reports when filter or status changes
   useEffect(() => {
     if (!selectedCompany || !filter) return;
 
@@ -53,9 +52,8 @@ const CompanyReport = () => {
   return (
     <div className="p-4 w-full min-h-screen">
       <div className="flex gap-4 mb-4">
-        {/* Filter Selection */}
         <select
-          className="border p-2 rounded w-1/2"
+          className="border p-2 pr-8 rounded-md w-full appearance-none bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={filter}
           onChange={(e) => {
             setFilter(e.target.value);

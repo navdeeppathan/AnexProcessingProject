@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import {
   Box,
+  Modal,
   Grid,
   TextField,
   Typography,
@@ -33,9 +34,9 @@ const Form = () => {
     const user_id = JSON.parse(user)?.login_id;
     return user_id || null;
   };
-  
+
   function generateRandomString() {
-    const prefix = "CMAU";
+    const prefix = "ANNEX";
     const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // 7-digit random number
     return prefix + randomNumber;
   }
@@ -52,10 +53,32 @@ const Form = () => {
       date_of_transport: "",
       departure_date: "",
     },
+    {
+      name: "",
+      address: "",
+      contact_person: "",
+      phone: "",
+      fax: "",
+      email: "",
+      means_of_transport: "",
+      date_of_transport: "",
+      departure_date: "",
+    },
+    {
+      name: "",
+      address: "",
+      contact_person: "",
+      phone: "",
+      fax: "",
+      email: "",
+      means_of_transport: "",
+      date_of_transport: "",
+      departure_date: "",
+    },
   ]);
 
   const [formData, setFormData] = useState({
-    ref_name:"",
+    ref_name: "",
     login_id: loginId(),
     annex_id: generateRandomString(),
     company_id: companyId(),
@@ -137,8 +160,6 @@ const Form = () => {
     shipment_received_at_facility: "",
   });
 
-  
-
   useEffect(() => {
     carriers.forEach((carrier, index) => {
       if (carrier.name.length >= 4) {
@@ -160,14 +181,23 @@ const Form = () => {
   }, [formData.consignee_name]);
 
   useEffect(() => {
-    if (formData.waste_processor_name && formData.waste_processor_name.length >= 4) {
+    if (
+      formData.waste_processor_name &&
+      formData.waste_processor_name.length >= 4
+    ) {
       fetchCompanyData(formData.waste_processor_name, "waste_processor");
     }
   }, [formData.waste_processor_name]);
 
   useEffect(() => {
-    if (formData.processing_facility_name && formData.processing_facility_name.length >= 4) {
-      fetchCompanyData(formData.processing_facility_name, "processing_facility");
+    if (
+      formData.processing_facility_name &&
+      formData.processing_facility_name.length >= 4
+    ) {
+      fetchCompanyData(
+        formData.processing_facility_name,
+        "processing_facility"
+      );
     }
   }, [formData.processing_facility_name]);
 
@@ -196,10 +226,13 @@ const Form = () => {
     form.append("action", "formdata");
 
     try {
-      const response = await fetch("https://annex.sofinish.co.uk/api/formdata", {
-        method: "POST",
-        body: form,
-      });
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/formdata",
+        {
+          method: "POST",
+          body: form,
+        }
+      );
 
       const data = await response.json();
       if (data.data) {
@@ -224,15 +257,44 @@ const Form = () => {
   const handleSelect = (event, selectedCompany, field) => {
     if (!selectedCompany) return;
     const fieldMapping = {
-      company_name: ["company_name", "address", "contact_person", "contact_number", "fax", "email"],
-      consignee_name: ["consignee_name", "consignee_address", "contPerson", "consignee_contact", "fax2", "email2"],
-      waste_processor_name: ["waste_processor_name", "waste_processor_address", "waste_processor_contact_person", "waste_processor_tel", "waste_processor_email"],
-      processing_facility_name: ["processing_facility_name", "processing_facility_address", "processing_facility_contact_per", "processing_facility_tel", "processing_facility_fax", "processing_facility_email"],
+      company_name: [
+        "company_name",
+        "address",
+        "contact_person",
+        "contact_number",
+        "fax",
+        "email",
+      ],
+      consignee_name: [
+        "consignee_name",
+        "consignee_address",
+        "contPerson",
+        "consignee_contact",
+        "fax2",
+        "email2",
+      ],
+      waste_processor_name: [
+        "waste_processor_name",
+        "waste_processor_address",
+        "waste_processor_contact_person",
+        "waste_processor_tel",
+        "waste_processor_email",
+      ],
+      processing_facility_name: [
+        "processing_facility_name",
+        "processing_facility_address",
+        "processing_facility_contact_per",
+        "processing_facility_tel",
+        "processing_facility_fax",
+        "processing_facility_email",
+      ],
     };
 
     setFormData((prev) => ({
       ...prev,
-      ...Object.fromEntries(fieldMapping[field].map((key) => [key, selectedCompany[key] || ""])),
+      ...Object.fromEntries(
+        fieldMapping[field].map((key) => [key, selectedCompany[key] || ""])
+      ),
     }));
   };
 
@@ -258,7 +320,7 @@ const Form = () => {
 
   // Add a new empty carrier to the list
   const addCarrier = () => {
-    if (carriers.length < 5) {
+    if (carriers.length < 6) {
       setCarriers([
         ...carriers,
         {
@@ -289,152 +351,155 @@ const Form = () => {
     setLoading(true);
     setError("");
     setSuccess("");
+    //model
+    setModalOpen(true);
     // console.log(formData);
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
     formDataToSend.append("carriers", JSON.stringify(carriers));
-    try {
-      const response = await fetch(
-        "https://annex.sofinish.co.uk/api/submit-form",
-        {
-          method: "POST",
-          body: formDataToSend,
-        }
-      );
+    // try {
+    //   const response = await fetch(
+    //     "https://annex.sofinish.co.uk/api/submit-form",
+    //     {
+    //       method: "POST",
+    //       body: formDataToSend,
+    //     }
+    //   );
 
-      const data = await response.json();
-      console.log("dataform submit:", data);
-      if (response.ok) {
-        if (data?.message) {
-          Swal.fire({
-            title: "Success!",
-            text: data?.message,
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false,
-          });
-        }
-        setSuccess(data?.message);
-        setTimeout(() => {
-          setSuccess("");
-        }, 10000);
-        setFormData({
-          ref_name:"",
-          company_name: "",
-          address: "",
-          contact_number: "",
-          contact_person: "",
-          fax: "",
-          email: "",
-          //
-          consignee_name: "",
-          consignee_address: "",
-          consignee_contact: "",
-          contPerson: "",
-          fax2: "",
-          email2: "",
+    //   const data = await response.json();
+    //   console.log("dataform submit:", data);
+    //   if (response.ok) {
+    //     console.log("response:-", response.data);
+    //     if (data?.message) {
+    //       Swal.fire({
+    //         title: "Success!",
+    //         text: data?.message,
+    //         icon: "success",
+    //         timer: 2000,
+    //         showConfirmButton: false,
+    //       });
+    //     }
+    //     setSuccess(data?.message);
+    //     setTimeout(() => {
+    //       setSuccess("");
+    //     }, 10000);
+    //     setFormData({
+    //       ref_name: "",
+    //       company_name: "",
+    //       address: "",
+    //       contact_number: "",
+    //       contact_person: "",
+    //       fax: "",
+    //       email: "",
+    //       //
+    //       consignee_name: "",
+    //       consignee_address: "",
+    //       consignee_contact: "",
+    //       contPerson: "",
+    //       fax2: "",
+    //       email2: "",
 
-          //
-          public_agency: "",
-          //
-          number_of_shipments: 0,
-          weight: 0,
+    //       //
+    //       public_agency: "",
+    //       //
+    //       number_of_shipments: 0,
+    //       weight: 0,
 
-          //
-          aShipdate: "",
-          //
+    //       //
+    //       aShipdate: "",
+    //       //
 
-          // preferred_carrier_name: "",
-          // preferred_carrier_arrival_date: "",
-          // preferred_carrier_departure_date: "",
-          //
-          waste_processor_name: "",
-          waste_processor_address: "",
-          waste_processor_contact_person: "",
-          waste_processor_tel: "",
-          // waste_processor_fax: "",
-          waste_processor_email: "",
-          // waste_processor_meansof_trans: "",
-          // waste_processor_dateof_trans: "",
+    //       // preferred_carrier_name: "",
+    //       // preferred_carrier_arrival_date: "",
+    //       // preferred_carrier_departure_date: "",
+    //       //
+    //       waste_processor_name: "",
+    //       waste_processor_address: "",
+    //       waste_processor_contact_person: "",
+    //       waste_processor_tel: "",
+    //       // waste_processor_fax: "",
+    //       waste_processor_email: "",
+    //       // waste_processor_meansof_trans: "",
+    //       // waste_processor_dateof_trans: "",
 
-          //
-          processing_facility_name: "",
-          processing_facility_address: "",
-          processing_facility_contact_per: "",
-          processing_facility_tel: "",
-          processing_facility_fax: "",
-          processing_facility_email: "",
+    //       //
+    //       processing_facility_name: "",
+    //       processing_facility_address: "",
+    //       processing_facility_contact_per: "",
+    //       processing_facility_tel: "",
+    //       processing_facility_fax: "",
+    //       processing_facility_email: "",
 
-          //
-          recovery_operation_name: "",
+    //       //
+    //       recovery_operation_name: "",
 
-          //
-          usual_des_of_the_waste: "",
+    //       //
+    //       usual_des_of_the_waste: "",
 
-          //
-          countriesOrstates_exp_dis: "",
-          countriesOrstates_transit: "",
-          countriesOrstates_imprt_arr: "",
-          //
-          shipment_facility_name: "",
-          shipment_facility_date: "",
+    //       //
+    //       countriesOrstates_exp_dis: "",
+    //       countriesOrstates_transit: "",
+    //       countriesOrstates_imprt_arr: "",
+    //       //
+    //       shipment_facility_name: "",
+    //       shipment_facility_date: "",
 
-          //
-          declaration_name: "",
-          declaration_date: "",
-          //
-          signature_exp_dis: "",
-          signature_transit: "",
-          signature_imprt_arr: "",
-          //
-          basel_annex_ix: "",
-          oecd_ii: "",
-          annex_iia4: "",
-          annex_iiia5: "",
-          ec_list_of_wastes: "",
-          national_code: "",
-          other_specify: "",
-          //
+    //       //
+    //       declaration_name: "",
+    //       declaration_date: "",
+    //       //
+    //       signature_exp_dis: "",
+    //       signature_transit: "",
+    //       signature_imprt_arr: "",
+    //       //
+    //       basel_annex_ix: "",
+    //       oecd_ii: "",
+    //       annex_iia4: "",
+    //       annex_iiia5: "",
+    //       ec_list_of_wastes: "",
+    //       national_code: "",
+    //       other_specify: "",
+    //       //
 
-          license_number: "",
-          approval_details: "",
-          waste_amount: 0,
-          toxic_content: 1,
-          local_authority_confirmation: 1,
-          waste_transport_status: "",
-          shipment_received_at_facility: "",
-        });
-        setCarriers([
-          {
-            name: "",
-            address: "",
-            contact_person: "",
-            phone: "",
-            fax: "",
-            email: "",
-            means_of_transport: "",
-            date_of_transport: "",
-            departure_date: "",
-          },
-        ]);
-      } else {
-        setError(data.message || "Failed to create form");
-      }
-    } catch (error) {
-      // console.log("eroor:-", error);
-      setError("Network error. Please try again.");
-      Swal.fire({
-        title: "Error!",
-        text: error?.message || "Network error. Please try again.",
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    } finally {
-      setLoading(false);
-    }
+    //       license_number: "",
+    //       approval_details: "",
+    //       waste_amount: 0,
+    //       toxic_content: 1,
+    //       local_authority_confirmation: 1,
+    //       waste_transport_status: "",
+    //       shipment_received_at_facility: "",
+    //     });
+    //     setCarriers([
+    //       {
+    //         name: "",
+    //         address: "",
+    //         contact_person: "",
+    //         phone: "",
+    //         fax: "",
+    //         email: "",
+    //         means_of_transport: "",
+    //         date_of_transport: "",
+    //         departure_date: "",
+    //       },
+    //     ]);
+    //   } else {
+    //     setError(data.message || "Failed to create form");
+    //   }
+    // } catch (error) {
+    //   // console.log("eroor:-", error);
+    //   setError("Network error. Please try again.");
+    //   Swal.fire({
+    //     title: "Error!",
+    //     text: error?.message || "Network error. Please try again.",
+    //     icon: "error",
+    //     timer: 2000,
+    //     showConfirmButton: false,
+    //   });
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handleDraft = async (e) => {
@@ -467,7 +532,7 @@ const Form = () => {
       const data = await response.json();
       console.log("dataform submit:", data);
       if (response.ok) {
-        setSuccess("Company created successfully!");
+        setSuccess("Form created successfully!");
 
         window.location.href = "/dashboard/draft";
         setFormData({
@@ -582,21 +647,24 @@ const Form = () => {
   const fetchCarrierData = async (value, index) => {
     if (!value || value.length < 3) return; // Fetch only after 3+ characters
     setLoading(true);
-  
+
     const form = new FormData();
     form.append("search", value);
     form.append("id", companyId());
     form.append("type", 5); // Carrier Type
     form.append("action", "formdata");
-  
+
     try {
-      const response = await fetch("https://annex.sofinish.co.uk/api/formdata", {
-        method: "POST",
-        body: form,
-      });
-  
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/formdata",
+        {
+          method: "POST",
+          body: form,
+        }
+      );
+
       const data = await response.json();
-    
+
       setCarrierSuggestions(Array.isArray(data.data) ? data.data : []);
     } catch (error) {
       console.error("Error fetching carrier data:", error);
@@ -608,7 +676,7 @@ const Form = () => {
 
   const handleCarrierSelect = (index, selectedCarrier) => {
     if (!selectedCarrier) return;
-  
+
     setCarriers((prevCarriers) =>
       prevCarriers.map((carrier, i) =>
         i === index
@@ -644,6 +712,8 @@ const Form = () => {
     </p>;
   }
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="bg-[#F8F9FA]">
       <form onSubmit={handleSubmit}>
@@ -660,8 +730,8 @@ const Form = () => {
             </Typography>
 
             {/* Send for Signature Button */}
-            <Box display="flex" mb={2}>
-              <Button
+            {/* <Box display="flex" mb={2}>/ */}
+            {/* <Button
                 variant="contained"
                 startIcon={<EmailIcon />}
                 sx={{
@@ -671,9 +741,10 @@ const Form = () => {
                 }}
               >
                 Send for Signature
-              </Button>
-            </Box>
+              </Button> */}
+            {/* </Box> */}
           </div>
+
           <div>
             {error && <p className="error-message">{error}</p>}
             {success && (
@@ -686,9 +757,51 @@ const Form = () => {
           <Box p={2} borderRadius={2} bgcolor="white">
             <Grid container spacing={2}>
               {/*ref_name*/}
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence Name:
+                  Refrence 1:
+                </Typography>
+
+                <TextField
+                  label=""
+                  fullWidth
+                  name="ref_name"
+                  value={formData.ref_name}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <Typography variant="h6" fontWeight="bold">
+                  Refrence 2:
+                </Typography>
+
+                <TextField
+                  label=""
+                  fullWidth
+                  name="ref_name"
+                  value={formData.ref_name}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <Typography variant="h6" fontWeight="bold">
+                  Refrence 3:
+                </Typography>
+
+                <TextField
+                  label=""
+                  fullWidth
+                  name="ref_name"
+                  value={formData.ref_name}
+                  onChange={handleChange}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <Typography variant="h6" fontWeight="bold">
+                  Refrence 4:
                 </Typography>
 
                 <TextField
@@ -712,22 +825,50 @@ const Form = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
                   <Autocomplete
-                     freeSolo
+                    freeSolo
                     options={suggestions}
                     getOptionLabel={(option) => option.company_name}
                     loading={loading}
-                    onChange={(event, newValue) => handleSelect(event, newValue, "company_name")}
-                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "company_name")}
+                    onChange={(event, newValue) =>
+                      handleSelect(event, newValue, "company_name")
+                    }
+                    onInputChange={(event, newInputValue, reason) =>
+                      handleInputChange(
+                        event,
+                        newInputValue,
+                        reason,
+                        "company_name"
+                      )
+                    }
                     renderInput={(params) => (
-                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                      <TextField
+                        {...params}
+                        fullWidth
+                        label="Name"
+                        variant="outlined"
+                      />
                     )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="address"  onChange={handleChangee} value={formData.address} label="Address" variant="outlined" />
+                  <TextField
+                    fullWidth
+                    name="address"
+                    onChange={handleChangee}
+                    value={formData.address}
+                    label="Address"
+                    variant="outlined"
+                  />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="contact_person"   onChange={handleChangee} value={formData.contact_person} label="Contact Person" variant="outlined" />
+                  <TextField
+                    fullWidth
+                    name="contact_person"
+                    onChange={handleChangee}
+                    value={formData.contact_person}
+                    label="Contact Person"
+                    variant="outlined"
+                  />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -778,15 +919,36 @@ const Form = () => {
                     options={suggestions}
                     getOptionLabel={(option) => option.consignee_name}
                     loading={loading}
-                    onChange={(event, newValue) => handleSelect(event, newValue, "consignee_name")}
-                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "consignee_name")}
+                    onChange={(event, newValue) =>
+                      handleSelect(event, newValue, "consignee_name")
+                    }
+                    onInputChange={(event, newInputValue, reason) =>
+                      handleInputChange(
+                        event,
+                        newInputValue,
+                        reason,
+                        "consignee_name"
+                      )
+                    }
                     renderInput={(params) => (
-                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                      <TextField
+                        {...params}
+                        fullWidth
+                        label="Name"
+                        variant="outlined"
+                      />
                     )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="consignee_address"   onChange={handleChangee} value={formData.consignee_address} label="Address" variant="outlined" />
+                  <TextField
+                    fullWidth
+                    name="consignee_address"
+                    onChange={handleChangee}
+                    value={formData.consignee_address}
+                    label="Address"
+                    variant="outlined"
+                  />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -844,7 +1006,7 @@ const Form = () => {
                 </Typography>
 
                 <TextField
-                  label=""  
+                  label=""
                   fullWidth
                   name="number_of_shipments"
                   value={formData.number_of_shipments}
@@ -905,154 +1067,165 @@ const Form = () => {
           {/* Section: Consignee */}
 
           <div>
-          <Box p={2} borderRadius={2} bgcolor="white">
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
-              5. Carriers Information
-            </Typography>
+            <Box p={2} borderRadius={2} bgcolor="white">
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                5. Carriers Information
+              </Typography>
 
-            {carriers.map((carrier, index) => (
-              <Box
-                key={index}
-                sx={{
-                  border: "1px solid #E0E0E0",
-                  borderRadius: 2,
-                  p: 2,
-                  mb: 2,
-                  position: "relative",
-                }}
-              >
-                <Typography variant="subtitle1" fontWeight="medium" gutterBottom>
-                  Carrier {index + 1}
-                </Typography>
-
-                {carriers.length > 1 && (
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    onClick={() => removeCarrier(index)}
-                    sx={{ position: "absolute", top: 8, right: 8 }}
+              {carriers.map((carrier, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    border: "1px solid #E0E0E0",
+                    borderRadius: 2,
+                    p: 2,
+                    mb: 2,
+                    position: "relative",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="medium"
+                    gutterBottom
                   >
-                    <DeleteIcon />
-                  </IconButton>
-                )}
+                    Carrier {index + 1}
+                  </Typography>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={4}>
-                    <Autocomplete
-                      freeSolo
-                      options={carrierSuggestions}
-                      getOptionLabel={(option) => option.name || ""}
-                      loading={loading}
-                      onChange={(event, newValue) => handleCarrierSelect(index, newValue)}
-                      onInputChange={(event, newInputValue, reason) =>
-                        handleCarrierInputChange(index, newInputValue, reason)
-                      }
-                      renderInput={(params) => (
-                        <TextField {...params} fullWidth label="Name" variant="outlined" />
-                      )}
-                    />
+                  {carriers.length > 1 && (
+                    <IconButton
+                      aria-label="delete"
+                      size="small"
+                      onClick={() => removeCarrier(index)}
+                      sx={{ position: "absolute", top: 8, right: 8 }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+
+                  <Grid container spacing={2}>
+                    <Grid sx={{ marginTop: 2 }} item xs={12} sm={4}>
+                      <Autocomplete
+                        freeSolo
+                        options={carrierSuggestions}
+                        getOptionLabel={(option) => option.name || ""}
+                        loading={loading}
+                        onChange={(event, newValue) =>
+                          handleCarrierSelect(index, newValue)
+                        }
+                        onInputChange={(event, newInputValue, reason) =>
+                          handleCarrierInputChange(index, newInputValue, reason)
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            fullWidth
+                            label="Name"
+                            variant="outlined"
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                      <TextField
+                        fullWidth
+                        name="address"
+                        label="Address"
+                        value={carrier.address}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="contact_person"
+                        label="Contact Person"
+                        value={carrier.contact_person}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="phone"
+                        label="Tel"
+                        value={carrier.phone}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        inputProps={{ maxLength: 10 }}
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="fax"
+                        label="Fax"
+                        value={carrier.fax}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="email"
+                        label="Email"
+                        type="email"
+                        value={carrier.email}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="means_of_transport"
+                        label="Means of Transport"
+                        value={carrier.means_of_transport}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        fullWidth
+                        name="date_of_transport"
+                        type="date"
+                        value={carrier.date_of_transport}
+                        onChange={(e) => handleCarrierChange(index, e)}
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} sm={8}>
-                    <TextField
-                      fullWidth
-                      name="address"
-                      label="Address"
-                      value={carrier.address}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="contact_person"
-                      label="Contact Person"
-                      value={carrier.contact_person}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="phone"
-                      label="Tel"
-                      value={carrier.phone}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      inputProps={{ maxLength: 10 }}
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="fax"
-                      label="Fax"
-                      value={carrier.fax}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="email"
-                      label="Email"
-                      type="email"
-                      value={carrier.email}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="means_of_transport"
-                      label="Means of Transport"
-                      value={carrier.means_of_transport}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      fullWidth
-                      name="date_of_transport"
-                      type="date"
-                      value={carrier.date_of_transport}
-                      onChange={(e) => handleCarrierChange(index, e)}
-                      variant="outlined"
-                      margin="normal"
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </Grid>
-                </Grid>
+                </Box>
+              ))}
+
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button
+                  disabled={carriers.length === 6}
+                  variant="outlined"
+                  onClick={addCarrier}
+                  startIcon={<AddIcon />}
+                  sx={{
+                    color: "#5C5C5C",
+                    border: "1px solid #A8A8A8",
+                    borderRadius: "8px",
+                    textTransform: "none",
+                  }}
+                >
+                  Add Carrier
+                </Button>
               </Box>
-            ))}
-
-            <Box display="flex" justifyContent="center" mt={2}>
-              <Button
-                disabled={carriers.length === 5}
-                variant="outlined"
-                onClick={addCarrier}
-                startIcon={<AddIcon />}
-                sx={{
-                  color: "#5C5C5C",
-                  border: "1px solid #A8A8A8",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                }}
-              >
-                Add Carrier
-              </Button>
             </Box>
-          </Box>
           </div>
 
           <div>
@@ -1065,17 +1238,40 @@ const Form = () => {
                   <Autocomplete
                     freeSolo
                     options={suggestions}
-                    getOptionLabel={(option) => option.waste_processor_name || ""}
+                    getOptionLabel={(option) =>
+                      option.waste_processor_name || ""
+                    }
                     loading={loading}
-                    onChange={(event, newValue) => handleSelect(event, newValue, "waste_processor_name")}
-                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "waste_processor_name")}
+                    onChange={(event, newValue) =>
+                      handleSelect(event, newValue, "waste_processor_name")
+                    }
+                    onInputChange={(event, newInputValue, reason) =>
+                      handleInputChange(
+                        event,
+                        newInputValue,
+                        reason,
+                        "waste_processor_name"
+                      )
+                    }
                     renderInput={(params) => (
-                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                      <TextField
+                        {...params}
+                        fullWidth
+                        label="Name"
+                        variant="outlined"
+                      />
                     )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="waste_processor_address"  onChange={handleChange} value={formData.waste_processor_address} label="Address" variant="outlined" />
+                  <TextField
+                    fullWidth
+                    name="waste_processor_address"
+                    onChange={handleChange}
+                    value={formData.waste_processor_address}
+                    label="Address"
+                    variant="outlined"
+                  />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -1111,7 +1307,6 @@ const Form = () => {
                 </Grid>
               </Grid>
             </Box>
-
           </div>
 
           {/* Section: Recovery facility */}
@@ -1125,17 +1320,40 @@ const Form = () => {
                   <Autocomplete
                     freeSolo
                     options={suggestions}
-                    getOptionLabel={(option) => option.processing_facility_name || ""}
+                    getOptionLabel={(option) =>
+                      option.processing_facility_name || ""
+                    }
                     loading={loading}
-                    onChange={(event, newValue) => handleSelect(event, newValue, "processing_facility_name")}
-                    onInputChange={(event, newInputValue, reason) => handleInputChange(event, newInputValue, reason, "processing_facility_name")}
+                    onChange={(event, newValue) =>
+                      handleSelect(event, newValue, "processing_facility_name")
+                    }
+                    onInputChange={(event, newInputValue, reason) =>
+                      handleInputChange(
+                        event,
+                        newInputValue,
+                        reason,
+                        "processing_facility_name"
+                      )
+                    }
                     renderInput={(params) => (
-                      <TextField {...params} fullWidth label="Name" variant="outlined" />
+                      <TextField
+                        {...params}
+                        fullWidth
+                        label="Name"
+                        variant="outlined"
+                      />
                     )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField fullWidth name="processing_facility_address"  onChange={handleChange} value={formData.processing_facility_address} label="Address" variant="outlined" />
+                  <TextField
+                    fullWidth
+                    name="processing_facility_address"
+                    onChange={handleChange}
+                    value={formData.processing_facility_address}
+                    label="Address"
+                    variant="outlined"
+                  />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
@@ -1534,6 +1752,7 @@ const Form = () => {
                 ) : ( */}
                 Send for Signature
                 {/* )} */}
+                <EmailModel openModal={modalOpen} setOpenModal={setModalOpen} />
               </Button>
             </Box>
           </div>
@@ -1544,3 +1763,78 @@ const Form = () => {
 };
 
 export default Form;
+
+const EmailModel = ({ openModal, setOpenModal }) => {
+  // const [openModal, setOpenModal] = useState(false);
+  const [message, setMessage] = useState("");
+  const [attachments, setAttachments] = useState([]);
+
+  // const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files); // Convert FileList to Array
+    setAttachments(files);
+  };
+
+  const handleSubmit = () => {
+    console.log("Message:", message);
+    console.log("Attachment:", attachment);
+    handleCloseModal();
+  };
+  return (
+    <Modal open={openModal} onClose={handleCloseModal}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          bgcolor: "background.paper",
+          borderRadius: 2,
+          boxShadow: 24,
+          p: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        <Typography variant="h6">Add Message & Attachment</Typography>
+
+        <textarea
+          rows="5"
+          placeholder="Enter your message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            resize: "vertical",
+            fontSize: "1rem",
+            fontFamily: "inherit",
+          }}
+        ></textarea>
+
+        <Button variant="outlined" component="label">
+          Upload Attachment
+          <input type="file" multiple hidden onChange={handleFileChange} />
+        </Button>
+
+        {attachments.length > 0 && (
+          <ul>
+            {attachments.map((file, idx) => (
+              <li key={idx}>{file.name}</li>
+            ))}
+          </ul>
+        )}
+
+        <Button variant="contained" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </Box>
+    </Modal>
+  );
+};

@@ -451,7 +451,14 @@ const AnnexVII = () => {
                                   </p>
                                   <p>
                                     <strong>Date of Transfer:</strong>
-                                    {data?.date_of_transport}
+                                    {/* {data?.date_of_transport} */}
+                                    {new Date(
+                                      data?.date_of_transport
+                                    ).toLocaleDateString("en-US", {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "2-digit",
+                                    })}
                                   </p>
                                   <p>
                                     <strong>Signature:</strong>
@@ -835,7 +842,7 @@ const AnnexVII = () => {
                                     </div>
                                   </div>
                                   <div className="flex justify-end mt-auto">
-                                    <div className="flex flex-col items-center space-y-1">
+                                    <div className="flex  items-center space-y-1">
                                       {item?.signature?.some(
                                         (sign) =>
                                           sign.signed_by === item?.email2
@@ -848,7 +855,7 @@ const AnnexVII = () => {
                                             )?.signature_path || ""
                                           }`}
                                           alt="Signature"
-                                          className="w-30 h-10"
+                                          className="w-25 h-10"
                                         />
                                       )}
                                       {getStatusIcon(
@@ -875,7 +882,7 @@ const AnnexVII = () => {
                                   (Mg) m³
                                 </h3>
                                 <div className="flex mt-3  justify-between">
-                                  <div className="w-full flex items-center  justify-between">
+                                  <div className="w-full flex items-center justify-between">
                                     <div className="flex">
                                       <span className="text-black font-bold mr-1">
                                         Name:
@@ -914,7 +921,7 @@ const AnnexVII = () => {
                                             )?.signature_path || ""
                                           }`}
                                           alt="Signature"
-                                          className="w-30 h-10"
+                                          className="w-25 h-10"
                                         />
                                       )}
                                       {getStatusIcon(
@@ -1560,7 +1567,14 @@ const Page = ({ item }) => {
                           </p>
                           <p>
                             <strong>Date of Transfer:</strong>
-                            {data?.date_of_transport}
+                            {/* {data?.date_of_transport} */}
+                            {new Date(
+                              data?.date_of_transport
+                            ).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "2-digit",
+                            })}
                           </p>
                           <p>
                             <strong>Signature:</strong>

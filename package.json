@@ -18,6 +18,7 @@
     "anexprocessing": "file:",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
+    "js-cookie": "^3.0.5",
     "jspdf": "^3.0.0",
     "pdfmake": "^0.2.18",
     "react": "^19.0.0",
