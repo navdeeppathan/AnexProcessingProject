@@ -187,7 +187,8 @@ const PDFMakerOrgnl = () => {
               </div>
               <h5 className="text-sm md:text-base text-center font-semibold">
                 {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
-                {item?.annex_id}
+                {item?.ref_name} - {item?.ref_name2} - {item?.ref_name3} -{item?.ref_name4}
+                {/* {item?.annex_id} */}
               </h5>
             </div>
 
@@ -309,7 +310,7 @@ const PDFMakerOrgnl = () => {
                 }`}
               >
                 {item?.carriers.map((data, index) => (
-                  <Box key={data?.id} className="border  p-4">
+                  <Box key={data?.id} className="border p-4">
                     <h3 className="font-semibold">
                       5.({String.fromCharCode(97 + index)}){" "}
                       {ordinalSuffix(index)} Carrier
@@ -345,7 +346,15 @@ const PDFMakerOrgnl = () => {
                         </p>
                         <p>
                           <strong>Date of Transfer:</strong>
-                          {data?.date_of_transport}
+                          {/* {data?.date_of_transport} */}
+                          {new Date(data?.date_of_transport).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
                         </p>
                         <p>
                           <strong>Signature:</strong>
@@ -743,8 +752,9 @@ const PDFMakerOrgnl = () => {
                   </p>
                 </div>
                 <h5 className="text-sm md:text-base text-center font-semibold">
+                {item?.ref_name} -{item?.ref_name2}<br></br>{item?.ref_name3}-{item?.ref_name4}
                   {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
-                  {item?.annex_id}
+                  {/* {item?.annex_id} */}
                 </h5>
               </div>
 
@@ -872,7 +882,7 @@ const PDFMakerOrgnl = () => {
                       : "md:grid-cols-3"
                   }`}
                 >
-                  {item?.carriers.map((data, index) => (
+                  {/* {item?.carriers.map((data, index) => (
                     <Box key={data?.id} className="border  p-4">
                       <h3 className="font-semibold">
                         5.({String.fromCharCode(97 + index)}){" "}
@@ -925,7 +935,69 @@ const PDFMakerOrgnl = () => {
                         )}
                       </div>
                     </Box>
-                  ))}
+                  ))} */}
+                  {[...Array(6)].map((_, index) => {
+                    const data = item?.carriers?.[index];
+
+                    return (
+                      <Box key={data?.id || index} className="border p-4">
+                        <h3 className="font-semibold">
+                          5.({String.fromCharCode(97 + index)}){" "}
+                          {ordinalSuffix(index)} Carrier
+                        </h3>
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <p>
+                              <strong>Name:</strong> {data?.name || ""}
+                            </p>
+                            <p>
+                              <strong>Address:</strong> {data?.address || ""}
+                            </p>
+                            <p>
+                              <strong>Contact Person:</strong>{" "}
+                              {data?.contact_person || ""}
+                            </p>
+                            <p>
+                              <strong>Tel:</strong> {data?.phone || ""}
+                            </p>
+                            <p>
+                              <strong>Fax:</strong> {data?.fax || ""}
+                            </p>
+                            <p>
+                              <strong>Email:</strong> {data?.email || ""}
+                            </p>
+                            <p>
+                              <strong>Means of Transport:</strong>{" "}
+                              {data?.means_of_transport || ""}
+                            </p>
+                            <p>
+                              <strong>Date of Transfer:</strong>{" "}
+                              {/* {data?.date_of_transport || ""} */}
+                              {new Date(
+                                data?.date_of_transport
+                              ).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              })}
+                            </p>
+                            <p>
+                              <strong>Signature:</strong>{" "}
+                              {data ? "(signed)" : ""}
+                            </p>
+                          </div>
+
+                          {data?.email === emailData && img && (
+                            <img
+                              src={img}
+                              alt="Signature"
+                              className="h-30 cursor-pointer"
+                            />
+                          )}
+                        </div>
+                      </Box>
+                    );
+                  })}
                 </div>
                 {item?.waste_generator.map((data, index) => (
                   <>

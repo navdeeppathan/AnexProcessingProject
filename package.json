@@ -18,6 +18,7 @@
     "anexprocessing": "file:",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
+    "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
     "jspdf": "^3.0.0",
     "pdfmake": "^0.2.18",
@@ -29,6 +30,7 @@
     "react-signature-canvas": "^1.1.0-alpha.1",
     "react-to-print": "^3.0.5",
     "recharts": "^2.15.1",
+    "summernote": "^0.9.1",
     "sweetalert2": "^11.6.13",
     "tailwindcss": "^4.0.6"
   },

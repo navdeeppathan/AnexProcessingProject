@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 
+// import ReactSummernote from "react-summernote";
+// import "react-summernote/dist/react-summernote.css";
+// import "summernote/dist/summernote-bs4.css"; // Required for Summernote styling
+import $ from "jquery";
+
 import {
   Box,
   Modal,
@@ -79,6 +84,9 @@ const Form = () => {
 
   const [formData, setFormData] = useState({
     ref_name: "",
+    ref_name2: "",
+    ref_name3: "",
+    ref_name4: "",
     login_id: loginId(),
     annex_id: generateRandomString(),
     company_id: companyId(),
@@ -352,154 +360,168 @@ const Form = () => {
     setError("");
     setSuccess("");
     //model
-    setModalOpen(true);
+    // setModalOpen(true);
     // console.log(formData);
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
     formDataToSend.append("carriers", JSON.stringify(carriers));
-    // try {
-    //   const response = await fetch(
-    //     "https://annex.sofinish.co.uk/api/submit-form",
-    //     {
-    //       method: "POST",
-    //       body: formDataToSend,
-    //     }
-    //   );
 
-    //   const data = await response.json();
-    //   console.log("dataform submit:", data);
-    //   if (response.ok) {
-    //     console.log("response:-", response.data);
-    //     if (data?.message) {
-    //       Swal.fire({
-    //         title: "Success!",
-    //         text: data?.message,
-    //         icon: "success",
-    //         timer: 2000,
-    //         showConfirmButton: false,
-    //       });
-    //     }
-    //     setSuccess(data?.message);
-    //     setTimeout(() => {
-    //       setSuccess("");
-    //     }, 10000);
-    //     setFormData({
-    //       ref_name: "",
-    //       company_name: "",
-    //       address: "",
-    //       contact_number: "",
-    //       contact_person: "",
-    //       fax: "",
-    //       email: "",
-    //       //
-    //       consignee_name: "",
-    //       consignee_address: "",
-    //       consignee_contact: "",
-    //       contPerson: "",
-    //       fax2: "",
-    //       email2: "",
+    try {
+      const response = await fetch(
+        "https://annex.sofinish.co.uk/api/submit-form",
+        {
+          method: "POST",
+          body: formDataToSend,
+        }
+      );
 
-    //       //
-    //       public_agency: "",
-    //       //
-    //       number_of_shipments: 0,
-    //       weight: 0,
+      const data = await response.json();
+      console.log("dataform submit:", data);
 
-    //       //
-    //       aShipdate: "",
-    //       //
+      if (response.ok) {
+        console.log("response:-", response.data);
+        if (data?.success) {
+          Swal.fire({
+            title: "Success!",
+            text: data?.message,
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
 
-    //       // preferred_carrier_name: "",
-    //       // preferred_carrier_arrival_date: "",
-    //       // preferred_carrier_departure_date: "",
-    //       //
-    //       waste_processor_name: "",
-    //       waste_processor_address: "",
-    //       waste_processor_contact_person: "",
-    //       waste_processor_tel: "",
-    //       // waste_processor_fax: "",
-    //       waste_processor_email: "",
-    //       // waste_processor_meansof_trans: "",
-    //       // waste_processor_dateof_trans: "",
+          setSuccess(data?.message);
+          setTimeout(() => {
+            setSuccess("");
+          }, 10000);
+          setFormData({
+            ref_name: "",
+            ref_name2: "",
+            ref_name3: "",
+            ref_name4: "",
+            company_name: "",
+            address: "",
+            contact_number: "",
+            contact_person: "",
+            fax: "",
+            email: "",
+            //
+            consignee_name: "",
+            consignee_address: "",
+            consignee_contact: "",
+            contPerson: "",
+            fax2: "",
+            email2: "",
 
-    //       //
-    //       processing_facility_name: "",
-    //       processing_facility_address: "",
-    //       processing_facility_contact_per: "",
-    //       processing_facility_tel: "",
-    //       processing_facility_fax: "",
-    //       processing_facility_email: "",
+            //
+            public_agency: "",
+            //
+            number_of_shipments: 0,
+            weight: 0,
 
-    //       //
-    //       recovery_operation_name: "",
+            //
+            aShipdate: "",
+            //
 
-    //       //
-    //       usual_des_of_the_waste: "",
+            // preferred_carrier_name: "",
+            // preferred_carrier_arrival_date: "",
+            // preferred_carrier_departure_date: "",
+            //
+            waste_processor_name: "",
+            waste_processor_address: "",
+            waste_processor_contact_person: "",
+            waste_processor_tel: "",
+            // waste_processor_fax: "",
+            waste_processor_email: "",
+            // waste_processor_meansof_trans: "",
+            // waste_processor_dateof_trans: "",
 
-    //       //
-    //       countriesOrstates_exp_dis: "",
-    //       countriesOrstates_transit: "",
-    //       countriesOrstates_imprt_arr: "",
-    //       //
-    //       shipment_facility_name: "",
-    //       shipment_facility_date: "",
+            //
+            processing_facility_name: "",
+            processing_facility_address: "",
+            processing_facility_contact_per: "",
+            processing_facility_tel: "",
+            processing_facility_fax: "",
+            processing_facility_email: "",
 
-    //       //
-    //       declaration_name: "",
-    //       declaration_date: "",
-    //       //
-    //       signature_exp_dis: "",
-    //       signature_transit: "",
-    //       signature_imprt_arr: "",
-    //       //
-    //       basel_annex_ix: "",
-    //       oecd_ii: "",
-    //       annex_iia4: "",
-    //       annex_iiia5: "",
-    //       ec_list_of_wastes: "",
-    //       national_code: "",
-    //       other_specify: "",
-    //       //
+            //
+            recovery_operation_name: "",
 
-    //       license_number: "",
-    //       approval_details: "",
-    //       waste_amount: 0,
-    //       toxic_content: 1,
-    //       local_authority_confirmation: 1,
-    //       waste_transport_status: "",
-    //       shipment_received_at_facility: "",
-    //     });
-    //     setCarriers([
-    //       {
-    //         name: "",
-    //         address: "",
-    //         contact_person: "",
-    //         phone: "",
-    //         fax: "",
-    //         email: "",
-    //         means_of_transport: "",
-    //         date_of_transport: "",
-    //         departure_date: "",
-    //       },
-    //     ]);
-    //   } else {
-    //     setError(data.message || "Failed to create form");
-    //   }
-    // } catch (error) {
-    //   // console.log("eroor:-", error);
-    //   setError("Network error. Please try again.");
-    //   Swal.fire({
-    //     title: "Error!",
-    //     text: error?.message || "Network error. Please try again.",
-    //     icon: "error",
-    //     timer: 2000,
-    //     showConfirmButton: false,
-    //   });
-    // } finally {
-    //   setLoading(false);
-    // }
+            //
+            usual_des_of_the_waste: "",
+
+            //
+            countriesOrstates_exp_dis: "",
+            countriesOrstates_transit: "",
+            countriesOrstates_imprt_arr: "",
+            //
+            shipment_facility_name: "",
+            shipment_facility_date: "",
+
+            //
+            declaration_name: "",
+            declaration_date: "",
+            //
+            signature_exp_dis: "",
+            signature_transit: "",
+            signature_imprt_arr: "",
+            //
+            basel_annex_ix: "",
+            oecd_ii: "",
+            annex_iia4: "",
+            annex_iiia5: "",
+            ec_list_of_wastes: "",
+            national_code: "",
+            other_specify: "",
+            //
+
+            license_number: "",
+            approval_details: "",
+            waste_amount: 0,
+            toxic_content: 1,
+            local_authority_confirmation: 1,
+            waste_transport_status: "",
+            shipment_received_at_facility: "",
+          });
+          setCarriers([
+            {
+              name: "",
+              address: "",
+              contact_person: "",
+              phone: "",
+              fax: "",
+              email: "",
+              means_of_transport: "",
+              date_of_transport: "",
+              departure_date: "",
+            },
+          ]);
+        }
+      } else {
+        setError(data.message || "Failed to create form");
+
+        // Display the errors in Swal.fire
+        Swal.fire({
+          title: "Validation Errors",
+          html: "All fields are required!!!!", // Using `html` to allow for formatted text
+          icon: "error",
+          showConfirmButton: true,
+        });
+      }
+    } catch (error) {
+      // console.log("eroor:-", error);
+      setError("Network error. Please try again.");
+      Swal.fire({
+        title: "Error!",
+        text: error?.message || "Network error. Please try again.",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDraft = async (e) => {
@@ -536,6 +558,12 @@ const Form = () => {
 
         window.location.href = "/dashboard/draft";
         setFormData({
+          ref_name: "",
+          ref_name2: "",
+          ref_name3: "",
+
+          ref_name4: "",
+
           company_name: "",
           address: "",
           contact_number: "",
@@ -712,7 +740,7 @@ const Form = () => {
     </p>;
   }
 
-  const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className="bg-[#F8F9FA]">
@@ -769,6 +797,7 @@ const Form = () => {
                   value={formData.ref_name}
                   onChange={handleChange}
                   variant="outlined"
+                  required
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -777,10 +806,11 @@ const Form = () => {
                 </Typography>
 
                 <TextField
+                  required
                   label=""
                   fullWidth
-                  name="ref_name"
-                  value={formData.ref_name}
+                  name="ref_name2"
+                  value={formData.ref_name2}
                   onChange={handleChange}
                   variant="outlined"
                 />
@@ -791,10 +821,11 @@ const Form = () => {
                 </Typography>
 
                 <TextField
+                  required
                   label=""
                   fullWidth
-                  name="ref_name"
-                  value={formData.ref_name}
+                  name="ref_name3"
+                  value={formData.ref_name3}
                   onChange={handleChange}
                   variant="outlined"
                 />
@@ -805,10 +836,11 @@ const Form = () => {
                 </Typography>
 
                 <TextField
+                  required
                   label=""
                   fullWidth
-                  name="ref_name"
-                  value={formData.ref_name}
+                  name="ref_name4"
+                  value={formData.ref_name4}
                   onChange={handleChange}
                   variant="outlined"
                 />
@@ -846,12 +878,14 @@ const Form = () => {
                         fullWidth
                         label="Name"
                         variant="outlined"
+                        required
                       />
                     )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
+                    required
                     fullWidth
                     name="address"
                     onChange={handleChangee}
@@ -873,6 +907,7 @@ const Form = () => {
                 <Grid item xs={12} sm={4}>
                   <TextField
                     name="contact_number"
+                    required
                     value={formData.contact_number}
                     onChange={handleChangee}
                     fullWidth
@@ -932,6 +967,7 @@ const Form = () => {
                     }
                     renderInput={(params) => (
                       <TextField
+                        required
                         {...params}
                         fullWidth
                         label="Name"
@@ -943,6 +979,7 @@ const Form = () => {
                 <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
+                    required
                     name="consignee_address"
                     onChange={handleChangee}
                     value={formData.consignee_address}
@@ -964,6 +1001,7 @@ const Form = () => {
                   <TextField
                     fullWidth
                     name="consignee_contact"
+                    required
                     value={formData.consignee_contact}
                     onChange={handleChangee}
                     label="Tel"
@@ -1009,6 +1047,7 @@ const Form = () => {
                   label=""
                   fullWidth
                   name="number_of_shipments"
+                  required
                   value={formData.number_of_shipments}
                   onChange={handleChange}
                   variant="outlined"
@@ -1259,6 +1298,7 @@ const Form = () => {
                         fullWidth
                         label="Name"
                         variant="outlined"
+                        required
                       />
                     )}
                   />
@@ -1271,6 +1311,7 @@ const Form = () => {
                     value={formData.waste_processor_address}
                     label="Address"
                     variant="outlined"
+                    required
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -1341,6 +1382,7 @@ const Form = () => {
                         fullWidth
                         label="Name"
                         variant="outlined"
+                        required
                       />
                     )}
                   />
@@ -1349,6 +1391,7 @@ const Form = () => {
                   <TextField
                     fullWidth
                     name="processing_facility_address"
+                    required
                     onChange={handleChange}
                     value={formData.processing_facility_address}
                     label="Address"
@@ -1369,6 +1412,7 @@ const Form = () => {
                   <TextField
                     fullWidth
                     name="processing_facility_tel"
+                    required
                     value={formData.processing_facility_tel}
                     onChange={handleChange}
                     label="Tel"
@@ -1751,8 +1795,7 @@ const Form = () => {
                   <CircularProgress size={24} sx={{ color: "white" }} />
                 ) : ( */}
                 Send for Signature
-                {/* )} */}
-                <EmailModel openModal={modalOpen} setOpenModal={setModalOpen} />
+                {/*<EmailModel openModal={modalOpen} setOpenModal={setModalOpen} /> )} */}
               </Button>
             </Box>
           </div>
@@ -1764,77 +1807,76 @@ const Form = () => {
 
 export default Form;
 
-const EmailModel = ({ openModal, setOpenModal }) => {
-  // const [openModal, setOpenModal] = useState(false);
-  const [message, setMessage] = useState("");
-  const [attachments, setAttachments] = useState([]);
+// Import jQuery for Summernote to work
 
-  // const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+// const EmailModel = ({ openModal, setOpenModal }) => {
+//   const [message, setMessage] = useState("");
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // Convert FileList to Array
-    setAttachments(files);
-  };
+//   // Handle editor change
+//   const handleEditorChange = (content) => {
+//     setMessage(content);
+//   };
 
-  const handleSubmit = () => {
-    console.log("Message:", message);
-    console.log("Attachment:", attachment);
-    handleCloseModal();
-  };
-  return (
-    <Modal open={openModal} onClose={handleCloseModal}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "background.paper",
-          borderRadius: 2,
-          boxShadow: 24,
-          p: 4,
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">Add Message & Attachment</Typography>
+//   const handleCloseModal = () => setOpenModal(false);
 
-        <textarea
-          rows="5"
-          placeholder="Enter your message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "10px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            resize: "vertical",
-            fontSize: "1rem",
-            fontFamily: "inherit",
-          }}
-        ></textarea>
+//   const handleSubmit = () => {
+//     console.log("Message:", message);
+//     handleCloseModal();
+//   };
 
-        <Button variant="outlined" component="label">
-          Upload Attachment
-          <input type="file" multiple hidden onChange={handleFileChange} />
-        </Button>
+//   return (
+//     <Modal open={openModal} onClose={handleCloseModal}>
+//       <Box
+//         sx={{
+//           position: "absolute",
+//           top: "50%",
+//           left: "50%",
+//           transform: "translate(-50%, -50%)",
+//           width: 600,
+//           bgcolor: "background.paper",
+//           borderRadius: 2,
+//           boxShadow: 24,
+//           p: 4,
+//           display: "flex",
+//           flexDirection: "column",
+//           gap: 2,
+//         }}
+//       >
+//         <Typography variant="h6">Add Message & Attachment</Typography>
 
-        {attachments.length > 0 && (
-          <ul>
-            {attachments.map((file, idx) => (
-              <li key={idx}>{file.name}</li>
-            ))}
-          </ul>
-        )}
+//         {/* Summernote Editor */}
+//         <ReactSummernote
+//           value={message}
+//           options={{
+//             height: 300,
+//             minHeight: 200,
+//             maxHeight: 500,
+//             focus: true,
+//             dialogsInBody: true,
+//             placeholder: "Enter your message here",
+//             toolbar: [
+//               ["style", ["bold", "italic", "underline", "clear"]],
+//               ["font", ["strikethrough", "superscript", "subscript"]],
+//               ["color", ["color"]],
+//               ["para", ["ul", "ol", "paragraph"]],
+//               ["insert", ["link", "picture", "table", "hr"]],
+//               ["view", ["fullscreen", "codeview", "help"]],
+//             ],
+//           }}
+//           onChange={handleEditorChange}
+//         />
 
-        <Button variant="contained" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </Box>
-    </Modal>
-  );
-};
+//         {/* File Upload Button */}
+//         <Button variant="outlined" component="label">
+//           Upload Attachments
+//           <input type="file" multiple hidden />
+//         </Button>
+
+//         {/* Submit Button */}
+//         <Button variant="contained" onClick={handleSubmit}>
+//           Submit
+//         </Button>
+//       </Box>
+//     </Modal>
+//   );
+// };

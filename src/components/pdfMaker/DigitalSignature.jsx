@@ -124,7 +124,6 @@ const DigitalSignature = () => {
           </div>
 
           <div className="relative rounded-lg p-4">
-            {/* Corner Borders */}
             <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-gray-400"></div>
             <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-gray-400"></div>
             <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-gray-400"></div>
