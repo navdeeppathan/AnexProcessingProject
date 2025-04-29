@@ -12,9 +12,13 @@ import {
   TextField,
   Typography,
   Button,
+  InputLabel,
   CircularProgress,
   Autocomplete,
   IconButton,
+  Select,
+  MenuItem,
+  FormControl,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EmailIcon from "@mui/icons-material/Email";
@@ -255,8 +259,7 @@ const Form = () => {
       setLoading(false);
     }
   };
-
-  // Handle input changes and trigger API call
+  
   const handleInputChange = (event, value, reason, field) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (reason === "input") fetchCompanyData(value, field);
@@ -369,6 +372,7 @@ const Form = () => {
     formDataToSend.append("carriers", JSON.stringify(carriers));
 
     try {
+      setLoading(true);
       const response = await fetch(
         "https://annex.sofinish.co.uk/api/submit-form",
         {
@@ -381,6 +385,7 @@ const Form = () => {
       console.log("dataform submit:", data);
 
       if (response.ok) {
+        setLoading(false);
         console.log("response:-", response.data);
         if (data?.success) {
           Swal.fire({
@@ -525,6 +530,7 @@ const Form = () => {
   };
 
   const handleDraft = async (e) => {
+
     console.log(carriers);
     e.preventDefault();
     setLoading(true);
@@ -543,6 +549,7 @@ const Form = () => {
     }
 
     try {
+      setLoading(true);
       const response = await fetch(
         "https://annex.sofinish.co.uk/api/submit-form",
         {
@@ -554,6 +561,7 @@ const Form = () => {
       const data = await response.json();
       console.log("dataform submit:", data);
       if (response.ok) {
+        setLoading(false);
         setSuccess("Form created successfully!");
 
         window.location.href = "/dashboard/draft";
@@ -787,7 +795,7 @@ const Form = () => {
               {/*ref_name*/}
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 1:
+                Reference 1:
                 </Typography>
 
                 <TextField
@@ -802,7 +810,7 @@ const Form = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 2:
+                Reference 2:
                 </Typography>
 
                 <TextField
@@ -817,7 +825,7 @@ const Form = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 3:
+                Reference 3:
                 </Typography>
 
                 <TextField
@@ -832,7 +840,7 @@ const Form = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 4:
+                Reference 4:
                 </Typography>
 
                 <TextField
@@ -1222,7 +1230,7 @@ const Form = () => {
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                      <TextField
+                      {/* <TextField
                         fullWidth
                         name="means_of_transport"
                         label="Means of Transport"
@@ -1230,7 +1238,22 @@ const Form = () => {
                         onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
                         margin="normal"
-                      />
+                      /> */}
+                       <FormControl fullWidth margin="normal">
+                        <InputLabel id={`means-of-transport-label-${index}`}>Means of Transport</InputLabel>
+                        <Select
+                          labelId={`means-of-transport-label-${index}`}
+                          id={`means-of-transport-${index}`}
+                          name="means_of_transport"
+                          value={carrier.means_of_transport}
+                          onChange={(e) => handleCarrierChange(index, e)}
+                          label="Means of Transport"
+                        >
+                          <MenuItem value="By Road">By Road</MenuItem>
+                          <MenuItem value="By Sea">By Sea</MenuItem>
+                          <MenuItem value="By Air">By Air</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
@@ -1775,11 +1798,11 @@ const Form = () => {
                 }}
                 onClick={handleDraft}
               >
-                {/* {loading ? (
+                {loading ? (
                   <CircularProgress size={24} sx={{ color: "white" }} />
-                ) : ( */}
-                Save as Draft
-                {/* )} */}
+                ) : (
+                'Save as Draft'
+               )} 
               </Button>
               <Button
                 variant="contained"
@@ -1791,10 +1814,11 @@ const Form = () => {
                   "&:hover": { backgroundColor: "#405B8C" },
                 }}
               >
-                {/* {loading ? (
+                {loading ? (
                   <CircularProgress size={24} sx={{ color: "white" }} />
-                ) : ( */}
-                Send for Signature
+                ) : (
+                'Send for Signature'
+                )}
                 {/*<EmailModel openModal={modalOpen} setOpenModal={setModalOpen} /> )} */}
               </Button>
             </Box>
@@ -1808,15 +1832,12 @@ const Form = () => {
 export default Form;
 
 // Import jQuery for Summernote to work
-
 // const EmailModel = ({ openModal, setOpenModal }) => {
 //   const [message, setMessage] = useState("");
-
 //   // Handle editor change
 //   const handleEditorChange = (content) => {
 //     setMessage(content);
 //   };
-
 //   const handleCloseModal = () => setOpenModal(false);
 
 //   const handleSubmit = () => {

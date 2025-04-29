@@ -48,7 +48,7 @@ const DashboardHeader = () => {
             onClick={() => setDropdownOpen((prev) => !prev)}
           >
             <img
-              src="https://randomuser.me/api/portraits/men/50.jpg"
+              src="/dummy_image.avif"
               alt="Profile"
               className="w-10 h-10 rounded-full border border-gray-300"
             />

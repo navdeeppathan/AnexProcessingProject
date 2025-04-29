@@ -27,6 +27,7 @@ const AnnexVII = () => {
     };
     setMessage("");
     try {
+      
       const url = `https://annex.sofinish.co.uk/api/send-bulk-emails/${id}?action=SendMailtoAll&company_id=${companyId()}&login_id=${loginId()}`;
       const response = await fetch(url, {
         method: "GET",
