@@ -221,8 +221,7 @@ const Form = () => {
   };
   const [suggestions, setSuggestions] = useState([]);
   const fetchCompanyData = async (value, searchType) => {
-    if (!value || value.length < 3) return; // Fetch only after 3+ characters
-    setLoading(true);
+    if (!value || value.length < 3) return;
 
     let type;
     if (searchType === "company") type = 1;
@@ -313,7 +312,7 @@ const Form = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [carrierSuggestions, setCarrierSuggestions] = useState([]);
-
+    
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -365,11 +364,34 @@ const Form = () => {
     //model
     // setModalOpen(true);
     // console.log(formData);
+    // const formDataToSend = new FormData();
+    // Object.keys(formData).forEach((key) => {
+    //   formDataToSend.append(key, formData[key]);
+    // });
+    // formDataToSend.append("carriers", JSON.stringify(carriers));
+    const lowercaseEmailKeys = [
+      "email",
+      "email2",
+      "waste_processor_email",
+      "processing_facility_email",
+    ];
+
     const formDataToSend = new FormData();
+
+    // Convert specific email fields to lowercase
     Object.keys(formData).forEach((key) => {
-      formDataToSend.append(key, formData[key]);
+      let value = formData[key];
+      if (lowercaseEmailKeys.includes(key)) {
+        value = value?.toLowerCase().trim();
+      }
+      formDataToSend.append(key, value);
     });
-    formDataToSend.append("carriers", JSON.stringify(carriers));
+
+    // Normalize carrier emails (all to lowercase & trimmed)
+    const normalizedCarriers = carriers.map((carrier) => ({
+      ...carrier,
+      email: carrier.email?.toLowerCase().trim() || "",
+    }));
 
     try {
       setLoading(true);
@@ -682,7 +704,7 @@ const Form = () => {
 
   const fetchCarrierData = async (value, index) => {
     if (!value || value.length < 3) return; // Fetch only after 3+ characters
-    setLoading(true);
+    // setLoading(true);
 
     const form = new FormData();
     form.append("search", value);
@@ -691,6 +713,7 @@ const Form = () => {
     form.append("action", "formdata");
 
     try {
+     
       const response = await fetch(
         "https://annex.sofinish.co.uk/api/formdata",
         {
@@ -749,8 +772,17 @@ const Form = () => {
   }
 
   // const [modalOpen, setModalOpen] = useState(false);
-
+  
+    if (loading) {
+      return (
+        <p className="flex flex-col items-center justify-center h-screen">
+          <CircularProgress />
+          <p className="text-black font-medium text-xl">Loading...</p>
+       </p>
+      );
+    }
   return (
+    
     <div className="bg-[#F8F9FA]">
       <form onSubmit={handleSubmit}>
         <Box p={3} display="flex" flexDirection="column" gap={3}>
@@ -1819,7 +1851,6 @@ const Form = () => {
                 ) : (
                 'Send for Signature'
                 )}
-                {/*<EmailModel openModal={modalOpen} setOpenModal={setModalOpen} /> )} */}
               </Button>
             </Box>
           </div>

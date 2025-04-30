@@ -23,7 +23,7 @@ const MainDashboard = () => {
   const [loadingpdf, setLoadingpdf] = useState(false);
   const [selectedAnnexId, setSelectedAnnexId] = useState(null);
   const handleSettingsClick = (annex_id) => {
-    console.log("handleSettingsClick:-", annex_id);
+    // console.log("handleSettingsClick:-", annex_id);
     setSelectedAnnexId(annex_id);
     // setLoadingpdf(true);
     // setTimeout(() => {
@@ -223,6 +223,15 @@ const MainDashboard = () => {
                       >
                         Download
                       </Button>
+                      <Button
+                        onClick={() =>
+                          (window.location.href = `/dashboard/create-duplicate/${company?.id}`)
+                        }
+                        variant="contained"
+                        sx={{ bgcolor: "#6b46c1" }}
+                      >
+                        Duplicate
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -296,7 +305,7 @@ const PdfDownload = ({ id }) => {
     }
   };
 
-  console.log("formdata:-", id);
+  // console.log("formdata:-", id);
 
   const fetchFormData = async (id) => {
     setLoading(true);
@@ -380,7 +389,7 @@ const PdfDownload = ({ id }) => {
         );
       }
 
-      pdf.save(`Annex-${id}.pdf`);
+      pdf.save(`AnnexForm.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {

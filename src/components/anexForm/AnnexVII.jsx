@@ -279,7 +279,7 @@ const AnnexVII = () => {
                                       </p>
                                     </div>
                                     <div className="flex justify-end mt-auto">
-                                      <div className="flex flex-col items-center space-y-2">
+                                      {/* <div className="flex flex-col items-center space-y-2">
                                         {item?.signature?.some(
                                           (sign) => sign.signed_by === item?.email
                                         ) && (
@@ -301,7 +301,7 @@ const AnnexVII = () => {
                                             ? "completed"
                                             : "pending"
                                         )}
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </div>
                                 </Box>
@@ -342,7 +342,7 @@ const AnnexVII = () => {
                                       </p>
                                     </div>
                                     <div className="flex justify-end mt-auto">
-                                      <div className="flex flex-col items-center space-y-2">
+                                      {/* <div className="flex flex-col items-center space-y-2">
                                         {item?.signature?.some(
                                           (sign) => sign.signed_by === item?.email2
                                         ) && (
@@ -364,7 +364,7 @@ const AnnexVII = () => {
                                             ? "completed"
                                             : "pending"
                                         )}
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </div>
                                 </Box>
@@ -401,107 +401,107 @@ const AnnexVII = () => {
                                   item?.carriers?.length === 1
                                     ? "md:grid-cols-1"
                                     : item.carriers.length === 2
-                                    ? "md:grid-cols-2"
+                                    ? "md:grid-cols-3"
                                     : item.carriers.length === 4
-                                    ? "md:grid-cols-2"
+                                    ? "md:grid-cols-3"
                                     : item.carriers.length === 5
                                     ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
                                     : "md:grid-cols-3"
                                 }`}
                               >
-                                {item?.carriers.map((data, index) => (
-                                  <Box
-                                    key={data?.id}
-                                    className={`border p-4 ${getStatusColor(
-                                      item?.signature?.some(
-                                        (sign) => sign.signed_by === data?.email
-                                      )
-                                        ? "approved"
-                                        : "pending"
-                                    )}`}
-                                  >
-                                    <h3 className="font-bold">
-                                      5.({String.fromCharCode(97 + index)}){" "}
-                                      {ordinalSuffix(index)} Carrier
-                                    </h3>
-                                    <div className="flex justify-between">
-                                      <div>
-                                        <p>
-                                          <strong>Name:</strong> {data?.name}
-                                        </p>
-                                        <p>
-                                          <strong>Address:</strong>
-                                          {data?.address}
-                                        </p>
-                                        <p>
-                                          <strong>Contact Person:</strong>
-                                          {data?.contact_person}
-                                        </p>
-                                        <p>
-                                          <strong>Tel:</strong>
-                                          {data?.phone}
-                                        </p>
-                                        <p>
-                                          <strong>Fax:</strong>
-                                          {data?.fax}
-                                        </p>
-                                        <p>
-                                          <strong>Email:</strong>
-                                          {data?.email}
-                                        </p>
-                                        <p>
-                                          <strong>Means of Transport:</strong>
-                                          {data?.means_of_transport}
-                                        </p>
-                                        <p>
-                                          <strong>Date of Transfer:</strong>
-                                          {/* {data?.date_of_transport} */}
-                                          {new Date(
-                                            data?.date_of_transport
-                                          ).toLocaleDateString("en-US", {
-                                            year: "numeric",
-                                            month: "long",
-                                            day: "2-digit",
-                                          })}
-                                        </p>
-                                        <p>
-                                          <strong>Signature:</strong>
-                                          {item?.signature?.some(
-                                            (sign) => sign.signed_by === data?.email
-                                          )
-                                            ? "(signed)"
-                                            : ""}
-                                        </p>
-                                      </div>
-                                      <div className="flex justify-end mt-auto">
-                                        <div className="flex flex-col items-center space-y-2">
-                                          {item?.signature?.some(
-                                            (sign) => sign.signed_by === data?.email
-                                          ) && (
-                                            <img
-                                              src={`https://annex.sofinish.co.uk/${
-                                                item?.signature?.find(
-                                                  (sign) =>
-                                                    sign.signed_by === data?.email
-                                                )?.signature_path || ""
-                                              }`}
-                                              alt="Signature"
-                                              className="w-30 h-10"
-                                            />
-                                          )}
-
-                                          {getStatusIcon(
-                                            item?.signature?.some(
+                                  {[...item?.carriers, {}, {}, {}].slice(0, 3).map((data, index) => (
+                                    <Box
+                                      key={data?.id}
+                                      className={`border p-4 ${getStatusColor(
+                                        item?.signature?.some(
+                                          (sign) => sign.signed_by === data?.email
+                                        )
+                                          ? "approved"
+                                          : "pending"
+                                      )}`}
+                                    >
+                                      <h3 className="font-bold">
+                                        5.({String.fromCharCode(97 + index)}){" "}
+                                        {ordinalSuffix(index)} Carrier
+                                      </h3>
+                                      <div className="flex justify-between">
+                                        <div>
+                                          <p>
+                                            <strong>Name:</strong> {data?.name}
+                                          </p>
+                                          <p>
+                                            <strong>Address:</strong>
+                                            {data?.address}
+                                          </p>
+                                          <p>
+                                            <strong>Contact Person:</strong>
+                                            {data?.contact_person}
+                                          </p>
+                                          <p>
+                                            <strong>Tel:</strong>
+                                            {data?.phone}
+                                          </p>
+                                          <p>
+                                            <strong>Fax:</strong>
+                                            {data?.fax}
+                                          </p>
+                                          <p>
+                                            <strong>Email:</strong>
+                                            {data?.email}
+                                          </p>
+                                          <p>
+                                            <strong>Means of Transport:</strong>
+                                            {data?.means_of_transport}
+                                          </p>
+                                          <p>
+                                            <strong>Date of Transfer:</strong>
+                                            {/* {data?.date_of_transport} */}
+                                            {data?.date_of_transport
+                                              ? new Date(data.date_of_transport).toLocaleDateString("en-US", {
+                                                  year: "numeric",
+                                                  month: "long",
+                                                  day: "2-digit",
+                                                })
+                                              : "-"}
+                                          </p>
+                                          <p>
+                                            <strong>Signature:</strong>
+                                            {item?.signature?.some(
                                               (sign) => sign.signed_by === data?.email
                                             )
-                                              ? "completed"
-                                              : "pending"
-                                          )}
+                                              ? "(signed)"
+                                              : ""}
+                                          </p>
+                                        </div>
+                                        <div className="flex justify-end mt-auto">
+                                          <div className="flex flex-col items-center space-y-2">
+                                            {item?.signature?.some(
+                                              (sign) => sign.signed_by === data?.email
+                                            ) && (
+                                              <img
+                                                src={`https://annex.sofinish.co.uk/${
+                                                  item?.signature?.find(
+                                                    (sign) =>
+                                                      sign.signed_by === data?.email
+                                                  )?.signature_path || ""
+                                                }`}
+                                                alt="Signature"
+                                                className="w-30 h-10"
+                                              />
+                                            )}
+
+                                            {getStatusIcon(
+                                              item?.signature?.some(
+                                                (sign) => sign.signed_by === data?.email
+                                              )
+                                                ? "completed"
+                                                : "pending"
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </Box>
-                                ))}
+                                    </Box>
+                                  ))}
                               </div>
                               {item?.waste_generator.map((data2) => (
                                 <>
@@ -1021,7 +1021,7 @@ const AnnexVII = () => {
                             </div>
 
                             {/* Right Side Icons */}
-                            <div className="flex space-x-2">
+                            {/* <div className="flex space-x-2">
                               {getStatusIcon(
                                 item?.signature?.some(
                                   (sign) => sign.signed_by === item?.email
@@ -1036,7 +1036,7 @@ const AnnexVII = () => {
                                   ? "completed"
                                   : "pending"
                               )}
-                            </div>
+                            </div> */}
                           </div>
                           {/* 2 */}
                           <div className="flex w-full justify-between items-center border-b">
@@ -1055,7 +1055,7 @@ const AnnexVII = () => {
                             </div>
 
                             {/* Right Side Icons */}
-                            <div className="flex space-x-2">
+                            {/* <div className="flex space-x-2">
                               {getStatusIcon(
                                 item?.signature?.some(
                                   (sign) => sign.signed_by === item?.email2
@@ -1070,7 +1070,7 @@ const AnnexVII = () => {
                                   ? "completed"
                                   : "pending"
                               )}
-                            </div>
+                            </div> */}
                           </div>
                           {/* 3 */}
                           {item?.carriers.map((data, index) => (
@@ -1340,7 +1340,7 @@ const AnnexVII = () => {
           </div>
         </Card>
         <div>
-         {/* SEcond Card */}
+         {/* Second Card */}
           <Card className="p-8">
             <div className="w-full flex flex-col p-6 min-h-screen ">
               {/* header */}
@@ -1445,7 +1445,7 @@ const AnnexVII = () => {
                                         </p>
                                       </div>
                                       <div className="flex justify-end mt-auto">
-                                        <div className="flex flex-col items-center space-y-2">
+                                        {/* <div className="flex flex-col items-center space-y-2">
                                           {item?.signature?.some(
                                             (sign) => sign.signed_by === item?.email
                                           ) && (
@@ -1467,7 +1467,7 @@ const AnnexVII = () => {
                                               ? "completed"
                                               : "pending"
                                           )}
-                                        </div>
+                                        </div> */}
                                       </div>
                                     </div>
                                   </Box>
@@ -1508,7 +1508,7 @@ const AnnexVII = () => {
                                         </p>
                                       </div>
                                       <div className="flex justify-end mt-auto">
-                                        <div className="flex flex-col items-center space-y-2">
+                                        {/* <div className="flex flex-col items-center space-y-2">
                                           {item?.signature?.some(
                                             (sign) => sign.signed_by === item?.email2
                                           ) && (
@@ -1530,7 +1530,7 @@ const AnnexVII = () => {
                                               ? "completed"
                                               : "pending"
                                           )}
-                                        </div>
+                                        </div> */}
                                       </div>
                                     </div>
                                   </Box>
@@ -1565,11 +1565,11 @@ const AnnexVII = () => {
                                 <div
                                   className={`grid grid-cols-1 ${
                                     item?.carriers?.length === 1
-                                      ? "md:grid-cols-1"
+                                      ? "md:grid-cols-3"
                                       : item.carriers.length === 2
-                                      ? "md:grid-cols-2"
+                                      ? "md:grid-cols-3"
                                       : item.carriers.length === 4
-                                      ? "md:grid-cols-2"
+                                      ? "md:grid-cols-3"
                                       : item.carriers.length === 5
                                       ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
                                       : "md:grid-cols-3"
@@ -1592,7 +1592,7 @@ const AnnexVII = () => {
                                       className={`border p-4 ${getStatusColor(isSigned ? "approved" : "pending")}`}
                                     >
                                       <h3 className="font-bold">
-                                        5.({String.fromCharCode(97 + index)}) {ordinalSuffix(index)} Carrier
+                                        5.({String.fromCharCode(97 + index+3)}) {ordinalSuffix(index+3)} Carrier
                                       </h3>
                                       <div className="flex justify-between">
                                         <div>
@@ -2660,15 +2660,15 @@ const Page = ({ item }) => {
                     item?.carriers?.length === 1
                       ? "md:grid-cols-1"
                       : item.carriers.length === 2
-                      ? "md:grid-cols-2"
+                      ? "md:grid-cols-3"
                       : item.carriers.length === 4
-                      ? "md:grid-cols-2"
+                      ? "md:grid-cols-3"
                       : item.carriers.length === 5
                       ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
                       : "md:grid-cols-3"
                   }`}
                 >
-                  {item?.carriers.map((data, index) => (
+                  {[...item?.carriers, {}, {}, {}].slice(0, 3).map((data, index) => (
                     <Box
                       key={data?.id}
                       className={`border p-4 ${getStatusColor("pending")}`}

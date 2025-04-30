@@ -16,6 +16,7 @@ import Draft from "../Draft/Draft";
 import User from "../auth/user/User";
 import DraftForm from "../Draft/DraftForm";
 import CompanyActions from "../Admin/actions/CompanyActions";
+import Duplicate from "./Duplicate";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const Dashboard = () => {
             <Route path="/" element={<MainDashboard />} />
             <Route path="/annex-form" element={<Form />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/create-duplicate/:id" element={<Duplicate />} />
             <Route path="/completed" element={<Complete />} />
             <Route path="/report" element={<ReportDashboard />} />
             <Route path="/edit-profile" element={<EditProfile />} />
