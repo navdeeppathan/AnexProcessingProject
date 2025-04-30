@@ -100,8 +100,6 @@ const AnnexVII = () => {
     fetchFormData();
   }, []);
 
-  console.log("kjsklhdgkj:-p", formData);
-
   if (loading)
     return (
       <p className="flex flex-col items-center justify-center min-h-screen">
@@ -1562,6 +1560,7 @@ const AnnexVII = () => {
                                     </div>
                                   </Box>
                                 </div>
+
                                 <div
                                   className={`grid grid-cols-1 ${
                                     item?.carriers?.length === 1
@@ -1571,511 +1570,514 @@ const AnnexVII = () => {
                                       : item.carriers.length === 4
                                       ? "md:grid-cols-3"
                                       : item.carriers.length === 5
-                                      ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
+                                      ? "md:grid-cols-3"
                                       : "md:grid-cols-3"
                                   }`}
                                 >
-                                {[...Array(6)].map((_, index) => {
-                                  const data = item?.carriers?.[index] || {};
+                                  {[...Array(6)].map((_, index) => {
+                                    const data = item?.carriers?.[index] || {};
 
-                                  const isSigned = item?.signature?.some(
-                                    (sign) => sign.signed_by === data?.email
-                                  );
+                                    const isSigned = item?.signature?.some(
+                                      (sign) => sign.signed_by === data?.email
+                                    );
 
-                                  const signature = item?.signature?.find(
-                                    (sign) => sign.signed_by === data?.email
-                                  );
+                                    const signature = item?.signature?.find(
+                                      (sign) => sign.signed_by === data?.email
+                                    );
 
-                                  return (
-                                    <Box
-                                      key={data?.id || index}
-                                      className={`border p-4 ${getStatusColor(isSigned ? "approved" : "pending")}`}
-                                    >
-                                      <h3 className="font-bold">
-                                        5.({String.fromCharCode(97 + index+3)}) {ordinalSuffix(index+3)} Carrier
-                                      </h3>
-                                      <div className="flex justify-between">
-                                        <div>
-                                          <p><strong>Name:</strong> {data?.name || ""}</p>
-                                          <p><strong>Address:</strong> {data?.address || ""}</p>
-                                          <p><strong>Contact Person:</strong> {data?.contact_person || ""}</p>
-                                          <p><strong>Tel:</strong> {data?.phone || ""}</p>
-                                          <p><strong>Fax:</strong> {data?.fax || ""}</p>
-                                          <p><strong>Email:</strong> {data?.email || ""}</p>
-                                          <p><strong>Means of Transport:</strong> {data?.means_of_transport || ""}</p>
-                                          <p>
-                                            <strong>Date of Transfer:</strong>{" "}
-                                            {data?.date_of_transport
-                                              ? new Date(data.date_of_transport).toLocaleDateString("en-US", {
-                                                  year: "numeric",
-                                                  month: "long",
-                                                  day: "2-digit",
-                                                })
-                                              : ""}
-                                          </p>
-                                          <p><strong>Signature:</strong> {isSigned ? "(signed)" : ""}</p>
-                                        </div>
+                                    return (
+                                      <Box
+                                        key={data?.id || index}
+                                        className={`border p-4 ${getStatusColor(isSigned ? "approved" : "pending")}`}
+                                      >
+                                        <h3 className="font-bold">
+                                          5.({String.fromCharCode(97 + index+3)}) {ordinalSuffix(index+3)} Carrier
+                                        </h3>
+                                        <div className="flex justify-between">
+                                          <div>
+                                            <p><strong>Name:</strong> {data?.name || ""}</p>
+                                            <p><strong>Address:</strong> {data?.address || ""}</p>
+                                            <p><strong>Contact Person:</strong> {data?.contact_person || ""}</p>
+                                            <p><strong>Tel:</strong> {data?.phone || ""}</p>
+                                            <p><strong>Fax:</strong> {data?.fax || ""}</p>
+                                            <p><strong>Email:</strong> {data?.email || ""}</p>
+                                            <p><strong>Means of Transport:</strong> {data?.means_of_transport || ""}</p>
+                                            <p>
+                                              <strong>Date of Transfer:</strong>{" "}
+                                              {data?.date_of_transport
+                                                ? new Date(data.date_of_transport).toLocaleDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "2-digit",
+                                                  })
+                                                : ""
+                                                }
+                                            </p>
+                                            <p><strong>Signature:</strong> {isSigned ? "(signed)" : ""}</p>
+                                          </div>
 
-                                        <div className="flex justify-end mt-auto">
-                                          <div className="flex flex-col items-center space-y-2">
-                                            {isSigned && signature?.signature_path && (
-                                              <img
-                                                src={`https://annex.sofinish.co.uk/${signature.signature_path}`}
-                                                alt="Signature"
-                                                className="w-30 h-10"
-                                              />
-                                            )}
-                                            {getStatusIcon(isSigned ? "completed" : "pending")}
+                                          <div className="flex justify-end mt-auto">
+                                            <div className="flex flex-col items-center space-y-2">
+                                              {isSigned && signature?.signature_path && (
+                                                <img
+                                                  src={`https://annex.sofinish.co.uk/${signature.signature_path}`}
+                                                  alt="Signature"
+                                                  className="w-30 h-10"
+                                                />
+                                              )}
+                                              {getStatusIcon(isSigned ? "completed" : "pending")}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </Box>
-                                  );
-                                })}
+                                      </Box>
+                                    );
+                                  })}
 
                                 </div>
-                                {item?.waste_generator.map((data2) => (
-                                  <>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 ">
-                                      <Box
-                                        className={`border p-4 ${getStatusColor(
-                                          item?.signature?.some(
-                                            (sign) => sign.signed_by === data2?.email
-                                          )
-                                            ? "approved"
-                                            : "pending"
-                                        )}`}
-                                      >
-                                        <h3 className="font-bold">
-                                          6. Waste generator (Original producer/new
-                                          producer/collector):
-                                        </h3>
-                                        <div className="flex  justify-between">
-                                          <div>
-                                            <p>
-                                              <strong>Name:</strong>
-                                              {data2?.name}
-                                            </p>
-                                            <p>
-                                              <strong>Address:</strong>
-                                              {data2?.address}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">
-                                                Contact Person:
-                                              </strong>
-                                              {data2?.contact_person}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">Mobile:</strong>
-                                              {data2?.mobile}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">Email:</strong>
-                                              {data2?.email}
-                                            </p>
-                                          </div>
-                                          <div className="flex justify-end mt-auto">
-                                            <div className="flex flex-col items-center space-y-2">
-                                              {item?.signature?.some(
-                                                (sign) =>
-                                                  sign.signed_by === data2?.email
-                                              ) && (
-                                                <img
-                                                  src={`https://annex.sofinish.co.uk/${
-                                                    item?.signature?.find(
-                                                      (sign) =>
-                                                        sign.signed_by === data2?.email
-                                                    )?.signature_path || ""
-                                                  }`}
-                                                  alt="Signature"
-                                                  className="w-30 h-10"
-                                                />
-                                              )}
-                                              {getStatusIcon(
-                                                item?.signature?.some(
+                                  {item?.waste_generator.map((data2) => (
+                                    <>
+                                      <div className="grid grid-cols-1 md:grid-cols-2 ">
+                                        <Box
+                                          className={`border p-4 ${getStatusColor(
+                                            item?.signature?.some(
+                                              (sign) => sign.signed_by === data2?.email
+                                            )
+                                              ? "approved"
+                                              : "pending"
+                                          )}`}
+                                        >
+                                          <h3 className="font-bold">
+                                            6. Waste generator (Original producer/new
+                                            producer/collector):
+                                          </h3>
+                                          <div className="flex  justify-between">
+                                            <div>
+                                              <p>
+                                                <strong>Name:</strong>
+                                                {data2?.name}
+                                              </p>
+                                              <p>
+                                                <strong>Address:</strong>
+                                                {data2?.address}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">
+                                                  Contact Person:
+                                                </strong>
+                                                {data2?.contact_person}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">Mobile:</strong>
+                                                {data2?.mobile}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">Email:</strong>
+                                                {data2?.email}
+                                              </p>
+                                            </div>
+                                            <div className="flex justify-end mt-auto">
+                                              <div className="flex flex-col items-center space-y-2">
+                                                {item?.signature?.some(
                                                   (sign) =>
                                                     sign.signed_by === data2?.email
-                                                )
-                                                  ? "completed"
-                                                  : "pending"
-                                              )}
+                                                ) && (
+                                                  <img
+                                                    src={`https://annex.sofinish.co.uk/${
+                                                      item?.signature?.find(
+                                                        (sign) =>
+                                                          sign.signed_by === data2?.email
+                                                      )?.signature_path || ""
+                                                    }`}
+                                                    alt="Signature"
+                                                    className="w-30 h-10"
+                                                  />
+                                                )}
+                                                {getStatusIcon(
+                                                  item?.signature?.some(
+                                                    (sign) =>
+                                                      sign.signed_by === data2?.email
+                                                  )
+                                                    ? "completed"
+                                                    : "pending"
+                                                )}
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </Box>
-                                      <div className="grid grid-cols-1 ">
-                                        <Box
-                                          className={`border p-4 ${getStatusColor()}`}
-                                        >
-                                          <h3 className="font-bold mr-1">
-                                            8. Recovery operation (or if appropriate
-                                            disposal operation in the case of waste
-                                            referred to in Article 3(4)):
-                                            <span>{item?.recovery_operation_name}</span>
-                                          </h3>
                                         </Box>
-                                        <Box className="border  p-4">
+                                        <div className="grid grid-cols-1 ">
+                                          <Box
+                                            className={`border p-4 ${getStatusColor()}`}
+                                          >
+                                            <h3 className="font-bold mr-1">
+                                              8. Recovery operation (or if appropriate
+                                              disposal operation in the case of waste
+                                              referred to in Article 3(4)):
+                                              <span>{item?.recovery_operation_name}</span>
+                                            </h3>
+                                          </Box>
+                                          <Box className="border  p-4">
+                                            <h3 className="font-bold">
+                                              9. Usual description of the waste:
+                                            </h3>
+                                            <p>{item?.usual_des_of_the_waste}</p>
+                                          </Box>
+                                        </div>
+                                      </div>
+
+                                      <div className="grid grid-cols-1 md:grid-cols-2 ">
+                                        <Box
+                                          className={`border p-4 ${getStatusColor(
+                                            item?.signature?.some(
+                                              (sign) =>
+                                                sign.signed_by === data2?.recovery_email
+                                            )
+                                              ? "approved"
+                                              : "pending"
+                                          )}`}
+                                        >
                                           <h3 className="font-bold">
-                                            9. Usual description of the waste:
+                                            7. Recovery facility:
                                           </h3>
-                                          <p>{item?.usual_des_of_the_waste}</p>
+                                          <div className="flex  justify-between">
+                                            <div>
+                                              <p>
+                                                <strong className="mr-2">Name:</strong>
+                                                {data2?.recovery_name}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">Address:</strong>
+                                                {data2?.recovery_address}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">
+                                                  Contact Person:
+                                                </strong>
+                                                {data2?.recovery_contact}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">Tel:</strong>
+                                                {data2?.recovery_tel}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">Fax:</strong>
+                                                {data2?.recovery_fax}
+                                              </p>
+                                              <p>
+                                                <strong className="mr-2">Email:</strong>
+                                                {data2?.recovery_email}
+                                              </p>
+                                            </div>
+                                            <div className="flex justify-end mt-auto">
+                                              <div className="flex flex-col items-center space-y-2">
+                                                {item?.signature?.some(
+                                                  (sign) =>
+                                                    sign.signed_by ===
+                                                    data2?.recovery_email
+                                                ) && (
+                                                  <img
+                                                    src={`https://annex.sofinish.co.uk/${
+                                                      item?.signature?.find(
+                                                        (sign) =>
+                                                          sign.signed_by ===
+                                                          data2?.recovery_email
+                                                      )?.signature_path || ""
+                                                    }`}
+                                                    alt="Signature"
+                                                    className="w-30 h-10"
+                                                  />
+                                                )}
+                                                {getStatusIcon(
+                                                  item?.signature?.some(
+                                                    (sign) =>
+                                                      sign.signed_by ===
+                                                      data2?.recovery_email
+                                                  )
+                                                    ? "completed"
+                                                    : "pending"
+                                                )}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </Box>
+
+                                        <Box className={`border p-4 ${getStatusColor()}`}>
+                                          <h3 className="font-bold">
+                                            10. Waste identification (fill in relevant
+                                            codes):
+                                          </h3>
+                                          <div className="flex  justify-between">
+                                            <div>
+                                              <p className="mr-2">
+                                                <strong>(i) Basel Annex IX:</strong>
+                                                {item?.basel_annex_ix}
+                                              </p>
+                                              <p className="mr-2">
+                                                <strong>
+                                                  (ii) OECD (if different from (i) ):
+                                                </strong>
+                                                {item?.oecd_ii}
+                                              </p>
+                                              <p className="mr-2">
+                                                <strong>(iii) Annex IIA(4):</strong>
+                                                {item?.annex_iia4}
+                                              </p>
+                                              <p className="mr-2">
+                                                <strong>(iv) Annex IIIA(5):</strong>
+                                                {item?.annex_iia5}
+                                              </p>
+                                              <p className="mr-2">
+                                                <strong>(v) EC list of wastes:</strong>
+                                                {item?.ec_list_of_wastes}
+                                              </p>
+                                              <p className="mr-2">
+                                                <strong>(vi) National code:</strong>
+                                                {item?.national_code}
+                                              </p>
+                                              <p className="mr-2">
+                                                <strong>(vii) Other (specify):</strong>
+                                                {item?.other_specify}
+                                              </p>
+                                            </div>
+                                            <div className="flex justify-end mt-auto">
+                                              {getStatusIcon()}
+                                            </div>
+                                          </div>
                                         </Box>
                                       </div>
-                                    </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 ">
-                                      <Box
-                                        className={`border p-4 ${getStatusColor(
-                                          item?.signature?.some(
-                                            (sign) =>
-                                              sign.signed_by === data2?.recovery_email
-                                          )
-                                            ? "approved"
-                                            : "pending"
-                                        )}`}
-                                      >
-                                        <h3 className="font-bold">
-                                          7. Recovery facility:
-                                        </h3>
-                                        <div className="flex  justify-between">
-                                          <div>
-                                            <p>
-                                              <strong className="mr-2">Name:</strong>
-                                              {data2?.recovery_name}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">Address:</strong>
-                                              {data2?.recovery_address}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">
-                                                Contact Person:
-                                              </strong>
-                                              {data2?.recovery_contact}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">Tel:</strong>
-                                              {data2?.recovery_tel}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">Fax:</strong>
-                                              {data2?.recovery_fax}
-                                            </p>
-                                            <p>
-                                              <strong className="mr-2">Email:</strong>
-                                              {data2?.recovery_email}
-                                            </p>
-                                          </div>
-                                          <div className="flex justify-end mt-auto">
-                                            <div className="flex flex-col items-center space-y-2">
-                                              {item?.signature?.some(
-                                                (sign) =>
-                                                  sign.signed_by ===
-                                                  data2?.recovery_email
-                                              ) && (
-                                                <img
-                                                  src={`https://annex.sofinish.co.uk/${
-                                                    item?.signature?.find(
-                                                      (sign) =>
-                                                        sign.signed_by ===
-                                                        data2?.recovery_email
-                                                    )?.signature_path || ""
-                                                  }`}
-                                                  alt="Signature"
-                                                  className="w-30 h-10"
-                                                />
-                                              )}
-                                              {getStatusIcon(
-                                                item?.signature?.some(
-                                                  (sign) =>
-                                                    sign.signed_by ===
-                                                    data2?.recovery_email
-                                                )
-                                                  ? "completed"
-                                                  : "pending"
-                                              )}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </Box>
-
-                                      <Box className={`border p-4 ${getStatusColor()}`}>
-                                        <h3 className="font-bold">
-                                          10. Waste identification (fill in relevant
-                                          codes):
-                                        </h3>
-                                        <div className="flex  justify-between">
-                                          <div>
-                                            <p className="mr-2">
-                                              <strong>(i) Basel Annex IX:</strong>
-                                              {item?.basel_annex_ix}
-                                            </p>
-                                            <p className="mr-2">
-                                              <strong>
-                                                (ii) OECD (if different from (i) ):
-                                              </strong>
-                                              {item?.oecd_ii}
-                                            </p>
-                                            <p className="mr-2">
-                                              <strong>(iii) Annex IIA(4):</strong>
-                                              {item?.annex_iia4}
-                                            </p>
-                                            <p className="mr-2">
-                                              <strong>(iv) Annex IIIA(5):</strong>
-                                              {item?.annex_iia5}
-                                            </p>
-                                            <p className="mr-2">
-                                              <strong>(v) EC list of wastes:</strong>
-                                              {item?.ec_list_of_wastes}
-                                            </p>
-                                            <p className="mr-2">
-                                              <strong>(vi) National code:</strong>
-                                              {item?.national_code}
-                                            </p>
-                                            <p className="mr-2">
-                                              <strong>(vii) Other (specify):</strong>
-                                              {item?.other_specify}
-                                            </p>
-                                          </div>
-                                          <div className="flex justify-end mt-auto">
-                                            {getStatusIcon()}
-                                          </div>
-                                        </div>
-                                      </Box>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 ">
-                                      <Box className="border  p-4">
-                                        <h3 className="font-bold">
-                                          11. Countries/states concerned:
-                                        </h3>
-                                      </Box>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-3 ">
-                                      <Box className="border  p-4">
-                                        <div className="text-center">
+                                      <div className="grid grid-cols-1 ">
+                                        <Box className="border  p-4">
                                           <h3 className="font-bold">
-                                            Export/dispatch:
+                                            11. Countries/states concerned:
                                           </h3>
-                                          <p className="font-medium">
-                                            {item?.countriesOrstates_exp_dis}
-                                          </p>
-                                        </div>
-                                      </Box>
+                                        </Box>
+                                      </div>
 
-                                      <Box className="border  p-4">
-                                        <div className="text-center">
-                                          <h3 className="font-bold">Transit:</h3>
-                                          <p className="font-medium">
-                                            {item?.countriesOrstates_transit}
-                                          </p>
-                                        </div>
-                                      </Box>
-                                      <Box className="border  p-4">
-                                        <div className="text-center">
-                                          <h3 className="font-bold">Import/arrival:</h3>
-                                          <p className="font-medium">
-                                            {item?.countriesOrstates_imprt_arr}
-                                          </p>
-                                        </div>
-                                      </Box>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 ">
-                                      <Box className={`border p-4 ${getStatusColor()}`}>
-                                        <h3 className="font-bold">
-                                          12. Declaration of the person who arranges the
-                                          shipment:
-                                          <span className="font-medium">
-                                            I certify that the above information is
-                                            complete and correct to the best of my
-                                            knowledge.
-                                          </span>
-                                        </h3>
-                                        <div className="flex mt-2 justify-between">
-                                          <div className="flex items-center justify-between w-full ">
-                                            <p>
-                                              <strong className="font-bold mr-2">
-                                                Name:
-                                              </strong>
-                                              {item?.declaration_name}
-                                            </p>
-                                            <p>
-                                              <strong className="font-bold mr-2">
-                                                Date:
-                                              </strong>
-                                              {item?.declaration_date}
-                                            </p>
-                                            <p>
-                                              <strong className="font-bold mr-2">
-                                                Signature:
-                                              </strong>
-                                              {/* (signed) */}
+                                      <div className="grid grid-cols-1 md:grid-cols-3 ">
+                                        <Box className="border  p-4">
+                                          <div className="text-center">
+                                            <h3 className="font-bold">
+                                              Export/dispatch:
+                                            </h3>
+                                            <p className="font-medium">
+                                              {item?.countriesOrstates_exp_dis}
                                             </p>
                                           </div>
+                                        </Box>
 
-                                          <div className="flex justify-end mt-auto">
-                                            <div className="flex flex-col items-center space-y-1">
-                                              {item?.signature?.some(
-                                                (sign) => sign.signed_by === item?.email
-                                              ) && (
-                                                <img
-                                                  src={`https://annex.sofinish.co.uk/${
-                                                    item?.signature?.find(
-                                                      (sign) =>
-                                                        sign.signed_by === item?.email
-                                                    )?.signature_path || ""
-                                                  }`}
-                                                  alt="Signature"
-                                                  className="w-30 h-10"
-                                                />
-                                              )}
-                                              {getStatusIcon(
-                                                item?.signature?.some(
-                                                  (sign) =>
-                                                    sign.signed_by === item?.email
-                                                )
-                                                  ? "completed"
-                                                  : "pending"
-                                              )}
+                                        <Box className="border  p-4">
+                                          <div className="text-center">
+                                            <h3 className="font-bold">Transit:</h3>
+                                            <p className="font-medium">
+                                              {item?.countriesOrstates_transit}
+                                            </p>
+                                          </div>
+                                        </Box>
+                                        <Box className="border  p-4">
+                                          <div className="text-center">
+                                            <h3 className="font-bold">Import/arrival:</h3>
+                                            <p className="font-medium">
+                                              {item?.countriesOrstates_imprt_arr}
+                                            </p>
+                                          </div>
+                                        </Box>
+                                      </div>
+
+                                      <div className="grid grid-cols-1 ">
+                                        <Box className={`border p-4 ${getStatusColor()}`}>
+                                          <h3 className="font-bold">
+                                            12. Declaration of the person who arranges the
+                                            shipment:
+                                            <span className="font-medium">
+                                              I certify that the above information is
+                                              complete and correct to the best of my
+                                              knowledge.
+                                            </span>
+                                          </h3>
+                                          <div className="flex mt-2 justify-between">
+                                            <div className="flex items-center justify-between w-full ">
+                                              <p>
+                                                <strong className="font-bold mr-2">
+                                                  Name:
+                                                </strong>
+                                                {item?.declaration_name}
+                                              </p>
+                                              <p>
+                                                <strong className="font-bold mr-2">
+                                                  Date:
+                                                </strong>
+                                                {item?.declaration_date}
+                                              </p>
+                                              <p>
+                                                <strong className="font-bold mr-2">
+                                                  Signature:
+                                                </strong>
+                                                {/* (signed) */}
+                                              </p>
                                             </div>
-                                          </div>
-                                        </div>
-                                      </Box>
-                                    </div>
-                                    <div className="grid grid-cols-1 ">
-                                      <Box className={`border p-4 ${getStatusColor()}`}>
-                                        <h3 className="font-bold">
-                                          13. Signature upon receipt of the waste by the
-                                          consignee:
-                                        </h3>
-                                        <div className="flex mt-2 justify-between">
-                                          <div className="flex items-center justify-between w-full ">
-                                            <div className="flex">
-                                              <span className="text-black font-bold mr-1">
-                                                Name:
-                                              </span>
-                                              <div className="border-b border-black w-28">
-                                                {item?.signature_exp_dis}
+
+                                            <div className="flex justify-end mt-auto">
+                                              <div className="flex flex-col items-center space-y-1">
+                                                {item?.signature?.some(
+                                                  (sign) => sign.signed_by === item?.email
+                                                ) && (
+                                                  <img
+                                                    src={`https://annex.sofinish.co.uk/${
+                                                      item?.signature?.find(
+                                                        (sign) =>
+                                                          sign.signed_by === item?.email
+                                                      )?.signature_path || ""
+                                                    }`}
+                                                    alt="Signature"
+                                                    className="w-30 h-10"
+                                                  />
+                                                )}
+                                                {getStatusIcon(
+                                                  item?.signature?.some(
+                                                    (sign) =>
+                                                      sign.signed_by === item?.email
+                                                  )
+                                                    ? "completed"
+                                                    : "pending"
+                                                )}
                                               </div>
                                             </div>
-                                            <div className="flex">
-                                              <span className="text-black font-bold mr-1">
-                                                Date:
-                                              </span>
-                                              <div className="border-b border-black w-28">
-                                                {item?.signature_transit}
+                                          </div>
+                                        </Box>
+                                      </div>
+
+                                      <div className="grid grid-cols-1 ">
+                                        <Box className={`border p-4 ${getStatusColor()}`}>
+                                          <h3 className="font-bold">
+                                            13. Signature upon receipt of the waste by the
+                                            consignee:
+                                          </h3>
+                                          <div className="flex mt-2 justify-between">
+                                            <div className="flex items-center justify-between w-full ">
+                                              <div className="flex">
+                                                <span className="text-black font-bold mr-1">
+                                                  Name:
+                                                </span>
+                                                <div className="border-b border-black w-28">
+                                                  {item?.signature_exp_dis}
+                                                </div>
+                                              </div>
+                                              <div className="flex">
+                                                <span className="text-black font-bold mr-1">
+                                                  Date:
+                                                </span>
+                                                <div className="border-b border-black w-28">
+                                                  {item?.signature_transit}
+                                                </div>
+                                              </div>
+                                              <div className="flex">
+                                                <span className="text-black font-bold mr-1">
+                                                  Signature:
+                                                </span>
+                                                {/* <div className="border-b border-black w-28"></div> */}
                                               </div>
                                             </div>
-                                            <div className="flex">
-                                              <span className="text-black font-bold mr-1">
-                                                Signature:
-                                              </span>
-                                              {/* <div className="border-b border-black w-28"></div> */}
-                                            </div>
-                                          </div>
-                                          <div className="flex justify-end mt-auto">
-                                            <div className="flex  items-center space-y-1">
-                                              {item?.signature?.some(
-                                                (sign) =>
-                                                  sign.signed_by === item?.email2
-                                              ) && (
-                                                <img
-                                                  src={`https://annex.sofinish.co.uk/${
-                                                    item?.signature?.find(
-                                                      (sign) =>
-                                                        sign.signed_by === item?.email2
-                                                    )?.signature_path || ""
-                                                  }`}
-                                                  alt="Signature"
-                                                  className="w-25 h-10"
-                                                />
-                                              )}
-                                              {getStatusIcon(
-                                                item?.signature?.some(
+                                            <div className="flex justify-end mt-auto">
+                                              <div className="flex  items-center space-y-1">
+                                                {item?.signature?.some(
                                                   (sign) =>
                                                     sign.signed_by === item?.email2
-                                                )
-                                                  ? "completed"
-                                                  : "pending"
-                                              )}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </Box>
-                                    </div>
-                                    <div className="grid grid-cols-1 ">
-                                      <Box className={`border p-4 ${getStatusColor()}`}>
-                                        <h3 className="font-bold text-center">
-                                          TO BE COMPLETED BY THE RECOVERY FACILITY
-                                        </h3>
-                                        <h3 className="font-bold mt-1">
-                                          14. Shipment received at recovery facility.
-                                          Quantity received: ____________________ Tonnes
-                                          (Mg) m³
-                                        </h3>
-                                        <div className="flex mt-3  justify-between">
-                                          <div className="w-full flex items-center justify-between">
-                                            <div className="flex">
-                                              <span className="text-black font-bold mr-1">
-                                                Name:
-                                              </span>
-                                              <div className="border-b border-black w-28">
-                                                {item?.shipment_facility_name}
+                                                ) && (
+                                                  <img
+                                                    src={`https://annex.sofinish.co.uk/${
+                                                      item?.signature?.find(
+                                                        (sign) =>
+                                                          sign.signed_by === item?.email2
+                                                      )?.signature_path || ""
+                                                    }`}
+                                                    alt="Signature"
+                                                    className="w-25 h-10"
+                                                  />
+                                                )}
+                                                {getStatusIcon(
+                                                  item?.signature?.some(
+                                                    (sign) =>
+                                                      sign.signed_by === item?.email2
+                                                  )
+                                                    ? "completed"
+                                                    : "pending"
+                                                )}
                                               </div>
                                             </div>
-                                            <div className="flex">
-                                              <span className="text-black font-bold mr-1">
-                                                Date:
-                                              </span>
-                                              <div className="border-b border-black w-28">
-                                                {item?.shipment_facility_date}
+                                          </div>
+                                        </Box>
+                                      </div>
+                                      
+                                      <div className="grid grid-cols-1 ">
+                                        <Box className={`border p-4 ${getStatusColor()}`}>
+                                          <h3 className="font-bold text-center">
+                                            TO BE COMPLETED BY THE RECOVERY FACILITY
+                                          </h3>
+                                          <h3 className="font-bold mt-1">
+                                            14. Shipment received at recovery facility.
+                                            Quantity received: ____________________ Tonnes
+                                            (Mg) m³
+                                          </h3>
+                                          <div className="flex mt-3  justify-between">
+                                            <div className="w-full flex items-center justify-between">
+                                              <div className="flex">
+                                                <span className="text-black font-bold mr-1">
+                                                  Name:
+                                                </span>
+                                                <div className="border-b border-black w-28">
+                                                  {item?.shipment_facility_name}
+                                                </div>
+                                              </div>
+                                              <div className="flex">
+                                                <span className="text-black font-bold mr-1">
+                                                  Date:
+                                                </span>
+                                                <div className="border-b border-black w-28">
+                                                  {item?.shipment_facility_date}
+                                                </div>
+                                              </div>
+                                              <div className="flex">
+                                                <span className="text-black font-bold mr-1">
+                                                  Signature:
+                                                </span>
                                               </div>
                                             </div>
-                                            <div className="flex">
-                                              <span className="text-black font-bold mr-1">
-                                                Signature:
-                                              </span>
-                                            </div>
-                                          </div>
-                                          <div className="flex justify-end mt-auto">
-                                            <div className="flex items-center space-y-1">
-                                              {item?.signature?.some(
-                                                (sign) =>
-                                                  sign.signed_by ===
-                                                  data2?.recovery_email
-                                              ) && (
-                                                <img
-                                                  src={`https://annex.sofinish.co.uk/${
-                                                    item?.signature?.find(
-                                                      (sign) =>
-                                                        sign.signed_by ===
-                                                        data2?.recovery_email
-                                                    )?.signature_path || ""
-                                                  }`}
-                                                  alt="Signature"
-                                                  className="w-25 h-10"
-                                                />
-                                              )}
-                                              {getStatusIcon(
-                                                item?.signature?.some(
+                                            <div className="flex justify-end mt-auto">
+                                              <div className="flex items-center space-y-1">
+                                                {item?.signature?.some(
                                                   (sign) =>
                                                     sign.signed_by ===
                                                     data2?.recovery_email
-                                                )
-                                                  ? "completed"
-                                                  : "pending"
-                                              )}
+                                                ) && (
+                                                  <img
+                                                    src={`https://annex.sofinish.co.uk/${
+                                                      item?.signature?.find(
+                                                        (sign) =>
+                                                          sign.signed_by ===
+                                                          data2?.recovery_email
+                                                      )?.signature_path || ""
+                                                    }`}
+                                                    alt="Signature"
+                                                    className="w-25 h-10"
+                                                  />
+                                                )}
+                                                {getStatusIcon(
+                                                  item?.signature?.some(
+                                                    (sign) =>
+                                                      sign.signed_by ===
+                                                      data2?.recovery_email
+                                                  )
+                                                    ? "completed"
+                                                    : "pending"
+                                                )}
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </Box>
-                                    </div>
-                                  </>
-                                ))}
-                                {/* bullet points */}
+                                        </Box>
+                                      </div>
+                                    </>
+                                  ))}
+
                                 <div className="mt-2">
                                   <ul className="list-disc pl-5 space-y-2">
                                     <li>

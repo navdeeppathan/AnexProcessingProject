@@ -490,7 +490,7 @@ const PdfDownload = ({ id }) => {
                             {item?.contact_number}
                           </p>
                         </div>
-                        <div>
+                        {/* <div>
                           {item?.signature?.some(
                             (sign) => sign.signed_by === item?.email
                           ) && (
@@ -505,7 +505,7 @@ const PdfDownload = ({ id }) => {
                               className="w-30 h-10"
                             />
                           )}
-                        </div>
+                        </div> */}
                       </div>
                     </Box>
                     <Box className="border  p-4">
@@ -534,7 +534,7 @@ const PdfDownload = ({ id }) => {
                             {item?.consignee_contact}
                           </p>
                         </div>
-                        <div>
+                        {/* <div>
                           {item?.signature?.some(
                             (sign) => sign.signed_by === item?.email2
                           ) && (
@@ -548,7 +548,7 @@ const PdfDownload = ({ id }) => {
                               className="w-30 h-10"
                             />
                           )}
-                        </div>
+                        </div> */}
                       </div>
                     </Box>
                   </div>
@@ -577,17 +577,17 @@ const PdfDownload = ({ id }) => {
                   <div
                     className={`grid grid-cols-1 ${
                       item?.carriers?.length === 1
-                        ? "md:grid-cols-1"
+                        ? "md:grid-cols-3"
                         : item.carriers.length === 2
-                        ? "md:grid-cols-2"
+                        ? "md:grid-cols-3"
                         : item.carriers.length === 4
-                        ? "md:grid-cols-2"
+                        ? "md:grid-cols-3"
                         : item.carriers.length === 5
                         ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
                         : "md:grid-cols-3"
                     }`}
                   >
-                    {item?.carriers.map((data, index) => (
+                    {[...item?.carriers, {}, {}, {}].slice(0, 3).map((data, index) => (
                       <Box key={data?.id} className="border  p-4">
                         <h3 className="font-semibold">
                           5.({String.fromCharCode(97 + index)}){" "}
@@ -1099,7 +1099,7 @@ const PdfDownload = ({ id }) => {
                             {item?.contact_number}
                           </p>
                         </div>
-                        <div>
+                        {/* <div>
                           {item?.signature?.some(
                             (sign) => sign.signed_by === item?.email
                           ) && (
@@ -1114,7 +1114,7 @@ const PdfDownload = ({ id }) => {
                               className="w-30 h-10"
                             />
                           )}
-                        </div>
+                        </div> */}
                       </div>
                     </Box>
                     <Box className="border  p-4">
@@ -1143,7 +1143,7 @@ const PdfDownload = ({ id }) => {
                             {item?.consignee_contact}
                           </p>
                         </div>
-                        <div>
+                        {/* <div>
                           {item?.signature?.some(
                             (sign) => sign.signed_by === item?.email2
                           ) && (
@@ -1157,7 +1157,7 @@ const PdfDownload = ({ id }) => {
                               className="w-30 h-10"
                             />
                           )}
-                        </div>
+                        </div> */}
                       </div>
                     </Box>
                   </div>
@@ -1186,11 +1186,11 @@ const PdfDownload = ({ id }) => {
                   <div
                     className={`grid grid-cols-1 ${
                       item?.carriers?.length === 1
-                        ? "md:grid-cols-1"
+                        ? "md:grid-cols-3"
                         : item.carriers.length === 2
-                        ? "md:grid-cols-2"
+                        ? "md:grid-cols-3"
                         : item.carriers.length === 4
-                        ? "md:grid-cols-2"
+                        ? "md:grid-cols-3"
                         : item.carriers.length === 5
                         ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
                         : "md:grid-cols-3"
@@ -1268,7 +1268,7 @@ const PdfDownload = ({ id }) => {
                       return (
                         <Box key={data?.id || index} className="border p-4">
                           <h3 className="font-semibold">
-                            5.({String.fromCharCode(97 + index)}){" "}
+                            5.({String.fromCharCode(97 + index +3)}){" "}
                             {ordinalSuffix(index+3)} Carrier
                           </h3>
                           <div className="flex justify-between items-center">

@@ -305,11 +305,11 @@ const PDFMakerOrgnl = () => {
                     : item?.carriers.length === 4
                     ? "md:grid-cols-2"
                     : item?.carriers.length === 5
-                    ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
+                    ? "md:grid-cols-3 "
                     : "md:grid-cols-3"
                 }`}
               >
-                {item?.carriers.map((data, index) => (
+                {[...item?.carriers, {}, {}, {}].slice(0, 3).map((data, index) => (
                   <Box key={data?.id} className="border p-4">
                     <h3 className="font-semibold">
                       5.({String.fromCharCode(97 + index)}){" "}
@@ -874,11 +874,11 @@ const PDFMakerOrgnl = () => {
                     item?.carriers?.length === 1
                       ? "md:grid-cols-1"
                       : item?.carriers.length === 2
-                      ? "md:grid-cols-2"
+                      ? "md:grid-cols-3"
                       : item?.carriers.length === 4
-                      ? "md:grid-cols-2"
+                      ? "md:grid-cols-3"
                       : item?.carriers.length === 5
-                      ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
+                      ? "md:grid-cols-3"
                       : "md:grid-cols-3"
                   }`}
                 >
