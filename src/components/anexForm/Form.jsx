@@ -377,15 +377,19 @@ const Form = () => {
     ];
 
     const formDataToSend = new FormData();
-
-    // Convert specific email fields to lowercase
-    Object.keys(formData).forEach((key) => {
-      let value = formData[key];
-      if (lowercaseEmailKeys.includes(key)) {
-        value = value?.toLowerCase().trim();
-      }
-      formDataToSend.append(key, value);
-    });
+      Object.keys(formData).forEach((key) => {
+        formDataToSend.append(key, formData[key]);
+      });
+      formDataToSend.append("carriers", JSON.stringify(carriers));
+    
+      // Convert specific email fields to lowercase
+      Object.keys(formData).forEach((key) => {
+        let value = formData[key];
+        if (lowercaseEmailKeys.includes(key)) {
+          value = value?.toLowerCase().trim();
+        }
+        formDataToSend.append(key, value);
+      });
 
     // Normalize carrier emails (all to lowercase & trimmed)
     const normalizedCarriers = carriers.map((carrier) => ({
