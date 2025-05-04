@@ -361,14 +361,6 @@ const Form = () => {
     setLoading(true);
     setError("");
     setSuccess("");
-    //model
-    // setModalOpen(true);
-    // console.log(formData);
-    // const formDataToSend = new FormData();
-    // Object.keys(formData).forEach((key) => {
-    //   formDataToSend.append(key, formData[key]);
-    // });
-    // formDataToSend.append("carriers", JSON.stringify(carriers));
     const lowercaseEmailKeys = [
       "email",
       "email2",

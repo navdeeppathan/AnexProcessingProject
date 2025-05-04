@@ -14,6 +14,7 @@ const AnnexVII = () => {
   const [message, setMessage] = useState("");
 
   const sendReminderEmail = async () => {
+    setLoading(true);
     const companyId = () => {
       const user = localStorage.getItem("user");
       const user_id = JSON.parse(user)?.company_id;
@@ -36,10 +37,12 @@ const AnnexVII = () => {
 
       if (!response.ok)
         throw new Error(`Failed to send email: ${response.status}`);
-
+      // alert("Reminder emails sent successfully!");
       setMessage("Reminder emails sent successfully!");
     } catch (err) {
       setMessage(`Error: ${err.message}`);
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -104,7 +107,7 @@ const AnnexVII = () => {
     return (
       <p className="flex flex-col items-center justify-center min-h-screen">
         <CircularProgress />
-        <p className="text-black font-medium text-xl">wait...</p>
+        <p className="text-black font-medium text-xl">Please wait...</p>
       </p>
     );
   if (error) return <p>Error: {error}</p>;
@@ -169,7 +172,6 @@ const AnnexVII = () => {
       <div>
         <Card className="p-8">
           <div className="w-full flex flex-col p-6 min-h-screen ">
-            {/* header */}
             <div>
               <header className="flex justify-end items-center">
                 {/* {formData?.map((item) => (
@@ -593,14 +595,7 @@ const AnnexVII = () => {
 
                                   <div className="grid grid-cols-1 md:grid-cols-2 ">
                                     <Box
-                                      className={`border p-4 ${getStatusColor(
-                                        item?.signature?.some(
-                                          (sign) =>
-                                            sign.signed_by === data2?.recovery_email
-                                        )
-                                          ? "approved"
-                                          : "pending"
-                                      )}`}
+                                      className={`border p-4`}
                                     >
                                       <h3 className="font-bold">
                                         7. Recovery facility:
@@ -635,7 +630,7 @@ const AnnexVII = () => {
                                           </p>
                                         </div>
                                         <div className="flex justify-end mt-auto">
-                                          <div className="flex flex-col items-center space-y-2">
+                                          {/* <div className="flex flex-col items-center space-y-2">
                                             {item?.signature?.some(
                                               (sign) =>
                                                 sign.signed_by ===
@@ -662,7 +657,7 @@ const AnnexVII = () => {
                                                 ? "completed"
                                                 : "pending"
                                             )}
-                                          </div>
+                                          </div> */}
                                         </div>
                                       </div>
                                     </Box>
@@ -908,7 +903,7 @@ const AnnexVII = () => {
                                           </div>
                                         </div>
                                         <div className="flex justify-end mt-auto">
-                                          <div className="flex items-center space-y-1">
+                                          {/* <div className="flex items-center space-y-1">
                                             {item?.signature?.some(
                                               (sign) =>
                                                 sign.signed_by ===
@@ -935,7 +930,7 @@ const AnnexVII = () => {
                                                 ? "completed"
                                                 : "pending"
                                             )}
-                                          </div>
+                                          </div> */}
                                         </div>
                                       </div>
                                     </Box>
@@ -1169,7 +1164,7 @@ const AnnexVII = () => {
                                 </div>
 
                                 {/* Right Side Icons */}
-                                <div className="flex space-x-2">
+                                {/* <div className="flex space-x-2">
                                   {getStatusIcon(
                                     item?.signature?.some(
                                       (sign) =>
@@ -1186,7 +1181,7 @@ const AnnexVII = () => {
                                       ? "completed"
                                       : "pending"
                                   )}
-                                </div>
+                                </div> */}
                               </div>
 
                               {/* 6 */}
@@ -1304,7 +1299,7 @@ const AnnexVII = () => {
                                 </div>
 
                                 {/* Right Side Icons */}
-                                <div className="flex space-x-2">
+                                {/* <div className="flex space-x-2">
                                   {getStatusIcon(
                                     item?.signature?.some(
                                       (sign) =>
@@ -1321,7 +1316,7 @@ const AnnexVII = () => {
                                       ? "completed"
                                       : "pending"
                                   )}
-                                </div>
+                                </div> */}
                               </div>
                             </>
                           ))}
@@ -1341,7 +1336,6 @@ const AnnexVII = () => {
          {/* Second Card */}
           <Card className="p-8">
             <div className="w-full flex flex-col p-6 min-h-screen ">
-              {/* header */}
               <div>
                 <header className="flex justify-end items-center">
                   {/* {formData?.map((item) => (
@@ -1370,7 +1364,6 @@ const AnnexVII = () => {
                   {item?.signature && item.signature.length > 0 ? (
                     // item?.signature.map((sign) => (
                     <>
-                      {/* ---------------Left-section ------------------------------*/}
                       <div className="min-h-screen w-[75%]">
                         <Card className="p-2">
                           <div className="">
@@ -1563,19 +1556,14 @@ const AnnexVII = () => {
 
                                 <div
                                   className={`grid grid-cols-1 ${
-                                    item?.carriers?.length === 1
+                                    item?.carriers?.length === 5
                                       ? "md:grid-cols-3"
-                                      : item.carriers.length === 2
-                                      ? "md:grid-cols-3"
-                                      : item.carriers.length === 4
-                                      ? "md:grid-cols-3"
-                                      : item.carriers.length === 5
-                                      ? "md:grid-cols-3 md:[&>*:nth-child(n+4)]:col-span-2"
                                       : "md:grid-cols-3"
                                   }`}
                                 >
                                   {[...Array(6)].map((_, index) => {
-                                    const data = item?.carriers?.[index] || {};
+                                    const carrierIndex = index + 3; // Start from the 4th item (index 3)
+                                    const data = item?.carriers?.[carrierIndex] || {};
 
                                     const isSigned = item?.signature?.some(
                                       (sign) => sign.signed_by === data?.email
@@ -1587,11 +1575,11 @@ const AnnexVII = () => {
 
                                     return (
                                       <Box
-                                        key={data?.id || index}
+                                        key={data?.id || carrierIndex}
                                         className={`border p-4 ${getStatusColor(isSigned ? "approved" : "pending")}`}
                                       >
                                         <h3 className="font-bold">
-                                          5.({String.fromCharCode(97 + index+3)}) {ordinalSuffix(index+3)} Carrier
+                                          5.({String.fromCharCode(97 + carrierIndex)}) {ordinalSuffix(carrierIndex)} Carrier
                                         </h3>
                                         <div className="flex justify-between">
                                           <div>
@@ -1610,8 +1598,7 @@ const AnnexVII = () => {
                                                     month: "long",
                                                     day: "2-digit",
                                                   })
-                                                : ""
-                                                }
+                                                : ""}
                                             </p>
                                             <p><strong>Signature:</strong> {isSigned ? "(signed)" : ""}</p>
                                           </div>
@@ -1632,7 +1619,6 @@ const AnnexVII = () => {
                                       </Box>
                                     );
                                   })}
-
                                 </div>
                                   {item?.waste_generator.map((data2) => (
                                     <>
@@ -1726,14 +1712,7 @@ const AnnexVII = () => {
 
                                       <div className="grid grid-cols-1 md:grid-cols-2 ">
                                         <Box
-                                          className={`border p-4 ${getStatusColor(
-                                            item?.signature?.some(
-                                              (sign) =>
-                                                sign.signed_by === data2?.recovery_email
-                                            )
-                                              ? "approved"
-                                              : "pending"
-                                          )}`}
+                                          className={`border p-4`}
                                         >
                                           <h3 className="font-bold">
                                             7. Recovery facility:
@@ -1768,7 +1747,7 @@ const AnnexVII = () => {
                                               </p>
                                             </div>
                                             <div className="flex justify-end mt-auto">
-                                              <div className="flex flex-col items-center space-y-2">
+                                              {/* <div className="flex flex-col items-center space-y-2">
                                                 {item?.signature?.some(
                                                   (sign) =>
                                                     sign.signed_by ===
@@ -1795,7 +1774,7 @@ const AnnexVII = () => {
                                                     ? "completed"
                                                     : "pending"
                                                 )}
-                                              </div>
+                                              </div> */}
                                             </div>
                                           </div>
                                         </Box>
@@ -2043,7 +2022,7 @@ const AnnexVII = () => {
                                               </div>
                                             </div>
                                             <div className="flex justify-end mt-auto">
-                                              <div className="flex items-center space-y-1">
+                                              {/* <div className="flex items-center space-y-1">
                                                 {item?.signature?.some(
                                                   (sign) =>
                                                     sign.signed_by ===
@@ -2070,7 +2049,7 @@ const AnnexVII = () => {
                                                     ? "completed"
                                                     : "pending"
                                                 )}
-                                              </div>
+                                              </div> */}
                                             </div>
                                           </div>
                                         </Box>
@@ -2171,9 +2150,7 @@ const AnnexVII = () => {
                                 )}
                               </div>
                             </div>
-                            {/* 2 */}
                             <div className="flex w-full justify-between items-center border-b">
-                              {/* Left Side Content */}
                               <div className="space-y-2">
                                 <h2 className="font-semibold">2. Consignee</h2>
                                 <div className="space-y-0.2">
@@ -2187,7 +2164,6 @@ const AnnexVII = () => {
                                 </div>
                               </div>
 
-                              {/* Right Side Icons */}
                               <div className="flex space-x-2">
                                 {getStatusIcon(
                                   item?.signature?.some(
@@ -2208,7 +2184,7 @@ const AnnexVII = () => {
                             {/* 3 */}
                             {item?.carriers.map((data, index) => (
                               <div className="flex w-full justify-between items-center border-b">
-                                {/* Left Side Content */}
+                            
 
                                 <div key={index} className="space-y-2">
                                   <h3 className="font-semibold">
@@ -2252,7 +2228,6 @@ const AnnexVII = () => {
                             {item?.waste_generator.map((data2) => (
                               <>
                                 <div className="flex w-full justify-between items-center border-b">
-                                  {/* Left Side Content */}
                                   <div className="space-y-2">
                                     <h2 className="font-semibold">
                                       6. Waste generator (Original producer/new
@@ -2267,8 +2242,6 @@ const AnnexVII = () => {
                                       {data2?.mobile}
                                     </p>
                                   </div>
-
-                                  {/* Right Side Icons */}
                                   <div className="flex space-x-2">
                                     {getStatusIcon(
                                       item?.signature?.some(
@@ -2288,7 +2261,6 @@ const AnnexVII = () => {
                                 </div>
                                 {/* 5 */}
                                 <div className="flex w-full justify-between items-center border-b">
-                                  {/* Left Side Content */}
                                   <div className="space-y-2">
                                     <h2 className="font-semibold">
                                       7. Recovery facility
@@ -2302,32 +2274,8 @@ const AnnexVII = () => {
                                       {data2?.recovery_tel}
                                     </p>
                                   </div>
-
-                                  {/* Right Side Icons */}
-                                  <div className="flex space-x-2">
-                                    {getStatusIcon(
-                                      item?.signature?.some(
-                                        (sign) =>
-                                          sign.signed_by === data2?.recovery_email
-                                      )
-                                        ? "success-email"
-                                        : "pending-email"
-                                    )}
-                                    {getStatusIcon(
-                                      item?.signature?.some(
-                                        (sign) =>
-                                          sign.signed_by === data2?.recovery_email
-                                      )
-                                        ? "completed"
-                                        : "pending"
-                                    )}
-                                  </div>
                                 </div>
-
-                                {/* 6 */}
-
                                 <div className="flex w-full justify-between items-center border-b">
-                                  {/* Left Side Content */}
                                   <div className="space-y-2">
                                     <h2 className="font-semibold">
                                       10. Waste identification (fill in relevant codes)
@@ -2439,24 +2387,7 @@ const AnnexVII = () => {
                                   </div>
 
                                   {/* Right Side Icons */}
-                                  <div className="flex space-x-2">
-                                    {getStatusIcon(
-                                      item?.signature?.some(
-                                        (sign) =>
-                                          sign.signed_by === data2?.recovery_email
-                                      )
-                                        ? "success-email"
-                                        : "pending-email"
-                                    )}
-                                    {getStatusIcon(
-                                      item?.signature?.some(
-                                        (sign) =>
-                                          sign.signed_by === data2?.recovery_email
-                                      )
-                                        ? "completed"
-                                        : "pending"
-                                    )}
-                                  </div>
+                                 
                                 </div>
                               </>
                             ))}
@@ -2466,7 +2397,7 @@ const AnnexVII = () => {
                     </>
                   ) : (
                     // ))
-                    <Page2 item={item} /> // Handle empty array case
+                    <Page2 item={item} /> 
                   )}
                 </div>
               ))}
@@ -2787,7 +2718,7 @@ const Page = ({ item }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 ">
                       <Box
-                        className={`border p-4 ${getStatusColor("pending")}`}
+                        className={`border p-4 `}
                       >
                         <h3 className="font-semibold">7. Recovery facility:</h3>
                         <div className="flex  justify-between">
@@ -3265,10 +3196,10 @@ const Page = ({ item }) => {
               </div>
 
               {/* Right Side Icons */}
-              <div className="flex space-x-2">
+              {/* <div className="flex space-x-2">
                 {getStatusIcon("pending-email")}
                 {getStatusIcon("pending")}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -3457,70 +3388,27 @@ const Page2 = ({ item }) => {
                 </div>
                 <div
                   className={`grid grid-cols-1 ${
-                    item?.carriers?.length === 1
-                      ? "md:grid-cols-1"
-                      : item.carriers.length === 2
-                      ? "md:grid-cols-3"
-                      : item.carriers.length === 4
-                      ? "md:grid-cols-3"
-                      : item.carriers.length === 5
+                    (item?.carriers?.slice(3)?.length || 0) === 1
                       ? "md:grid-cols-3"
                       : "md:grid-cols-3"
                   }`}
                 >
-                  {[...item?.carriers, {}, {}, {}].slice(0, 6).map((data, index) => (
-                    <Box
-                      key={data?.id}
-                      className={`border p-4 ${getStatusColor("pending")}`}
-                    >
+                {[...(item?.carriers?.slice(3) || []), {}, {}, {}, {}, {}, {}].slice(0, 6).map((data, index) => (
+                    <Box key={data?.id || index} className={`border p-4 ${getStatusColor("pending")}`}>
                       <h3 className="font-semibold">
-                        5.({String.fromCharCode(97 + index+3)}){" "}
-                        {ordinalSuffix(index + 3)} Carrier
+                        5.({String.fromCharCode(97 + index + 3)}) {ordinalSuffix(index + 3)} Carrier
                       </h3>
-                      <div className="flex  justify-between">
+                      <div className="flex justify-between">
                         <div>
-                          <p>
-                            <strong>Name:</strong> {data?.name}
-                          </p>
-                          <p>
-                            <strong>Address:</strong>
-                            {data?.address}
-                          </p>
-                          <p>
-                            <strong>Contact Person:</strong>
-                            {data?.contact_person}
-                          </p>
-                          <p>
-                            <strong>Tel:</strong>
-                            {data?.phone}
-                          </p>
-                          <p>
-                            <strong>Fax:</strong>
-                            {data?.fax}
-                          </p>
-                          <p>
-                            <strong>Email:</strong>
-                            {data?.email}
-                          </p>
-                          <p>
-                            <strong>Means of Transport:</strong>
-                            {data?.means_of_transport}
-                          </p>
-                          <p>
-                            <strong>Date of Transfer:</strong>
-                            {/* {data?.date_of_transport} */}
-                            {new Date(
-                              data?.date_of_transport
-                            ).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "2-digit",
-                            })}
-                          </p>
-                          <p>
-                            <strong>Signature:</strong>
-                            (signed)
-                          </p>
+                          <p><strong>Name:</strong> {data?.name}</p>
+                          <p><strong>Address:</strong> {data?.address}</p>
+                          <p><strong>Contact Person:</strong> {data?.contact_person}</p>
+                          <p><strong>Tel:</strong> {data?.phone}</p>
+                          <p><strong>Fax:</strong> {data?.fax}</p>
+                          <p><strong>Email:</strong> {data?.email}</p>
+                          <p><strong>Means of Transport:</strong> {data?.means_of_transport}</p>
+                          <p><strong>Date of Transfer:</strong> {data?.date_of_transport ? new Date(data.date_of_transport).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "2-digit" }) : ""}</p>
+                          <p><strong>Signature:</strong> (signed)</p>
                         </div>
                         <div className="flex justify-end mt-auto">
                           {getStatusIcon("pending")}
@@ -3529,6 +3417,7 @@ const Page2 = ({ item }) => {
                     </Box>
                   ))}
                 </div>
+
                 {item?.waste_generator.map((data2) => (
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-2 ">
@@ -3587,10 +3476,10 @@ const Page2 = ({ item }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 ">
                       <Box
-                        className={`border p-4 ${getStatusColor("pending")}`}
+                        className={`border p-4 `}
                       >
                         <h3 className="font-semibold">7. Recovery facility:</h3>
-                        <div className="flex  justify-between">
+                        <div className="flex justify-between">
                           <div>
                             <p>
                               <strong className="mr-2">Name:</strong>
@@ -3617,9 +3506,9 @@ const Page2 = ({ item }) => {
                               {data2?.recovery_email}
                             </p>
                           </div>
-                          <div className="flex justify-end mt-auto">
+                          {/* <div className="flex justify-end mt-auto">
                             {getStatusIcon("pending")}
-                          </div>
+                          </div> */}
                         </div>
                       </Box>
 
@@ -3791,9 +3680,9 @@ const Page2 = ({ item }) => {
                           <div className="border-b border-black w-28"></div>
                         </div>
                       </div>
-                      <div className="flex justify-end mt-auto">
+                      {/* <div className="flex justify-end mt-auto">
                         {getStatusIcon("pending")}
-                      </div>
+                      </div> */}
                     </div>
                   </Box>
                 </div>
@@ -3955,7 +3844,7 @@ const Page2 = ({ item }) => {
                 </div>
                 {/* 5 */}
                 <div className="flex w-full justify-between items-center border-b">
-                  {/* Left Side Content */}
+                  
                   <div className="space-y-2">
                     <h2 className="font-semibold">7. Recovery facility</h2>
                     <p>
@@ -3969,10 +3858,10 @@ const Page2 = ({ item }) => {
                   </div>
 
                   {/* Right Side Icons */}
-                  <div className="flex space-x-2">
+                  {/* <div className="flex space-x-2">
                     {getStatusIcon("pending-email")}
                     {getStatusIcon("pending")}
-                  </div>
+                  </div> */}
                 </div>
               </>
             ))}
@@ -4065,10 +3954,10 @@ const Page2 = ({ item }) => {
               </div>
 
               {/* Right Side Icons */}
-              <div className="flex space-x-2">
+              {/* <div className="flex space-x-2">
                 {getStatusIcon("pending-email")}
                 {getStatusIcon("pending")}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
