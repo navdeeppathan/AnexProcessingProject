@@ -469,7 +469,7 @@ const AnnexVII = () => {
                                             {item?.signature?.some(
                                               (sign) => sign.signed_by === data?.email
                                             )
-                                              ? "(signed)"
+                                              ? ""
                                               : ""}
                                           </p>
                                         </div>
@@ -579,7 +579,7 @@ const AnnexVII = () => {
                                       >
                                         <h3 className="font-bold mr-1">
                                           8. Recovery operation (or if appropriate
-                                          disposal operation in the case of waste
+                                          disposal <br></br>operation in the case of waste
                                           referred to in Article 3(4)):
                                           <span>{item?.recovery_operation_name}</span>
                                         </h3>
@@ -774,7 +774,7 @@ const AnnexVII = () => {
                                             <strong className="font-bold mr-2">
                                               Signature:
                                             </strong>
-                                            {/* (signed) */}
+                                            {/*  */}
                                           </p>
                                         </div>
 
@@ -1600,7 +1600,7 @@ const AnnexVII = () => {
                                                   })
                                                 : ""}
                                             </p>
-                                            <p><strong>Signature:</strong> {isSigned ? "(signed)" : ""}</p>
+                                            <p><strong>Signature:</strong> {isSigned ? "" : ""}</p>
                                           </div>
 
                                           <div className="flex justify-end mt-auto">
@@ -1891,7 +1891,7 @@ const AnnexVII = () => {
                                                 <strong className="font-bold mr-2">
                                                   Signature:
                                                 </strong>
-                                                {/* (signed) */}
+                                                {/*  */}
                                               </p>
                                             </div>
 
@@ -2650,7 +2650,7 @@ const Page = ({ item }) => {
                           </p>
                           <p>
                             <strong>Signature:</strong>
-                            (signed)
+                            
                           </p>
                         </div>
                         <div className="flex justify-end mt-auto">
@@ -2854,7 +2854,7 @@ const Page = ({ item }) => {
                         </p>
                         <p>
                           <strong className="mr-2">Signature:</strong>
-                          {/* (signed) */}
+                          {/*  */}
                         </p>
                       </div>
 
@@ -3408,7 +3408,7 @@ const Page2 = ({ item }) => {
                           <p><strong>Email:</strong> {data?.email}</p>
                           <p><strong>Means of Transport:</strong> {data?.means_of_transport}</p>
                           <p><strong>Date of Transfer:</strong> {data?.date_of_transport ? new Date(data.date_of_transport).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "2-digit" }) : ""}</p>
-                          <p><strong>Signature:</strong> (signed)</p>
+                          <p><strong>Signature:</strong> </p>
                         </div>
                         <div className="flex justify-end mt-auto">
                           {getStatusIcon("pending")}
@@ -3612,7 +3612,7 @@ const Page2 = ({ item }) => {
                         </p>
                         <p>
                           <strong className="mr-2">Signature:</strong>
-                          {/* (signed) */}
+                          {/*  */}
                         </p>
                       </div>
 

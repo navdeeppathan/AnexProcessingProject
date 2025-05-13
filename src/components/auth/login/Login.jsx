@@ -51,6 +51,7 @@ const Login = () => {
           localStorage.setItem("user", JSON.stringify(data.data));
           localStorage.setItem("totaldata", JSON.stringify(data));
           localStorage.setItem("role_id", JSON.stringify(role_id));
+          console.log("localStorage", localStorage);
           window.location.href =
             role_id == 1 ? "/admin/dashboard/" : "/dashboard";
         });

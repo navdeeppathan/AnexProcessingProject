@@ -17,14 +17,14 @@ import User from "../auth/user/User";
 import DraftForm from "../Draft/DraftForm";
 import CompanyActions from "../Admin/actions/CompanyActions";
 import Duplicate from "./Duplicate";
+import Download from "./PdfDownload";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const user = localStorage.getItem("user");
     const userData = user ? JSON.parse(user) : null;
-
-    if (!userData || ![2, 3].includes(userData.role_id)) {
+    if (!userData ) {
       localStorage.removeItem("user");
       navigate("/", { replace: true });
     }
@@ -45,6 +45,7 @@ const Dashboard = () => {
             <Route path="/annex-form" element={<Form />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-duplicate/:id" element={<Duplicate />} />
+            <Route path="/Download/:id" element={<Download/>} />
             <Route path="/completed" element={<Complete />} />
             <Route path="/report" element={<ReportDashboard />} />
             <Route path="/edit-profile" element={<EditProfile />} />

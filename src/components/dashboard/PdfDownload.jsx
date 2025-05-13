@@ -1,288 +1,13 @@
-// import React, { useEffect, useState } from "react";
-import { Button, CircularProgress, TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
-
-import { Card, Box } from "@mui/material";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { useNavigate, useParams } from "react-router-dom";
 
-const MainDashboard = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [searchQuery, setSearchQuery] = useState(""); // Annex ID search
-  const [totalForms, setTotalForm] = useState(0);
-  const [totalEmails, setTotalEmail] = useState(0);
-  const [doneSignatures, setSignature] = useState(0);
+import { Box, Button ,Card } from "@mui/material";
 
-  //download pdf
-  const [loadingpdf, setLoadingpdf] = useState(false);
-  const [selectedAnnexId, setSelectedAnnexId] = useState(null);
-  const handleSettingsClick = (annex_id) => {
-    // console.log("handleSettingsClick:-", annex_id);
-    setSelectedAnnexId(annex_id);
-    // setLoadingpdf(true);
-    // setTimeout(() => {
-    //   document.getElementById("download-btn")?.click();
-    // }, 500);
-  };
 
-  // Pagination states
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const companyId = () => {
-    const user = localStorage.getItem("user");
-    return JSON.parse(user)?.company_id || null;
-  };
-
-  const loginId = () => {
-    const user = localStorage.getItem("user");
-    return JSON.parse(user)?.login_id || null;
-  };
-
-  const fetchFormData = async () => {
-    // setLoading(true);
-    setError("");
-
-    try {
-      const url = `https://annex.sofinish.co.uk/api/companyforms?id=${companyId()}&action=companydashboard&company_id=${companyId()}&login_id=${loginId()}&from=${fromDate}&to=${toDate}&search=${searchQuery}`;
-
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setFormData(data.applications);
-      setSignature(data.total_done_signatures);
-      setTotalEmail(data.total_emails);
-      setTotalForm(data.total_forms);
-      console.log("data:-", data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchFormData();
-  }, [fromDate, toDate, searchQuery]);
-
-  // Pagination logic
-  const getPaginatedData = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return formData.slice(startIndex, startIndex + itemsPerPage);
-  };
-
-  const nextPage = () => setCurrentPage((prevPage) => prevPage + 1);
-  const prevPage = () =>
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <CircularProgress />
-        <p className="text-black font-medium text-xl">Loading...</p>
-      </div>
-    );
-  }
-
-  if (error)
-    return <p className="text-red-500 text-center mt-5">Error: {error}</p>;
-
-  return (
-    <div className="px-5 min-h-screen">
-      <main className="flex-1 p-5 bg-[#f4f4f9]">
-        <header className="flex items-center justify-between mb-4">
-          <h2 className="text-3xl font-bold">Dashboard</h2>
-          <button
-            className="create-btn"
-            onClick={() => navigate("/dashboard/annex-form")}
-          >
-            Create ANNEX Form
-          </button>
-        </header>
-
-        {/* Statistics */}
-        <div className="stats-cards grid grid-cols-4 gap-4 mb-4">
-          <div className="card purple">
-            Total Number of Annex Forms <h2>{totalForms}</h2>
-          </div>
-          <div className="card light-blue">
-            Total Requests <h2>{totalEmails}</h2>
-          </div>
-          <div className="card blue">
-            Pending Signatures <h2>{totalEmails - doneSignatures}</h2>
-          </div>
-          <div className="card orange">
-            Done Signatures <h2>{doneSignatures}</h2>
-          </div>
-        </div>
-
-        {/* Filters Section */}
-        <div className="flex justify-between items-center mb-4">
-          <TextField
-            type="date"
-            label="From Date"
-            InputLabelProps={{ shrink: true }}
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-            className="w-100"
-          />
-          <TextField
-            type="date"
-            label="To Date"
-            InputLabelProps={{ shrink: true }}
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-            className="w-100"
-          />
-          <TextField
-            type="text"
-            label="Search by Annex Number"
-            variant="outlined"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-100"
-          />
-        </div>
-
-        {/* Data Table */}
-        <table className="data-table">
-          <thead>
-            <tr>
-              {/* <th>Annex</th> */}
-              <th>Reference Name</th>
-              <th colSpan="3">Request - Pending - Signed</th>
-              <th>Status</th>
-              <th>Created Date</th>
-              <th colSpan="2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {getPaginatedData().length > 0 ? (
-              getPaginatedData()
-                .filter(
-                  (company) =>
-                    company?.email_count - company?.signature_count !== 0
-                )
-                .map((company) => (
-                  <tr key={company?.id}>
-                    <td>
-                      {company?.ref_name} -{company?.ref_name2}
-                      <br></br>
-                      {company?.ref_name3}-{company?.ref_name4}
-                    </td>
-                    <td colSpan="3">
-                      <span className="total">{company?.email_count}</span> -
-                      <span className="pending">
-                        {company?.email_count - company?.signature_count}
-                      </span>{" "}
-                      -
-                      <span className="complete">
-                        {company?.signature_count}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="status active">Active</span>
-                    </td>
-                    <td>
-                      <span className="complete">
-                        {new Date(company?.created_at).toLocaleDateString(
-                          "en-GB",
-                          { day: "2-digit", month: "2-digit", year: "numeric" }
-                        )}
-                      </span>
-                    </td>
-                    <td colSpan="2" className="flex gap-2">
-                      <Button
-                        variant="contained"
-                        sx={{ bgcolor: "#6b46c1" }}
-                        onClick={() =>
-                          navigate(`/dashboard/anexV/${company?.id}`)
-                        }
-                      >
-                        View
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/dashboard/Download/${company?.id}`)
-                        }
-                        variant="contained"
-                        sx={{ bgcolor: "#6b46c1" }}
-                      >
-                        Download
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/dashboard/create-duplicate/${company?.id}`)
-                        }
-                        variant="contained"
-                        sx={{ bgcolor: "#6b46c1" }}
-                      >
-                        Duplicate
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-            ) : (
-              <tr>
-                <td colSpan="8" className="text-center">
-                  No data available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-
-        {/* Pagination Controls */}
-        <div className="flex justify-between mt-4">
-          <Button
-            onClick={prevPage}
-            disabled={currentPage === 1}
-            variant="contained"
-          >
-            Previous
-          </Button>
-          <span className="text-lg font-semibold">Page {currentPage}</span>
-          <Button
-            onClick={nextPage}
-            disabled={currentPage * itemsPerPage >= formData.length}
-            variant="contained"
-          >
-            Next
-          </Button>
-        </div>
-      </main>
-
-      <div className="">
-        {selectedAnnexId && (
-          <PdfDownload
-            id={selectedAnnexId}
-            // loadingpdf={loadingpdf}
-            // setLoadingpdf={setLoadingpdf}
-          />
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default MainDashboard;
-
-const PdfDownload = ({ id }) => {
+const PdfDownload = ( ) => {
+      const { id } = useParams();
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -392,6 +117,7 @@ const PdfDownload = ({ id }) => {
       }
 
       pdf.save(`AnnexForm.pdf`);
+      window.location.reload('/dashboard');
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {
@@ -428,11 +154,20 @@ const PdfDownload = ({ id }) => {
     return suffixes[num] || `${num + 1}th`; // Fallback for large numbers
   };
   return (
-    <div>
+    <div className="px-2">
+        <div className="px-12 flex justify-end items-center gap-4 py-5">
+        <Button
+          className="no-print"
+          id="download-btn"
+          onClick={handleDownloadPDF}
+          variant="contained"
+        >
+          Download PDF
+        </Button>
+      </div>
       {formData?.map((item, idx) => (
-        // item?.signature && item.signature.length > 0 ? (
-        <div key={idx}>
-          <Card className="p-8 annex-card print-only bg-white">
+        <div key={idx} className="px-12">
+          <Card className="p-8 px-10 annex-card print-only bg-white">
             <div className="bg-white">
               <div ref={formRef}>
                 <div className="flex flex-col items-center space-y-2">
@@ -448,22 +183,20 @@ const PdfDownload = ({ id }) => {
                       Union 22.12.2020 L431/13) REGULATION (EU) 2020/2174
                     </p>
                   </div>
-                  <h5 className="text-sm md:text-base text-center font-semibold">
+                  <h5 className="text-sm md:text-base text-center font-bold">
                     {item?.ref_name} -{item?.ref_name2}-{item?.ref_name3}-
                     {item?.ref_name4}
-                    {/* CMAU2312086 - BLMCB0258247 - CMA CGM - MEX2024105 */}
-                    {/* {item?.annex_id} */}
                   </h5>
                 </div>
                 <div className="py-5 px-12">
                   <div className="py-3">
-                    <h4 className="text-base md:text-xl   font-semibold">
+                    <h4 className="text-base md:text-xl   font-bold">
                       Consignment Information
                     </h4>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 ">
                     <Box className="border  p-4 ">
-                      <h3 className="font-semibold">
+                      <h3 className="font-bold">
                         1. Person who arranges the shipment
                       </h3>
                       <div className="flex justify-between">
@@ -509,7 +242,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                     </Box>
                     <Box className="border  p-4">
-                      <h3 className="font-semibold">2. Consignee</h3>
+                      <h3 className="font-bold">2. Consignee</h3>
                       <div className="flex  justify-between">
                         <div>
                           <p>
@@ -560,7 +293,7 @@ const PdfDownload = ({ id }) => {
                         <h3 className="font-bold mr-1">3. Actual Quantity:</h3>
                         <p>
                           {item?.number_of_shipments}&nbsp;-&nbsp;
-                          <span className="font-semibold mr-1">
+                          <span className="font-bold mr-1">
                             Tonnes(Mg) m3:
                           </span>
                           {item?.weight}
@@ -568,7 +301,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                     </Box>
                     <Box className={`border p-4 `}>
-                      <h3 className="font-semibold">
+                      <h3 className="font-bold">
                         4. Actual Date of Shipment
                       </h3>
                       <p>{item?.aShipdate}</p>
@@ -589,7 +322,7 @@ const PdfDownload = ({ id }) => {
                   >
                     {[...item?.carriers, {}, {}, {}].slice(0, 3).map((data, index) => (
                       <Box key={data?.id} className="border  p-4">
-                        <h3 className="font-semibold">
+                        <h3 className="font-bold">
                           5.({String.fromCharCode(97 + index)}){" "}
                           {ordinalSuffix(index)} Carrier
                         </h3>
@@ -630,26 +363,19 @@ const PdfDownload = ({ id }) => {
                               <strong>Signature:</strong>
                               {item?.signature?.some(
                                 (sign) => sign.signed_by === data?.email
-                              )
-                                ? ""
-                                : ""}
+                              ) && (
+                                <img
+                                  src={`https://annex.sofinish.co.uk/${
+                                    item?.signature?.find(
+                                      (sign) => sign.signed_by === data?.email
+                                    )?.signature_path || ""
+                                  }`}
+                                  alt="Signature"
+                                  className="w-30 h-10"
+                                  style={{marginTop: "-1rem",marginLeft: "6rem"}}
+                                />
+                              )}
                             </p>
-                          </div>
-                          <div>
-                            {item?.signature?.some(
-                              (sign) => sign.signed_by === data?.email
-                            ) && (
-                              <img
-                                src={`https://annex.sofinish.co.uk/${
-                                  item?.signature?.find(
-                                    (sign) => sign.signed_by === data?.email
-                                  )?.signature_path || ""
-                                }`}
-                                alt="Signature"
-                                className="w-30 h-10"
-                                style={{ marginTop: "13rem" }}
-                              />
-                            )}
                           </div>
                         </div>
                       </Box>
@@ -659,7 +385,7 @@ const PdfDownload = ({ id }) => {
                     <>
                       <div className="grid grid-cols-1 md:grid-cols-2 ">
                         <Box className={`border p-4`}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             6. Waste generator (Original producer/new
                             producer/collector):
                           </h3>
@@ -709,14 +435,14 @@ const PdfDownload = ({ id }) => {
                         <div className="grid grid-cols-1 ">
                           <Box className={`border p-4 `}>
                             <h3 className="font-bold mr-1">
-                            8. Recovery operation (or if appropriate disposal<br />
+                              8. Recovery operation (or if appropriate disposal<br />
                               &nbsp;&nbsp;&nbsp;&nbsp;operation in the case of waste referred to in<br />
                               &nbsp;&nbsp;&nbsp;&nbsp;Article 3(4)):
                               <span>{item?.recovery_operation_name}</span>
                             </h3>
                           </Box>
                           <Box className="border  p-4">
-                            <h3 className="font-semibold">
+                            <h3 className="font-bold">
                               9. Usual description of the waste:
                             </h3>
                             <p> &nbsp;&nbsp;&nbsp;&nbsp;{item?.usual_des_of_the_waste}</p>
@@ -726,7 +452,7 @@ const PdfDownload = ({ id }) => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             7. Recovery facility:
                           </h3>
                           <div className="flex  justify-between">
@@ -780,8 +506,8 @@ const PdfDownload = ({ id }) => {
                         </Box>
 
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
-                            10. Waste identification (fill in relevant codes):
+                            <h3>  
+                            <span className="font-bold"> 10. Waste identification </span>(fill in relevant codes):
                           </h3>
                           <div className="flex  justify-between">
                             <div>
@@ -822,7 +548,7 @@ const PdfDownload = ({ id }) => {
 
                       <div className="grid grid-cols-1 ">
                         <Box className="border  p-4">
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             11. Countries/states concerned:
                           </h3>
                         </Box>
@@ -831,8 +557,8 @@ const PdfDownload = ({ id }) => {
                       <div className="grid grid-cols-1 md:grid-cols-3 ">
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="font-bold">Export/dispatch:</h3>
-                            <p className="font-medium">
+                            <h3 className="">Export/dispatch:</h3>
+                            <p className="">
                               {item?.countriesOrstates_exp_dis}
                             </p>
                           </div>
@@ -840,16 +566,16 @@ const PdfDownload = ({ id }) => {
 
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="font-bold">Transit:</h3>
-                            <p className="font-medium">
+                            <h3 className="">Transit:</h3>
+                            <p className="">
                               {item?.countriesOrstates_transit}
                             </p>
                           </div>
                         </Box>
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="font-bold">Import/arrival:</h3>
-                            <p className="font-medium">
+                            <h3 className="">Import/arrival:</h3>
+                            <p className="">
                               {item?.countriesOrstates_imprt_arr}
                             </p>
                           </div>
@@ -857,7 +583,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             12. Declaration of the person who arranges the
                             shipment: I certify that the above information is
                             complete and correct to the best of my knowledge.
@@ -899,7 +625,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             13. Signature upon receipt of the waste by the
                             consignee:
                           </h3>
@@ -945,10 +671,10 @@ const PdfDownload = ({ id }) => {
                       </div>
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold text-center">
+                          <h3 className="font-bold text-center">
                             TO BE COMPLETED BY THE RECOVERY FACILITY
                           </h3>
-                          <h3 className="font-semibold mt-1">
+                          <h3 className="font-bold mt-1">
                             14. Shipment received at recovery facility. Quantity
                             received: ____________________ Tonnes (Mg) m³
                           </h3>
@@ -1049,7 +775,7 @@ const PdfDownload = ({ id }) => {
                     </p>
                   </div>
 
-                  <h5 className="text-sm md:text-base text-center font-semibold">
+                  <h5 className="text-sm md:text-base text-center font-bold">
                     {item?.ref_name} -{item?.ref_name2}-{item?.ref_name3}-
                     {item?.ref_name4}
                   </h5>
@@ -1057,13 +783,13 @@ const PdfDownload = ({ id }) => {
 
                 <div className="py-5 px-12">
                   <div className="py-3">
-                    <h4 className="text-base md:text-xl   font-semibold">
+                    <h4 className="text-base md:text-xl   font-bold">
                       Consignment Information
                     </h4>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 ">
                     <Box className="border  p-4 ">
-                      <h3 className="font-semibold">
+                      <h3 className="font-bold">
                         1. Person who arranges the shipment
                       </h3>
                       <div className="flex justify-between">
@@ -1109,7 +835,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                     </Box>
                     <Box className="border  p-4">
-                      <h3 className="font-semibold">2. Consignee</h3>
+                      <h3 className="font-bold">2. Consignee</h3>
                       <div className="flex  justify-between">
                         <div>
                           <p>
@@ -1160,7 +886,7 @@ const PdfDownload = ({ id }) => {
                         <h3 className="font-bold mr-1">3. Actual Quantity:</h3>
                         <p>
                           {item?.number_of_shipments}&nbsp;-&nbsp;
-                          <span className="font-semibold mr-1">
+                          <span className="font-bold mr-1">
                             Tonnes(Mg) m3:
                           </span>
                           {item?.weight}
@@ -1168,7 +894,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                     </Box>
                     <Box className={`border p-4 `}>
-                      <h3 className="font-semibold">
+                      <h3 className="font-bold">
                         4. Actual Date of Shipment
                       </h3>
                       <p>{item?.aShipdate}</p>
@@ -1189,7 +915,7 @@ const PdfDownload = ({ id }) => {
                   >
                     {/* {item?.carriers.map((data, index) => (
                         <Box key={data?.id} className="border  p-4">
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             5.({String.fromCharCode(97 + index)}){" "}
                             {ordinalSuffix(index)} Carrier
                           </h3>
@@ -1258,7 +984,7 @@ const PdfDownload = ({ id }) => {
 
                       return (
                         <Box key={data?.id || index} className="border p-4">
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             5.({String.fromCharCode(97 + index +3)}){" "}
                             {ordinalSuffix(index+3)} Carrier
                           </h3>
@@ -1303,27 +1029,19 @@ const PdfDownload = ({ id }) => {
                                 <strong>Signature:</strong>{" "}
                                 {item?.signature?.some(
                                   (sign) => sign.signed_by === data?.email
-                                )
-                                  ? ""
-                                  : ""}
+                                ) && (
+                                  <img
+                                    src={`https://annex.sofinish.co.uk/${
+                                      item?.signature?.find(
+                                        (sign) => sign.signed_by === data?.email
+                                      )?.signature_path || ""
+                                    }`}
+                                    alt="Signature"
+                                    className="w-30 h-10"
+                                    style={{marginTop: "-1rem", marginLeft: "6rem"}}
+                                  />
+                                )}
                               </p>
-                            </div>
-
-                            <div>
-                              {item?.signature?.some(
-                                (sign) => sign.signed_by === data?.email
-                              ) && (
-                                <img
-                                  src={`https://annex.sofinish.co.uk/${
-                                    item?.signature?.find(
-                                      (sign) => sign.signed_by === data?.email
-                                    )?.signature_path || ""
-                                  }`}
-                                  alt="Signature"
-                                  className="w-30 h-10"
-                                  style={{ marginTop: "13rem" }}
-                                />
-                              )}
                             </div>
                           </div>
                         </Box>
@@ -1334,7 +1052,7 @@ const PdfDownload = ({ id }) => {
                     <>
                       <div className="grid grid-cols-1 md:grid-cols-2 ">
                         <Box className={`border p-4`}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             6. Waste generator (Original producer/new
                             producer/collector):
                           </h3>
@@ -1384,18 +1102,16 @@ const PdfDownload = ({ id }) => {
                         <div className="grid grid-cols-1 ">
                           <Box className={`border p-4 `}>
                             <h3 className="font-bold mr-1">
-                            8. Recovery operation (or if appropriate disposal<br />
+                              8. Recovery operation (or if appropriate disposal<br />
                               &nbsp;&nbsp;&nbsp;&nbsp;operation in the case of waste referred to in<br />
                               &nbsp;&nbsp;&nbsp;&nbsp;Article 3(4)):
                               <span>{item?.recovery_operation_name}</span>
                             </h3>
                           </Box>
                           <Box className="border  p-4">
-                            <h3 className="font-semibold">
+                            <h3 className="font-bold">
                               9. Usual description of the waste:
-
                             </h3>
-
                             <p> &nbsp;&nbsp;&nbsp;&nbsp;{item?.usual_des_of_the_waste}</p>
                           </Box>
                         </div>
@@ -1403,7 +1119,7 @@ const PdfDownload = ({ id }) => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             7. Recovery facility:
                           </h3>
                           <div className="flex  justify-between">
@@ -1457,8 +1173,8 @@ const PdfDownload = ({ id }) => {
                         </Box>
 
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
-                            10. Waste identification (fill in relevant codes):
+                          <h3 >
+                            <span className="font-bold"> 10. Waste identification </span>(fill in relevant codes):
                           </h3>
                           <div className="flex  justify-between">
                             <div>
@@ -1499,7 +1215,7 @@ const PdfDownload = ({ id }) => {
 
                       <div className="grid grid-cols-1 ">
                         <Box className="border  p-4">
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             11. Countries/states concerned:
                           </h3>
                         </Box>
@@ -1508,8 +1224,8 @@ const PdfDownload = ({ id }) => {
                       <div className="grid grid-cols-1 md:grid-cols-3 ">
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="font-bold">Export/dispatch:</h3>
-                            <p className="font-medium">
+                            <h3 className="">Export/dispatch:</h3>
+                            <p className="">
                               {item?.countriesOrstates_exp_dis}
                             </p>
                           </div>
@@ -1517,16 +1233,16 @@ const PdfDownload = ({ id }) => {
 
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="font-bold">Transit:</h3>
-                            <p className="font-medium">
+                            <h3 className="">Transit:</h3>
+                            <p className="">
                               {item?.countriesOrstates_transit}
                             </p>
                           </div>
                         </Box>
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="font-bold">Import/arrival:</h3>
-                            <p className="font-medium">
+                            <h3 className="">Import/arrival:</h3>
+                            <p className="">
                               {item?.countriesOrstates_imprt_arr}
                             </p>
                           </div>
@@ -1534,7 +1250,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             12. Declaration of the person who arranges the
                             shipment: I certify that the above information is
                             complete and correct to the best of my knowledge.
@@ -1576,7 +1292,7 @@ const PdfDownload = ({ id }) => {
                       </div>
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold">
+                          <h3 className="font-bold">
                             13. Signature upon receipt of the waste by the
                             consignee:
                           </h3>
@@ -1622,10 +1338,10 @@ const PdfDownload = ({ id }) => {
                       </div>
                       <div className="grid grid-cols-1 ">
                         <Box className={`border p-4 `}>
-                          <h3 className="font-semibold text-center">
+                          <h3 className="font-bold text-center">
                             TO BE COMPLETED BY THE RECOVERY FACILITY
                           </h3>
-                          <h3 className="font-semibold mt-1">
+                          <h3 className="font-bold mt-1">
                             14. Shipment received at recovery facility. Quantity
                             received: ____________________ Tonnes (Mg) m³
                           </h3>
@@ -1712,16 +1428,7 @@ const PdfDownload = ({ id }) => {
           </Card>
         </div>
       ))}
-      <div className="px-24 flex justify-center items-center gap-4">
-        <Button
-          className="no-print"
-          id="download-btn"
-          onClick={handleDownloadPDF}
-          variant="contained"
-        >
-          Download PDF
-        </Button>
-      </div>
     </div>
   );
 };
+export default PdfDownload;

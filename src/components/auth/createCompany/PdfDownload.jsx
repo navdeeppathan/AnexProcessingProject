@@ -195,7 +195,7 @@ const PdfDownload = () => {
                       </p>
                       <p>
                         <strong className="mr-2">Signature:</strong>
-                        (signed)
+                        
                       </p>
                     </Box>
                   ))}
@@ -348,7 +348,7 @@ const PdfDownload = () => {
                       </p>
                       <p>
                         <strong className="mr-2">Signature:</strong>
-                        (signed)
+                        
                       </p>
                     </div>
                   </Box>

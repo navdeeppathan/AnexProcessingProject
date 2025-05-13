@@ -358,7 +358,7 @@ const PDFMakerOrgnl = () => {
                         </p>
                         <p>
                           <strong>Signature:</strong>
-                          (signed)
+                          
                         </p>
                       </div>
                       {data?.email === emailData && img && (
@@ -923,7 +923,7 @@ const PDFMakerOrgnl = () => {
                           </p>
                           <p>
                             <strong>Signature:</strong>
-                            (signed)
+                            
                           </p>
                         </div>
                         {data?.email === emailData && img && (
@@ -983,7 +983,7 @@ const PDFMakerOrgnl = () => {
                             </p>
                             <p>
                               <strong>Signature:</strong>{" "}
-                              {data ? "(signed)" : ""}
+                              {data ? "" : ""}
                             </p>
                           </div>
 

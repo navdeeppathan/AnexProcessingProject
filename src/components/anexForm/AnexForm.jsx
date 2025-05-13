@@ -486,7 +486,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                               {item?.signature?.some(
                                 (sign) => sign.signed_by === data?.email
                               )
-                                ? "(signed)"
+                                ? ""
                                 : ""}
                             </p>
                           </div>
@@ -726,7 +726,7 @@ const PdfDownload = ({ id, loadingpdf, setLoadingpdf }) => {
                               </p>
                               <p>
                                 <strong className="mr-2">Signature:</strong>
-                                {/* (signed) */}
+                                {/*  */}
                               </p>
                             </div>
                             <div>

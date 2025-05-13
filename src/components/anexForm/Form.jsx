@@ -823,7 +823,7 @@ const Form = () => {
               {/*ref_name*/}
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                Reference 1:
+                Container Number:
                 </Typography>
 
                 <TextField
@@ -838,7 +838,7 @@ const Form = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                Reference 2:
+                BU Number:
                 </Typography>
 
                 <TextField
@@ -853,7 +853,7 @@ const Form = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                Reference 3:
+                Shipping Line:
                 </Typography>
 
                 <TextField
@@ -868,7 +868,7 @@ const Form = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                Reference 4:
+                Contract Number:
                 </Typography>
 
                 <TextField
