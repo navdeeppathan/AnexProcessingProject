@@ -23,8 +23,19 @@ const Dashboard = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const user = localStorage.getItem("user");
-    const userData = user ? JSON.parse(user) : null;
-    if (!userData ) {
+  
+    let userData = null;
+    try {
+      userData = user ? JSON.parse(user) : null;
+    } catch (error) {
+      console.error("Invalid user JSON:", error);
+      localStorage.removeItem("user");
+      navigate("/", { replace: true });
+      return;
+    }
+  
+    // Additional safety: check user_id exists
+    if (!userData || !userData.user_id) {
       localStorage.removeItem("user");
       navigate("/", { replace: true });
     }

@@ -10,7 +10,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import { useParams } from "react-router-dom";
 const AnnexVII = () => {
   const { id } = useParams();
-  // console.log(id);
+
   const [message, setMessage] = useState("");
 
   const sendReminderEmail = async () => {
@@ -37,7 +37,6 @@ const AnnexVII = () => {
 
       if (!response.ok)
         throw new Error(`Failed to send email: ${response.status}`);
-      // alert("Reminder emails sent successfully!");
       setMessage("Reminder emails sent successfully!");
     } catch (err) {
       setMessage(`Error: ${err.message}`);
@@ -471,11 +470,7 @@ const AnnexVII = () => {
                                             )
                                               ? ""
                                               : ""}
-                                          </p>
-                                        </div>
-                                        <div className="flex justify-end mt-auto">
-                                          <div className="flex flex-col items-center space-y-2">
-                                            {item?.signature?.some(
+                                               {item?.signature?.some(
                                               (sign) => sign.signed_by === data?.email
                                             ) && (
                                               <img
@@ -497,6 +492,11 @@ const AnnexVII = () => {
                                                 ? "completed"
                                                 : "pending"
                                             )}
+                                          </p>
+                                        </div>
+                                        <div className="flex justify-end mt-auto">
+                                          <div className="flex flex-col items-center space-y-2">
+                                           
                                           </div>
                                         </div>
                                       </div>
@@ -939,35 +939,23 @@ const AnnexVII = () => {
                               ))}
                               {/* bullet points */}
                               <div className="mt-2">
-                                <ul className="list-disc pl-5 space-y-2">
-                                  <li>
-                                    Information accompanying shipments of green-listed
-                                    waste and destined for recovery or waste destined
-                                    for laboratory analysis pursuant to Regulation
-                                    (EC) No 1013/2006.
-                                  </li>
-                                  <li>
-                                    If more than three carriers, attach information as
-                                    required in blocks 5 (a), (b), (c).
-                                  </li>
-                                  <li>
-                                    When the person who arranges the shipment is not
-                                    the producer or collector, information about the
-                                    producer or collector shall be provided.
-                                  </li>
-                                  <li>
-                                    The relevant code(s) as indicated in Annex IIIA to
-                                    Regulation (EC) No 1013/2006 are to be used, as
-                                    appropriate in sequence. Certain Basel entries
-                                    such as B1100, B3010, and B3020 are restricted to
-                                    particular waste streams only, as indicated in
-                                    Annex IIIA.
-                                  </li>
-                                  <li>
-                                    The BEU codes listed in Annex IIIB to Regulation
-                                    (EC) No 1013/2006 are to be used.
-                                  </li>
-                                </ul>
+                                 <ol className="pl-5 space-y-2 list-decimal">
+                                    <li>
+                                      Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
+                                    </li>
+                                    <li>
+                                      If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
+                                    </li>
+                                    <li>
+                                      When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
+                                    </li>
+                                    <li>
+                                      The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
+                                    </li>
+                                    <li>
+                                      The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
+                                    </li>
+                                  </ol>
                               </div>
                             </div>
                           </div>
@@ -1196,10 +1184,10 @@ const AnnexVII = () => {
                                     <strong>(i) Basel Annex IX:</strong>
                                     {item?.basel_annex_ix}
                                   </p>
-                                  <p>
+                                  {/* <p>
                                     <strong>(i) Basel Annex IX:</strong>
                                     {item?.basel_annex_ix}
-                                  </p>
+                                  </p> */}
                                 </div>
 
                                 {/* Right Side Icons */}
@@ -1222,7 +1210,7 @@ const AnnexVII = () => {
                                   </p>
                                   <p>
                                     <strong>Date:</strong>
-                                    {item?.item?.declaration_date}
+                                    {item?.declaration_date}
                                   </p>
                                 </div>
 
@@ -1257,7 +1245,7 @@ const AnnexVII = () => {
                                     {item?.signature_exp_dis}
                                   </p>
                                   <p>
-                                    <strong>Phone:</strong>
+                                    <strong>Date:</strong>
                                     {item?.signature_transit}
                                   </p>
                                 </div>
@@ -1293,7 +1281,7 @@ const AnnexVII = () => {
                                     {item?.shipment_facility_name}
                                   </p>
                                   <p>
-                                    <strong>Phone:</strong>
+                                    <strong>Date:</strong>
                                     {item?.shipment_facility_date}
                                   </p>
                                 </div>
@@ -2058,35 +2046,23 @@ const AnnexVII = () => {
                                   ))}
 
                                 <div className="mt-2">
-                                  <ul className="list-disc pl-5 space-y-2">
-                                    <li>
-                                      Information accompanying shipments of green-listed
-                                      waste and destined for recovery or waste destined
-                                      for laboratory analysis pursuant to Regulation
-                                      (EC) No 1013/2006.
-                                    </li>
-                                    <li>
-                                      If more than three carriers, attach information as
-                                      required in blocks 5 (a), (b), (c).
-                                    </li>
-                                    <li>
-                                      When the person who arranges the shipment is not
-                                      the producer or collector, information about the
-                                      producer or collector shall be provided.
-                                    </li>
-                                    <li>
-                                      The relevant code(s) as indicated in Annex IIIA to
-                                      Regulation (EC) No 1013/2006 are to be used, as
-                                      appropriate in sequence. Certain Basel entries
-                                      such as B1100, B3010, and B3020 are restricted to
-                                      particular waste streams only, as indicated in
-                                      Annex IIIA.
-                                    </li>
-                                    <li>
-                                      The BEU codes listed in Annex IIIB to Regulation
-                                      (EC) No 1013/2006 are to be used.
-                                    </li>
-                                  </ul>
+                                   <ol className="pl-5 space-y-2 list-decimal">
+                                      <li>
+                                        Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
+                                      </li>
+                                      <li>
+                                        If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
+                                      </li>
+                                      <li>
+                                        When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
+                                      </li>
+                                      <li>
+                                        The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
+                                      </li>
+                                      <li>
+                                        The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
+                                      </li>
+                                    </ol>
                                 </div>
                               </div>
                             </div>
@@ -2284,10 +2260,10 @@ const AnnexVII = () => {
                                       <strong>(i) Basel Annex IX:</strong>
                                       {item?.basel_annex_ix}
                                     </p>
-                                    <p>
+                                    {/* <p>
                                       <strong>(i) Basel Annex IX:</strong>
                                       {item?.basel_annex_ix}
-                                    </p>
+                                    </p> */}
                                   </div>
 
                                   {/* Right Side Icons */}
@@ -2310,7 +2286,7 @@ const AnnexVII = () => {
                                     </p>
                                     <p>
                                       <strong>Date:</strong>
-                                      {item?.item?.declaration_date}
+                                      {item?.declaration_date}
                                     </p>
                                   </div>
 
@@ -2345,7 +2321,7 @@ const AnnexVII = () => {
                                       {item?.signature_exp_dis}
                                     </p>
                                     <p>
-                                      <strong>Phone:</strong>
+                                      <strong>Date:</strong>
                                       {item?.signature_transit}
                                     </p>
                                   </div>
@@ -2381,7 +2357,7 @@ const AnnexVII = () => {
                                       {item?.shipment_facility_name}
                                     </p>
                                     <p>
-                                      <strong>Phone:</strong>
+                                      <strong>Date:</strong>
                                       {item?.shipment_facility_date}
                                     </p>
                                   </div>
@@ -2639,7 +2615,6 @@ const Page = ({ item }) => {
                           </p>
                           <p>
                             <strong>Date of Transfer:</strong>
-                            {/* {data?.date_of_transport} */}
                             {new Date(
                               data?.date_of_transport
                             ).toLocaleDateString("en-US", {
@@ -2931,33 +2906,23 @@ const Page = ({ item }) => {
 
                 {/* bullet points */}
                 <div className="mt-2">
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li>
-                      Information accompanying shipments of green-listed waste
-                      and destined for recovery or waste destined for laboratory
-                      analysis pursuant to Regulation (EC) No 1013/2006.
-                    </li>
-                    <li>
-                      If more than three carriers, attach information as
-                      required in blocks 5 (a), (b), (c).
-                    </li>
-                    <li>
-                      When the person who arranges the shipment is not the
-                      producer or collector, information about the producer or
-                      collector shall be provided.
-                    </li>
-                    <li>
-                      The relevant code(s) as indicated in Annex IIIA to
-                      Regulation (EC) No 1013/2006 are to be used, as
-                      appropriate in sequence. Certain Basel entries such as
-                      B1100, B3010, and B3020 are restricted to particular waste
-                      streams only, as indicated in Annex IIIA.
-                    </li>
-                    <li>
-                      The BEU codes listed in Annex IIIB to Regulation (EC) No
-                      1013/2006 are to be used.
-                    </li>
-                  </ul>
+                     <ol className="pl-5 space-y-2 list-decimal">
+                      <li>
+                        Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
+                      </li>
+                      <li>
+                        If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
+                      </li>
+                      <li>
+                        When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
+                      </li>
+                      <li>
+                        The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
+                      </li>
+                      <li>
+                        The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
+                      </li>
+                    </ol>
                 </div>
               </div>
             </div>
@@ -3119,10 +3084,7 @@ const Page = ({ item }) => {
                   <strong>(i) Basel Annex IX:</strong>
                   {item?.basel_annex_ix}
                 </p>
-                <p>
-                  <strong>(i) Basel Annex IX:</strong>
-                  {item?.basel_annex_ix}
-                </p>
+                
               </div>
 
               {/* Right Side Icons */}
@@ -3143,8 +3105,8 @@ const Page = ({ item }) => {
                   {item?.declaration_name}
                 </p>
                 <p>
-                  <strong>Name:</strong>
-                  {item?.declaration_name}
+                  <strong>Date:</strong>
+                  {item?.declaration_date}
                 </p>
               </div>
 
@@ -3689,33 +3651,23 @@ const Page2 = ({ item }) => {
 
                 {/* bullet points */}
                 <div className="mt-2">
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li>
-                      Information accompanying shipments of green-listed waste
-                      and destined for recovery or waste destined for laboratory
-                      analysis pursuant to Regulation (EC) No 1013/2006.
-                    </li>
-                    <li>
-                      If more than three carriers, attach information as
-                      required in blocks 5 (a), (b), (c).
-                    </li>
-                    <li>
-                      When the person who arranges the shipment is not the
-                      producer or collector, information about the producer or
-                      collector shall be provided.
-                    </li>
-                    <li>
-                      The relevant code(s) as indicated in Annex IIIA to
-                      Regulation (EC) No 1013/2006 are to be used, as
-                      appropriate in sequence. Certain Basel entries such as
-                      B1100, B3010, and B3020 are restricted to particular waste
-                      streams only, as indicated in Annex IIIA.
-                    </li>
-                    <li>
-                      The BEU codes listed in Annex IIIB to Regulation (EC) No
-                      1013/2006 are to be used.
-                    </li>
-                  </ul>
+                    <ol className="pl-5 space-y-2 list-decimal">
+                      <li>
+                        Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
+                      </li>
+                      <li>
+                        If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
+                      </li>
+                      <li>
+                        When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
+                      </li>
+                      <li>
+                        The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
+                      </li>
+                      <li>
+                        The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
+                      </li>
+                    </ol>
                 </div>
               </div>
             </div>
@@ -3901,8 +3853,8 @@ const Page2 = ({ item }) => {
                   {item?.declaration_name}
                 </p>
                 <p>
-                  <strong>Name:</strong>
-                  {item?.declaration_name}
+                  <strong>Date:</strong>
+                  {item?.declaration_date}
                 </p>
               </div>
 

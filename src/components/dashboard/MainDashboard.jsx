@@ -874,7 +874,6 @@ const PdfDownload = ({ id }) => {
                               </p>
                               <p>
                                 <strong className="mr-2">Signature:</strong>
-                                {/*  */}
                               </p>
                             </div>
                             <div>
@@ -906,7 +905,7 @@ const PdfDownload = ({ id }) => {
                           <div className="flex mt-2 justify-between">
                             <div className="flex items-center justify-between w-full ">
                               <div className="flex">
-                                <span className="text-black mr-1">Name:</span>
+                                <span className=" border text-black mr-1">Name:</span>
                                 <div className="w-28">
                                   {item?.signature_exp_dis}
                                 </div>
@@ -998,34 +997,23 @@ const PdfDownload = ({ id }) => {
                   ))}
                   {/* bullet points */}
                   <div className="mt-2">
-                    <ul className="pl-5 space-y-2">
+                       <ol className="pl-5 space-y-2 list-decimal">
                       <li>
-                        Information accompanying shipments of green-listed waste
-                        and destined for recovery or waste destined for
-                        laboratory analysis pursuant to Regulation (EC) No
-                        1013/2006.
+                        Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
                       </li>
                       <li>
-                        If more than three carriers, attach information as
-                        required in blocks 5 (a), (b), (c).
+                        If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
                       </li>
                       <li>
-                        When the person who arranges the shipment is not the
-                        producer or collector, information about the producer or
-                        collector shall be provided.
+                        When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
                       </li>
                       <li>
-                        The relevant code(s) as indicated in Annex IIIA to
-                        Regulation (EC) No 1013/2006 are to be used, as
-                        appropriate in sequence. Certain Basel entries such as
-                        B1100, B3010, and B3020 are restricted to particular
-                        waste streams only, as indicated in Annex IIIA.
+                        The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
                       </li>
                       <li>
-                        The BEU codes listed in Annex IIIB to Regulation (EC) No
-                        1013/2006 are to be used.
+                        The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
                       </li>
-                    </ul>
+                    </ol>
                   </div>
                 </div>
               </div>
@@ -1675,34 +1663,23 @@ const PdfDownload = ({ id }) => {
                   ))}
                   {/* bullet points */}
                   <div className="mt-2">
-                    <ul className="pl-5 space-y-2">
+                     <ol className="pl-5 space-y-2 list-decimal">
                       <li>
-                        Information accompanying shipments of green-listed waste
-                        and destined for recovery or waste destined for
-                        laboratory analysis pursuant to Regulation (EC) No
-                        1013/2006.
+                        Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
                       </li>
                       <li>
-                        If more than three carriers, attach information as
-                        required in blocks 5 (a), (b), (c).
+                        If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
                       </li>
                       <li>
-                        When the person who arranges the shipment is not the
-                        producer or collector, information about the producer or
-                        collector shall be provided.
+                        When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
                       </li>
                       <li>
-                        The relevant code(s) as indicated in Annex IIIA to
-                        Regulation (EC) No 1013/2006 are to be used, as
-                        appropriate in sequence. Certain Basel entries such as
-                        B1100, B3010, and B3020 are restricted to particular
-                        waste streams only, as indicated in Annex IIIA.
+                        The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
                       </li>
                       <li>
-                        The BEU codes listed in Annex IIIB to Regulation (EC) No
-                        1013/2006 are to be used.
+                        The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
                       </li>
-                    </ul>
+                    </ol>
                   </div>
                 </div>
               </div>

@@ -202,25 +202,24 @@ const PdfDownload = ( ) => {
                       <div className="flex justify-between">
                         <div>
                           <p>
-                            <strong>Name:</strong>
+                            Name:
                             {item?.company_name}
                           </p>
                           <p>
-                            <strong>Address:</strong> {item?.address}
+                            Address: {item?.address}
                           </p>
                           <p>
-                            <strong>Contact Person:</strong>{" "}
+                            Contact Person:{" "}
                             {item?.contact_person}
                           </p>
                           <p>
-                            <strong>Fax:</strong> {item?.fax}
+                            Fax: {item?.fax}
                           </p>
                           <p>
-                            <strong>Email:</strong> {item?.email}
+                            Email: {item?.email}
                           </p>
                           <p>
-                            <strong>Contact Number:</strong>{" "}
-                            {item?.contact_number}
+                            Contact Number: {item?.contact_number}
                           </p>
                         </div>
                         {/* <div>
@@ -246,24 +245,24 @@ const PdfDownload = ( ) => {
                       <div className="flex  justify-between">
                         <div>
                           <p>
-                            <strong>Name:</strong> {item?.consignee_name}
+                            Name: {item?.consignee_name}
                           </p>
                           <p>
-                            <strong>Address:</strong>
+                            Address:
                             {item?.consignee_address}
                           </p>
                           <p>
-                            <strong>Contact Person:</strong> {item?.contPerson}
+                            Contact Person: {item?.contPerson}
                           </p>
                           <p>
-                            <strong>Fax:</strong> {item?.fax2}
+                            Fax: {item?.fax2}
                           </p>
                           <p>
-                            <strong>Email:</strong>
+                            Email:
                             {item?.email2}
                           </p>
                           <p>
-                            <strong>Contact Number:</strong>
+                            Contact Number:
                             {item?.consignee_contact}
                           </p>
                         </div>
@@ -304,7 +303,7 @@ const PdfDownload = ( ) => {
                       <h3 className="font-bold">
                         4. Actual Date of Shipment
                       </h3>
-                      <p>{item?.aShipdate}</p>
+                      <p>{item?.aShipdate && new Date(item.aShipdate).toLocaleDateString('en-GB')}</p>
                     </Box>
                   </div>
                   <div
@@ -329,38 +328,38 @@ const PdfDownload = ( ) => {
                         <div className="flex  justify-between">
                           <div>
                             <p>
-                              <strong>Name:</strong> {data?.name}
+                              Name: {data?.name}
                             </p>
                             <p>
-                              <strong>Address:</strong>
+                              Address:
                               {data?.address}
                             </p>
                             <p>
-                              <strong>Contact Person:</strong>
+                              Contact Person:
                               {data?.contact_person}
                             </p>
                             <p>
-                              <strong>Tel:</strong>
+                              Tel:
                               {data?.phone}
                             </p>
                             <p>
-                              <strong>Fax:</strong>
+                              Fax:
                               {data?.fax}
                             </p>
                             <p>
-                              <strong>Email:</strong>
+                              Email:
                               {data?.email}
                             </p>
                             <p>
-                              <strong>Means of Transport:</strong>
+                              Means of Transport:
                               {data?.means_of_transport}
                             </p>
                             <p>
-                              <strong>Date of Transfer:</strong>
+                              Date of Transfer:
                               {data?.date_of_transport}
                             </p>
                             <p>
-                              <strong>Signature:</strong>
+                              Signature:
                               {item?.signature?.some(
                                 (sign) => sign.signed_by === data?.email
                               ) && (
@@ -392,25 +391,23 @@ const PdfDownload = ( ) => {
                           <div className="flex justify-between">
                             <div>
                               <p>
-                                <strong>Name:</strong>
+                                Name
                                 {data2?.name}
                               </p>
                               <p>
-                                <strong>Address:</strong>
+                                Address:
                                 {data2?.address}
                               </p>
-                              <p>
-                                <strong className="mr-2">
+                              <p className="mr-2">
                                   Contact Person:
-                                </strong>
                                 {data2?.contact_person}
                               </p>
-                              <p>
-                                <strong className="mr-2">Mobile:</strong>
+                              <p className="mr-2">
+                                Mobile:
                                 {data2?.mobile}
                               </p>
-                              <p>
-                                <strong className="mr-2">Email:</strong>
+                              <p className="mr-2">
+                                Email:
                                 {data2?.email}
                               </p>
                             </div>
@@ -457,30 +454,30 @@ const PdfDownload = ( ) => {
                           </h3>
                           <div className="flex  justify-between">
                             <div>
-                              <p>
-                                <strong className="mr-2">Name:</strong>
+                              <p className="mr-2">
+                                Name:
                                 {data2?.recovery_name}
                               </p>
-                              <p>
-                                <strong className="mr-2">Address:</strong>
+                              <p className="mr-2">
+                                Address:
                                 {data2?.recovery_address}
-                              </p>
-                              <p>
-                                <strong className="mr-2">
+                              </p> 
+                              <p className="mr-2">
+                                
                                   Contact Person:
-                                </strong>
+                                
                                 {data2?.recovery_contact}
                               </p>
-                              <p>
-                                <strong className="mr-2">Tel:</strong>
+                              <p className="mr-2">
+                                Tel:
                                 {data2?.recovery_tel}
                               </p>
-                              <p>
-                                <strong className="mr-2">Fax:</strong>
+                              <p className="mr-2">
+                                Fax:
                                 {data2?.recovery_fax}
                               </p>
                               <p>
-                                <strong className="mr-2">Email:</strong>
+                                Email:
                                 {data2?.recovery_email}
                               </p>
                             </div>
@@ -512,33 +509,31 @@ const PdfDownload = ( ) => {
                           <div className="flex  justify-between">
                             <div>
                               <p className="mr-2">
-                                <strong>(i) Basel Annex IX:</strong>
+                                (i) Basel Annex IX:
                                 {item?.basel_annex_ix}
                               </p>
                               <p className="mr-2">
-                                <strong>
-                                  (ii) OECD (if different from (i) ):
-                                </strong>
+                                (ii) OECD (if different from (i) ):
                                 {item?.oecd_ii}
                               </p>
                               <p className="mr-2">
-                                <strong>(iii) Annex IIA(4):</strong>
+                                (iii) Annex IIA(4):
                                 {item?.annex_iia4}
                               </p>
                               <p className="mr-2">
-                                <strong>(iv) Annex IIIA(5):</strong>
+                                (iv) Annex IIIA(5):
                                 {item?.annex_iia5}
                               </p>
                               <p className="mr-2">
-                                <strong>(v) EC list of wastes:</strong>
+                                (v) EC list of wastes:
                                 {item?.ec_list_of_wastes}
                               </p>
                               <p className="mr-2">
-                                <strong>(vi) National code:</strong>
+                                (vi) National code:
                                 {item?.national_code}
                               </p>
                               <p className="mr-2">
-                                <strong>(vii) Other (specify):</strong>
+                                (vii) Other (specify):
                                 {item?.other_specify}
                               </p>
                             </div>
@@ -557,26 +552,26 @@ const PdfDownload = ( ) => {
                       <div className="grid grid-cols-1 md:grid-cols-3 ">
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="">Export/dispatch:</h3>
+                            <h3 className=""> <strong>Export/dispatch: </strong></h3>
                             <p className="">
-                              {item?.countriesOrstates_exp_dis}
+                              <strong>{item?.countriesOrstates_exp_dis}</strong>
                             </p>
                           </div>
                         </Box>
 
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="">Transit:</h3>
+                            <h3 className=""><strong>Transit:</strong></h3>
                             <p className="">
-                              {item?.countriesOrstates_transit}
+                              <strong>{item?.countriesOrstates_transit}</strong>
                             </p>
                           </div>
                         </Box>
                         <Box className="border  p-4">
                           <div className="text-center">
-                            <h3 className="">Import/arrival:</h3>
+                            <h3 className=""><strong>Import/arrival:</strong></h3>
                             <p className="">
-                              {item?.countriesOrstates_imprt_arr}
+                              <strong>{item?.countriesOrstates_imprt_arr}</strong>
                             </p>
                           </div>
                         </Box>
@@ -631,22 +626,16 @@ const PdfDownload = ( ) => {
                           </h3>
                           <div className="flex mt-2 justify-between">
                             <div className="flex items-center justify-between w-full ">
-                              <div className="flex">
-                                <span className="text-black mr-1">Name:</span>
-                                <div className="w-28">
-                                  {item?.signature_exp_dis}
-                                </div>
-                              </div>
-                              <div className="flex">
-                                <span className="text-black mr-1">Date:</span>
-                                <div className="w-28">
-                                  {item?.signature_transit}
-                                </div>
-                              </div>
-                              <div className="flex">
-                                <span className="text-black mr-1">
-                                  Signature:
-                                </span>
+                            <p>
+                                <strong className="mr-2">Name:</strong>
+                                {item?.signature_exp_dis}
+                              </p>
+                              <p>
+                                <strong className="mr-2">Date:</strong>
+                                {item?.signature_transit}
+                              </p>
+                              <p>
+                                <strong className="mr-2">Signature:</strong>
                                 {/* <div className="w-28"></div> */}
                                 {item?.signature?.some(
                                   (sign) => sign.signed_by === item?.email2
@@ -663,7 +652,7 @@ const PdfDownload = ( ) => {
                                     style={{ marginTop: "-5px" }}
                                   />
                                 )}
-                              </div>
+                              </p>
                             </div>
                             <div></div>
                           </div>
@@ -676,30 +665,30 @@ const PdfDownload = ( ) => {
                           </h3>
                           <h3 className="font-bold mt-1">
                             14. Shipment received at recovery facility. Quantity
-                            received: ____________________ Tonnes (Mg) m³
+                            received: ____________________ Tonnes (Mg) m³:
                           </h3>
                           <div className="flex mt-3  justify-between">
                             <div className="w-full flex items-center  justify-between">
                               <div className="flex">
                                 <span className="text-black mr-1">Name:</span>
-                                <div className="w-28">
+                                <div className=" w-28">
                                   {item?.shipment_facility_name}
                                 </div>
                               </div>
                               <div className="flex">
                                 <span className="text-black mr-1">Date:</span>
-                                <div className="w-28">
+                                <div className=" w-28">
                                   {item?.shipment_facility_date}
                                 </div>
                               </div>
                               <div className="flex">
-                                <span className="text-black mr-1">
+                                {/* <span className="text-black mr-1">
                                   Signature:
                                 </span>
-                                {/* <div className="w-28"></div> */}
+                                <div className="border-b border-black w-28"></div> */}
                               </div>
                             </div>
-                            <div className="flex justify-end mt-auto">
+                            {/* <div className="flex justify-end mt-auto">
                               {item?.signature?.some(
                                 (sign) =>
                                   sign.signed_by === data2?.recovery_email
@@ -716,7 +705,7 @@ const PdfDownload = ( ) => {
                                   style={{ marginTop: "13rem" }}
                                 />
                               )}
-                            </div>
+                            </div> */}
                           </div>
                         </Box>
                       </div>
@@ -724,34 +713,23 @@ const PdfDownload = ( ) => {
                   ))}
                   {/* bullet points */}
                   <div className="mt-2">
-                    <ul className="pl-5 space-y-2">
+                    <ol className="pl-5 space-y-2 list-decimal">
                       <li>
-                        Information accompanying shipments of green-listed waste
-                        and destined for recovery or waste destined for
-                        laboratory analysis pursuant to Regulation (EC) No
-                        1013/2006.
+                        Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
                       </li>
                       <li>
-                        If more than three carriers, attach information as
-                        required in blocks 5 (a), (b), (c).
+                        If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
                       </li>
                       <li>
-                        When the person who arranges the shipment is not the
-                        producer or collector, information about the producer or
-                        collector shall be provided.
+                        When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
                       </li>
                       <li>
-                        The relevant code(s) as indicated in Annex IIIA to
-                        Regulation (EC) No 1013/2006 are to be used, as
-                        appropriate in sequence. Certain Basel entries such as
-                        B1100, B3010, and B3020 are restricted to particular
-                        waste streams only, as indicated in Annex IIIA.
+                        The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
                       </li>
                       <li>
-                        The BEU codes listed in Annex IIIB to Regulation (EC) No
-                        1013/2006 are to be used.
+                        The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
                       </li>
-                    </ul>
+                    </ol>
                   </div>
                 </div>
               </div>
@@ -1298,22 +1276,16 @@ const PdfDownload = ( ) => {
                           </h3>
                           <div className="flex mt-2 justify-between">
                             <div className="flex items-center justify-between w-full ">
-                              <div className="flex">
-                                <span className="text-black mr-1">Name:</span>
-                                <div className="w-28">
-                                  {item?.signature_exp_dis}
-                                </div>
-                              </div>
-                              <div className="flex">
-                                <span className="text-black mr-1">Date:</span>
-                                <div className="w-28">
-                                  {item?.signature_transit}
-                                </div>
-                              </div>
-                              <div className="flex">
-                                <span className="text-black mr-1">
-                                  Signature:
-                                </span>
+                            <p>
+                                <strong className="mr-2">Name:</strong>
+                                {item?.signature_exp_dis}
+                              </p>
+                              <p>
+                                <strong className="mr-2">Date:</strong>
+                                {item?.signature_transit}
+                              </p>
+                              <p>
+                                <strong className="mr-2">Signature:</strong>
                                 {/* <div className="w-28"></div> */}
                                 {item?.signature?.some(
                                   (sign) => sign.signed_by === item?.email2
@@ -1330,7 +1302,7 @@ const PdfDownload = ( ) => {
                                     style={{ marginTop: "-5px" }}
                                   />
                                 )}
-                              </div>
+                              </p>
                             </div>
                             <div></div>
                           </div>
@@ -1360,13 +1332,13 @@ const PdfDownload = ( ) => {
                                 </div>
                               </div>
                               <div className="flex">
-                                <span className="text-black mr-1">
+                                {/* <span className="text-black mr-1">
                                   Signature:
-                                </span>
+                                </span> */}
                                 {/* <div className="w-28"></div> */}
                               </div>
                             </div>
-                            <div className="flex justify-end mt-auto">
+                            {/* <div className="flex justify-end mt-auto">
                               {item?.signature?.some(
                                 (sign) =>
                                   sign.signed_by === data2?.recovery_email
@@ -1383,7 +1355,7 @@ const PdfDownload = ( ) => {
                                   style={{ marginTop: "13rem" }}
                                 />
                               )}
-                            </div>
+                            </div> */}
                           </div>
                         </Box>
                       </div>
@@ -1391,34 +1363,23 @@ const PdfDownload = ( ) => {
                   ))}
                   {/* bullet points */}
                   <div className="mt-2">
-                    <ul className="pl-5 space-y-2">
+                    <ol className="pl-5 space-y-2 list-decimal">
                       <li>
-                        Information accompanying shipments of green-listed waste
-                        and destined for recovery or waste destined for
-                        laboratory analysis pursuant to Regulation (EC) No
-                        1013/2006.
+                        Information accompanying shipments of green-listed waste and destined for recovery or waste destined for laboratory analysis pursuant to Regulation (EC) No 1013/2006.
                       </li>
                       <li>
-                        If more than three carriers, attach information as
-                        required in blocks 5 (a), (b), (c).
+                        If more than three carriers, attach information as required in blocks 5 (a), (b), (c).
                       </li>
                       <li>
-                        When the person who arranges the shipment is not the
-                        producer or collector, information about the producer or
-                        collector shall be provided.
+                        When the person who arranges the shipment is not the producer or collector, information about the producer or collector shall be provided.
                       </li>
                       <li>
-                        The relevant code(s) as indicated in Annex IIIA to
-                        Regulation (EC) No 1013/2006 are to be used, as
-                        appropriate in sequence. Certain Basel entries such as
-                        B1100, B3010, and B3020 are restricted to particular
-                        waste streams only, as indicated in Annex IIIA.
+                        The relevant code(s) as indicated in Annex IIIA to Regulation (EC) No 1013/2006 are to be used, as appropriate in sequence. Certain Basel entries such as B1100, B3010, and B3020 are restricted to particular waste streams only, as indicated in Annex IIIA.
                       </li>
                       <li>
-                        The BEU codes listed in Annex IIIB to Regulation (EC) No
-                        1013/2006 are to be used.
+                        The BEU codes listed in Annex IIIB to Regulation (EC) No 1013/2006 are to be used.
                       </li>
-                    </ul>
+                    </ol>
                   </div>
                 </div>
               </div>

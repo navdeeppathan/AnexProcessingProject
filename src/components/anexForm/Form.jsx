@@ -356,6 +356,8 @@ const Form = () => {
   };
 
   const handleSubmit = async (e) => {
+    
+
     console.log(carriers);
     e.preventDefault();
     setLoading(true);
@@ -792,21 +794,6 @@ const Form = () => {
             <Typography variant="h5" fontWeight="bold" gutterBottom>
               Annex Form
             </Typography>
-
-            {/* Send for Signature Button */}
-            {/* <Box display="flex" mb={2}>/ */}
-            {/* <Button
-                variant="contained"
-                startIcon={<EmailIcon />}
-                sx={{
-                  textTransform: "none",
-                  backgroundColor: "#576CBC",
-                  "&:hover": { backgroundColor: "#405B8C" },
-                }}
-              >
-                Send for Signature
-              </Button> */}
-            {/* </Box> */}
           </div>
 
           <div>
@@ -914,6 +901,7 @@ const Form = () => {
                         fullWidth
                         label="Name"
                         variant="outlined"
+                        
                         required
                       />
                     )}
@@ -948,7 +936,7 @@ const Form = () => {
                     onChange={handleChangee}
                     fullWidth
                     label="Tel"
-                    inputProps={{ maxLength: 10 }}
+                    inputProps={{ maxLength: 13, inputMode: 'numeric', pattern: '[0-9]*' }}
                     variant="outlined"
                   />
                 </Grid>
@@ -960,6 +948,7 @@ const Form = () => {
                     fullWidth
                     label="Fax"
                     variant="outlined"
+                     inputProps={{ maxLength: 15, inputMode: 'numeric', pattern: '[0-9]*' }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -1053,6 +1042,7 @@ const Form = () => {
                     onChange={handleChangee}
                     label="Fax"
                     variant="outlined"
+                     inputProps={{ maxLength: 15, inputMode: 'numeric', pattern: '[0-9]*' }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -1230,7 +1220,8 @@ const Form = () => {
                         value={carrier.phone}
                         onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
-                        inputProps={{ maxLength: 10 }}
+                         inputProps={{ maxLength: 13, inputMode: 'numeric', pattern: '[0-9]*' }}
+                        // inputProps={{ maxLength: 10 }}
                         margin="normal"
                       />
                     </Grid>
@@ -1243,6 +1234,7 @@ const Form = () => {
                         onChange={(e) => handleCarrierChange(index, e)}
                         variant="outlined"
                         margin="normal"
+                         inputProps={{ maxLength: 15, inputMode: 'numeric', pattern: '[0-9]*' }}
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -1382,7 +1374,8 @@ const Form = () => {
                     value={formData.waste_processor_tel}
                     onChange={handleChange}
                     label="Tel"
-                    inputProps={{ maxLength: 10 }}
+                     inputProps={{ maxLength: 13, inputMode: 'numeric', pattern: '[0-9]*' }}
+                    // inputProps={{ maxLength: 10 }}
                     variant="outlined"
                   />
                 </Grid>
@@ -1467,7 +1460,8 @@ const Form = () => {
                     value={formData.processing_facility_tel}
                     onChange={handleChange}
                     label="Tel"
-                    inputProps={{ maxLength: 10 }}
+                    // inputProps={{ maxLength: 10 }}
+                     inputProps={{ maxLength: 15, inputMode: 'numeric', pattern: '[0-9]*' }}
                     variant="outlined"
                   />
                 </Grid>
@@ -1478,6 +1472,7 @@ const Form = () => {
                     value={formData.processing_facility_fax}
                     onChange={handleChange}
                     label="Fax"
+                     inputProps={{ maxLength: 15, inputMode: 'numeric', pattern: '[0-9]*' }}
                     variant="outlined"
                   />
                 </Grid>

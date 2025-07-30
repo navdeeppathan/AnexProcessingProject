@@ -582,7 +582,7 @@ const Duplicate = () => {
               {/*ref_name*/}
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 1:
+                  Container Number:
                 </Typography>
 
                 <TextField
@@ -597,9 +597,8 @@ const Duplicate = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 2:
+                  BU Number:
                 </Typography>
-
                 <TextField
                   required
                   label=""
@@ -612,7 +611,7 @@ const Duplicate = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 3:
+                  Shipping Line:
                 </Typography>
 
                 <TextField
@@ -627,7 +626,7 @@ const Duplicate = () => {
               </Grid>
               <Grid item xs={12} sm={3}>
                 <Typography variant="h6" fontWeight="bold">
-                  Refrence 4:
+                  Contract Number:
                 </Typography>
 
                 <TextField
