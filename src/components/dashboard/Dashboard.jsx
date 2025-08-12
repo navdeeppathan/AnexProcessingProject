@@ -18,6 +18,7 @@ import DraftForm from "../Draft/DraftForm";
 import CompanyActions from "../Admin/actions/CompanyActions";
 import Duplicate from "./Duplicate";
 import Download from "./PdfDownload";
+import Plan from "../anexForm/Plan";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Dashboard = () => {
           <Routes>
             <Route path="/" element={<MainDashboard />} />
             <Route path="/annex-form" element={<Form />} />
+            <Route path="/plans" element={<Plan />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-duplicate/:id" element={<Duplicate />} />
             <Route path="/Download/:id" element={<Download/>} />

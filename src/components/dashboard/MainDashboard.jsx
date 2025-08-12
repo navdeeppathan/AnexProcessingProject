@@ -23,12 +23,8 @@ const MainDashboard = () => {
   const [loadingpdf, setLoadingpdf] = useState(false);
   const [selectedAnnexId, setSelectedAnnexId] = useState(null);
   const handleSettingsClick = (annex_id) => {
-    // console.log("handleSettingsClick:-", annex_id);
     setSelectedAnnexId(annex_id);
-    // setLoadingpdf(true);
-    // setTimeout(() => {
-    //   document.getElementById("download-btn")?.click();
-    // }, 500);
+
   };
 
   // Pagination states
@@ -42,11 +38,41 @@ const MainDashboard = () => {
 
   const loginId = () => {
     const user = localStorage.getItem("user");
+    console.log("user:-", user);
     return JSON.parse(user)?.login_id || null;
+  };
+  const userId = () => {
+      const user = localStorage.getItem("user");
+      return JSON.parse(user)?.user_id || null;
+  };
+
+  const handleCreateClick = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`https://annex.sofinish.co.uk/api/getplans?user_id=${userId()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      const formCount = parseInt(data.form_count || "0");
+
+      if (formCount === 0) {
+        navigate("/dashboard/plans");
+      } else {
+        navigate("/dashboard/annex-form");
+      }
+    } catch (error) {
+      console.error("Error checking plan:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchFormData = async () => {
-    // setLoading(true);
+  
     setError("");
 
     try {
@@ -107,12 +133,20 @@ const MainDashboard = () => {
       <main className="flex-1 p-5 bg-[#f4f4f9]">
         <header className="flex items-center justify-between mb-4">
           <h2 className="text-3xl font-bold">Dashboard</h2>
-          <button
+          
+          {/* <button
             className="create-btn"
             onClick={() => navigate("/dashboard/annex-form")}
           >
             Create ANNEX Form
-          </button>
+          </button> */}
+            <button
+              className="create-btn"
+              onClick={handleCreateClick}
+              disabled={loading}
+            >
+              {loading ? "Checking..." : "Create ANNEX Form"}
+            </button>
         </header>
 
         {/* Statistics */}
